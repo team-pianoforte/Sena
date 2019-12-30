@@ -65,6 +65,10 @@ namespace Pianoforte.Sena.Lang
 
     private bool IsWhiteSpace(char c)
     {
+      if (LookaheadIsEol)
+      {
+        return false;
+      }
       if (c == '\n')
       {
         return false;
@@ -76,6 +80,53 @@ namespace Pianoforte.Sena.Lang
     {
       while (IsWhiteSpace(lookahead))
       {
+        Consume();
+      }
+    }
+
+    private Token ReadStringLiteral(char quote)
+    {
+      var pos = position;
+
+      if (lookahead != quote)
+      {
+        throw new Exception(String.Format("Unexpected {0}", lookahead));
+      }
+      Consume();
+
+      var sb = new StringBuilder();
+      var escaping = false;
+      while (true)
+      {
+        if (endOfInput || LookaheadIsEol)
+        {
+          throw new Exception("Unterminated String Literal");
+        }
+
+        if (lookahead == '\\')
+        {
+          if (escaping)
+          {
+            sb.Append('\\');
+          }
+          escaping = true;
+        }
+        if (lookahead == quote)
+        {
+          if (escaping)
+          {
+            sb.Append(lookahead);
+          }
+          else
+          {
+            Consume();
+            return new Token(TokenKind.StringLiteral, sb.ToString(), pos);
+          }
+        }
+        else
+        {
+          sb.Append(lookahead);
+        }
         Consume();
       }
     }
@@ -98,12 +149,15 @@ namespace Pianoforte.Sena.Lang
         return new Token(TokenKind.EndOfFile, "", pos);
       }
 
-      while (!(endOfInput || LookaheadIsEol))
+      SkipWhiteSpaces();
+      switch (lookahead)
       {
-        sb.Append(lookahead);
-        Consume();
+        case '"':
+          return ReadStringLiteral('"');
+        case '\'':
+          return ReadStringLiteral('\'');
       }
-      return new Token(TokenKind.Literal, sb.ToString(), pos);
+      throw new Exception("Syntax Error");
     }
   }
 }

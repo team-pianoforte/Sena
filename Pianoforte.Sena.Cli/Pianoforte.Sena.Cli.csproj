@@ -15,7 +15,7 @@
     <Folder Include="Properties\" />
   </ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="xcopy /I /Y $(SolutionDir)\Examples $(OutDir)\Examples" />
   </Target>
 

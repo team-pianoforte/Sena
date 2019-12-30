@@ -7,7 +7,7 @@ namespace Pianoforte.Sena.Lang
   public enum TokenKind
   {
     Noop,
-    Literal,
+    StringLiteral,
     EndOfLine,
     EndOfFile,
   }
