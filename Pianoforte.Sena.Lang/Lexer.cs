@@ -84,6 +84,28 @@ namespace Pianoforte.Sena.Lang
       }
     }
 
+    private bool IsIdentifierLetter(char c)
+      => char.IsLetter(c) || char.IsDigit(c) || c == '_';
+
+    private bool IsIdentifierFirstLetter(char c)
+      => IsIdentifierLetter(c) && !char.IsDigit(c);
+
+    private Token ReadIdentifier()
+    {
+      var pos = position;
+      var sb = new StringBuilder();
+      if (!IsIdentifierFirstLetter(lookahead))
+      {
+        throw new Exception(string.Format("Unexpected {0}", lookahead));
+      }
+      while (IsIdentifierLetter(lookahead))
+      {
+        sb.Append(lookahead);
+        Consume();
+      }
+      return new Token(TokenKind.Identifier, sb.ToString(), pos);
+    }
+
     private Token ReadNumberLiteral()
     {
       var foundPoint = false;
@@ -171,6 +193,8 @@ namespace Pianoforte.Sena.Lang
       {
         case char c when char.IsDigit(c):
           return ReadNumberLiteral();
+        case char c when IsIdentifierFirstLetter(c):
+          return ReadIdentifier();
         case '"':
           return ReadStringLiteral('"');
         case '\'':

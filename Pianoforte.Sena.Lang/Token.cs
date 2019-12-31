@@ -7,10 +7,22 @@ namespace Pianoforte.Sena.Lang
   public enum TokenKind
   {
     Noop,
+    NoneLiteral,
+    TrueLiteral,
+    FalseLiteral,
     StringLiteral,
     NumberLiteral,
     EndOfLine,
     EndOfFile,
+    Identifier
+
+  }
+
+  public static class Keywords
+  {
+    public static string None { get; } = "none";
+    public static string True { get; } = "true";
+    public static string False { get; } = "false";
   }
 
   public struct TokenPosition

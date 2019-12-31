@@ -25,15 +25,38 @@ namespace Pianoforte.Sena.Lang
       return tok;
     }
 
-    private Expression ParseLine()
+    private Expression ParseFactor()
     {
       var tok = ReadToken();
+      switch (tok.Kind)
+      {
+        case TokenKind.NumberLiteral:
+        case TokenKind.StringLiteral:
+          return Expression.Constant(RuntimeValue.FromToken(tok));
+      }
+      throw new Exception("Invalid token");
+    }
+
+    private Expression ParseExpr()
+    {
+      switch (lookahead.Kind)
+      {
+        case TokenKind.NumberLiteral:
+        case TokenKind.StringLiteral:
+          return ParseFactor();
+      }
+      throw new Exception(string.Format("Unexpected {}", lookahead.Kind));
+    }
+
+    private Expression ParseLine()
+    {
+      var expr = ParseExpr();
       var eol = ReadToken();
       if (!(eol.Kind == TokenKind.EndOfFile || eol.Kind == TokenKind.EndOfLine))
       {
         throw new Exception("Syntax Error");
       }
-      return Expression.Constant(tok.Text);
+      return expr;
     }
 
     public LambdaExpression Parse()
@@ -49,7 +72,7 @@ namespace Pianoforte.Sena.Lang
 
       return Expression.Lambda(
         Expression.Block(
-          lines.Select((line) => Expression.Call(writeLine, line))
+          lines.Select((line) => Expression.Call(writeLine, Expression.Call(line, typeof(RuntimeValue).GetMethod("ToString"))))
         )
       );
     }
