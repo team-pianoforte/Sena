@@ -51,7 +51,7 @@ namespace Pianoforte.Sena.Lang
         head = '\0';
         endOfInput = true;
       }
-      else;
+      else
       {
         head = (char)n;
       }
