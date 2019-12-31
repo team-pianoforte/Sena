@@ -8,17 +8,17 @@ namespace Pianoforte.Sena.Lang
   public class Lexer : IDisposable
   {
     private readonly StreamReader inputReader;
-    private char lookahead;
+    private char head;
     private TokenPosition position;
     private bool endOfInput;
 
-    private bool LookaheadIsEol { get => !endOfInput && lookahead == '\n'; }
+    private bool IsEol { get => !endOfInput && head == '\n'; }
 
     public Lexer(string filename, Stream input)
     {
       inputReader = new StreamReader(input);
       position = new TokenPosition(filename, 1, 1);
-      Consume();
+      Peek();
     }
 
 
@@ -43,42 +43,36 @@ namespace Pianoforte.Sena.Lang
     }
     #endregion
 
-    private void Consume()
+    private void Peek()
     {
-      var n = inputReader.Read();
-      position.Column += 1;
+      var n = inputReader.Peek();
       if (n == -1)
       {
-        lookahead = '\0';
+        head = '\0';
         endOfInput = true;
       }
-      else
+      else;
       {
-        lookahead = (char)n;
+        head = (char)n;
       }
-      if (LookaheadIsEol)
+    }
+
+    private void Consume()
+    {
+      Peek();
+      inputReader.Read();
+      position.Column += 1;
+      
+      if (IsEol)
       {
         position.Line += 1;
         position.Column = 1;
       }
     }
 
-    private bool IsWhiteSpace(char c)
-    {
-      if (LookaheadIsEol)
-      {
-        return false;
-      }
-      if (c == '\n')
-      {
-        return false;
-      }
-      return char.IsWhiteSpace(c);
-    }
-
     private void SkipWhiteSpaces()
     {
-      while (IsWhiteSpace(lookahead))
+      while (!IsEol && char.IsWhiteSpace(head))
       {
         Consume();
       }
@@ -94,13 +88,13 @@ namespace Pianoforte.Sena.Lang
     {
       var pos = position;
       var sb = new StringBuilder();
-      if (!IsIdentifierFirstLetter(lookahead))
+      if (!IsIdentifierFirstLetter(head))
       {
-        throw new Exception(string.Format("Unexpected {0}", lookahead));
+        throw new Exception(string.Format("Unexpected {0}", head));
       }
-      while (IsIdentifierLetter(lookahead))
+      while (IsIdentifierLetter(head))
       {
-        sb.Append(lookahead);
+        sb.Append(head);
         Consume();
       }
       return new Token(TokenKind.Identifier, sb.ToString(), pos);
@@ -111,10 +105,10 @@ namespace Pianoforte.Sena.Lang
       var foundPoint = false;
       var sb = new StringBuilder();
       var pos = position;
-      while (char.IsDigit(lookahead) || !foundPoint && lookahead == '.')
+      while (char.IsDigit(head) || !foundPoint && head == '.')
       {
-        sb.Append(lookahead);
-        if (lookahead == '.')
+        sb.Append(head);
+        if (head == '.')
         {
           foundPoint = true;
         }
@@ -127,9 +121,9 @@ namespace Pianoforte.Sena.Lang
     {
       var pos = position;
 
-      if (lookahead != quote)
+      if (head != quote)
       {
-        throw new Exception(String.Format("Unexpected {0}", lookahead));
+        throw new Exception(String.Format("Unexpected {0}", head));
       }
       Consume();
 
@@ -137,12 +131,12 @@ namespace Pianoforte.Sena.Lang
       var escaping = false;
       while (true)
       {
-        if (endOfInput || LookaheadIsEol)
+        if (endOfInput || IsEol)
         {
           throw new Exception("Unterminated String Literal");
         }
 
-        if (lookahead == '\\')
+        if (head == '\\')
         {
           if (escaping)
           {
@@ -150,11 +144,11 @@ namespace Pianoforte.Sena.Lang
           }
           escaping = true;
         }
-        if (lookahead == quote)
+        if (head == quote)
         {
           if (escaping)
           {
-            sb.Append(lookahead);
+            sb.Append(head);
           }
           else
           {
@@ -164,7 +158,7 @@ namespace Pianoforte.Sena.Lang
         }
         else
         {
-          sb.Append(lookahead);
+          sb.Append(head);
         }
         Consume();
       }
@@ -177,7 +171,7 @@ namespace Pianoforte.Sena.Lang
 
       var pos = position;
 
-      if (LookaheadIsEol)
+      if (IsEol)
       {
         Consume();
         return new Token(TokenKind.EndOfLine, "\n", pos);
@@ -189,7 +183,7 @@ namespace Pianoforte.Sena.Lang
       }
 
       SkipWhiteSpaces();
-      switch (lookahead)
+      switch (head)
       {
         case char c when char.IsDigit(c):
           return ReadNumberLiteral();
