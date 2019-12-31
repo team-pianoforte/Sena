@@ -36,6 +36,11 @@ namespace Pianoforte.Sena.Lang
       Line = line;
       Column = column;
     }
+
+    public override string ToString()
+    {
+      return string.Format("{0}: {1},{2}", InputName, Line, Column);
+    }
   }
 
   public struct Token
@@ -49,6 +54,11 @@ namespace Pianoforte.Sena.Lang
       Kind = kind;
       Text = text;
       Pos = pos;
+    }
+
+    public override string ToString()
+    {
+      return string.Format("{0}: {1} {2}", Pos.ToString(), Kind.ToString(), Text);
     }
   }
 }

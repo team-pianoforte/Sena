@@ -203,5 +203,14 @@ namespace Pianoforte.Sena.Lang
       }
       throw new Exception("Syntax Error");
     }
+
+    public IEnumerable<Token> Lex()
+    {
+      while (!endOfInput)
+      {
+        yield return Next();
+      }
+      yield return Next();
+    }
   }
 }
