@@ -11,6 +11,12 @@ namespace Pianoforte.Sena.Lang.Test
     // { input, kind, text, line, column }[]
     public static object[][] lexData = {
        new object[] { "", new[] { new Token(TokenKind.EndOfFile, "", new TokenPosition("", 1, 1))} },
+       new object[] { @"""abc"" ""\\\""""" + "\n", new[] {
+         new Token(TokenKind.StringLiteral, "abc", new TokenPosition("", 1, 1)),
+         new Token(TokenKind.StringLiteral, @"\""", new TokenPosition("", 1, 7)),
+         new Token(TokenKind.EndOfLine, "\n", new TokenPosition("", 1, 13)),
+         new Token(TokenKind.EndOfFile, "", new TokenPosition("", 2, 1))},
+       },
     };
 
     [Theory]

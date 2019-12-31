@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Pianoforte.Sena.Lang
 {
@@ -59,15 +60,14 @@ namespace Pianoforte.Sena.Lang
 
     private void Consume()
     {
-      Peek();
-      inputReader.Read();
-      position.Column += 1;
-      
       if (IsEol)
       {
         position.Line += 1;
-        position.Column = 1;
+        position.Column = 0;
       }
+      inputReader.Read();
+      Peek();
+      position.Column += 1;  
     }
 
     private void SkipWhiteSpaces()
@@ -117,6 +117,29 @@ namespace Pianoforte.Sena.Lang
       return new Token(TokenKind.NumberLiteral, sb.ToString(), pos);
     }
 
+    private char ReadEscapeSequence()
+    {
+      if (head != '\\')
+      {
+        throw new Exception("Not escapesequence");
+      }
+      Consume();
+      switch(head)
+      {
+        case '\\':
+          return '\\';
+        case '"':
+          return '"';
+        case 'n':
+          return '\n';
+        case 'r':
+          return '\r';
+        case 't':
+          return '\t';
+      }
+      throw new Exception("Invalid escapesequence");
+    }
+
     private Token ReadStringLiteral(char quote)
     {
       var pos = position;
@@ -138,23 +161,12 @@ namespace Pianoforte.Sena.Lang
 
         if (head == '\\')
         {
-          if (escaping)
-          {
-            sb.Append('\\');
-          }
-          escaping = true;
+          sb.Append(ReadEscapeSequence());
         }
-        if (head == quote)
+        else if (head == quote)
         {
-          if (escaping)
-          {
-            sb.Append(head);
-          }
-          else
-          {
-            Consume();
-            return new Token(TokenKind.StringLiteral, sb.ToString(), pos);
-          }
+          Consume();
+          return new Token(TokenKind.StringLiteral, sb.ToString(), pos);
         }
         else
         {
