@@ -84,7 +84,7 @@ namespace Pianoforte.Sena.Lang
     private bool IsIdentifierFirstLetter(char c)
       => IsIdentifierLetter(c) && !char.IsDigit(c);
 
-    private Token ReadIdentifier()
+    private Token ReadIdentifierOrKeyword()
     {
       var pos = position;
       var sb = new StringBuilder();
@@ -97,7 +97,15 @@ namespace Pianoforte.Sena.Lang
         sb.Append(head);
         Consume();
       }
-      return new Token(TokenKind.Identifier, sb.ToString(), pos);
+
+      var str = sb.ToString();
+      var kind = TokenKind.Identifier;
+      Keyword keyword;
+      if (Keywords.Map.TryGetValue(str, out keyword))
+      {
+        kind = keyword.TokenKind;
+      }
+      return new Token(kind, str, pos);
     }
 
     private Token ReadNumberLiteral()
@@ -200,7 +208,7 @@ namespace Pianoforte.Sena.Lang
         case char c when char.IsDigit(c):
           return ReadNumberLiteral();
         case char c when IsIdentifierFirstLetter(c):
-          return ReadIdentifier();
+          return ReadIdentifierOrKeyword();
         case '"':
           return ReadStringLiteral('"');
         case '\'':

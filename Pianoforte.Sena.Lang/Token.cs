@@ -18,11 +18,29 @@ namespace Pianoforte.Sena.Lang
 
   }
 
+  public readonly struct Keyword
+  {
+    public readonly string Text;
+    public readonly TokenKind TokenKind;
+
+    public Keyword(string text, TokenKind tokenKind)
+    {
+      Text = text;
+      TokenKind = tokenKind;
+    }
+  }
+
   public static class Keywords
   {
-    public static string None { get; } = "none";
-    public static string True { get; } = "true";
-    public static string False { get; } = "false";
+    public static readonly Keyword None = new Keyword("none", TokenKind.NoneLiteral);
+    public static readonly Keyword True = new Keyword("true", TokenKind.TrueLiteral);
+    public static readonly Keyword False = new Keyword("false", TokenKind.TrueLiteral);
+
+    public static readonly Dictionary<string, Keyword> Map = new Dictionary<string, Keyword> {
+      { None.Text, None },
+      { True.Text, True },
+      { False.Text, False },
+    };
   }
 
   public struct TokenPosition

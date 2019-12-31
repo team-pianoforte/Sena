@@ -17,6 +17,14 @@ namespace Pianoforte.Sena.Lang.Test
         new Token(TokenKind.EndOfLine, "\n", new TokenPosition("", 1, 13)),
         new Token(TokenKind.EndOfFile, "", new TokenPosition("", 2, 1)),
       }},
+      new object[] { "none true false value\n", new[] {
+        new Token(Keywords.None.TokenKind, Keywords.None.Text, new TokenPosition("", 1, 1)),
+        new Token(Keywords.True.TokenKind, Keywords.True.Text, new TokenPosition("", 1, 6)),
+        new Token(Keywords.False.TokenKind, Keywords.False.Text, new TokenPosition("", 1, 11)),
+        new Token(TokenKind.Identifier, "value", new TokenPosition("", 1, 17)),
+        new Token(TokenKind.EndOfLine, "\n", new TokenPosition("", 1, 22)),
+        new Token(TokenKind.EndOfFile, "", new TokenPosition("", 2, 1)),
+      }},
     };
 
     [Theory]
