@@ -8,6 +8,7 @@ namespace Pianoforte.Sena.Lang
   {
     Noop,
     StringLiteral,
+    NumberLiteral,
     EndOfLine,
     EndOfFile,
   }

@@ -84,6 +84,23 @@ namespace Pianoforte.Sena.Lang
       }
     }
 
+    private Token ReadNumberLiteral()
+    {
+      var foundPoint = false;
+      var sb = new StringBuilder();
+      var pos = position;
+      while (char.IsDigit(lookahead) || !foundPoint && lookahead == '.')
+      {
+        sb.Append(lookahead);
+        if (lookahead == '.')
+        {
+          foundPoint = true;
+        }
+        Consume();
+      }
+      return new Token(TokenKind.NumberLiteral, sb.ToString(), pos);
+    }
+
     private Token ReadStringLiteral(char quote)
     {
       var pos = position;
@@ -152,10 +169,13 @@ namespace Pianoforte.Sena.Lang
       SkipWhiteSpaces();
       switch (lookahead)
       {
+        case char c when char.IsDigit(c):
+          return ReadNumberLiteral();
         case '"':
           return ReadStringLiteral('"');
         case '\'':
           return ReadStringLiteral('\'');
+          
       }
       throw new Exception("Syntax Error");
     }
