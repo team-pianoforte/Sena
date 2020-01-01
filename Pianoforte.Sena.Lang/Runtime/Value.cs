@@ -82,44 +82,28 @@ namespace Pianoforte.Sena.Lang.Runtime
 
     public static Value FromObject(object value)
     {
-      switch (value)
+      return value switch
       {
-        case bool b:
-          return MakeBool(b);
-        case decimal n:
-          return MakeNumber(n);
-        case string s:
-          return MakeString(s);
-        case null:
-          return MakeNone();
-      }
-      throw new Exception("Cannot convert RuntimeValue");
+        bool b => MakeBool(b),
+        decimal n => MakeNumber(n),
+        string s => MakeString(s),
+        null => MakeNone(),
+        _ => throw new Exception("Cannot convert RuntimeValue"),
+      };
     }
 
     public static Value FromToken(Token token)
     {
-      ValueType type;
-      switch(token.Kind)
+      var kind = token.Kind switch
       {
-        case TokenKind.NoneLiteral:
-          type = ValueType.None;
-          break;
-        case TokenKind.TrueLiteral:
-          type = ValueType.Bool;
-          break;
-        case TokenKind.FalseLiteral:
-          type = ValueType.Bool;
-          break;
-        case TokenKind.NumberLiteral:
-          type = ValueType.Number;
-          break;
-        case TokenKind.StringLiteral:
-          type = ValueType.String;
-          break;
-        default:
-          throw new Exception("Cannot convert RuntimeValue");
-      }
-      return FromString(type, token.Text);
+        TokenKind.NoneLiteral => ValueType.None,
+        TokenKind.TrueLiteral => ValueType.Bool,
+        TokenKind.FalseLiteral => ValueType.Bool,
+        TokenKind.NumberLiteral => ValueType.Number,
+        TokenKind.StringLiteral => ValueType.String,
+        _ => throw new Exception("Cannot convert RuntimeValue"),
+      };
+      return FromString(kind, token.Text);
     }
 
     public static Value FromString(ValueType type, string v)
@@ -134,8 +118,7 @@ namespace Pianoforte.Sena.Lang.Runtime
       }
       else if (type == ValueType.Number)
       {
-        decimal n;
-        decimal.TryParse(v, out n);
+        decimal.TryParse(v, out var n);
         return MakeNumber(n);
       }
       else if (type == ValueType.String)
@@ -172,19 +155,15 @@ namespace Pianoforte.Sena.Lang.Runtime
 
     public override string ToString()
     {
-      switch (Type)
+      return Type switch
       {
-        case ValueType.None:
-          return NoneStr;
-        case ValueType.Bool:
-          return Bool ? TrueStr : FalseStr;
-        case ValueType.Number:
-          return Number.ToString();
-        case ValueType.String:
-          return String;
-      }
-      throw new Exception("Unknown RuntimeValueType");
-    }
+        ValueType.None => NoneStr,
+        ValueType.Bool => Bool ? TrueStr : FalseStr,
+        ValueType.Number => Number.ToString(),
+        ValueType.String => String,
+        _ => throw new Exception("Unknown RuntimeValueType"),
+      };
+  }
 
     public Value ConvertType(ValueType type)
     {

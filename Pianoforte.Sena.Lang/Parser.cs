@@ -45,7 +45,7 @@ namespace Pianoforte.Sena.Lang
         case TokenKind.StringLiteral:
           return ParseFactor();
       }
-      throw new Exception(string.Format("Unexpected {}", lookahead.Kind));
+      throw new Exception(string.Format("Unexpected {0}", lookahead.Kind));
     }
 
     private Expression ParseLine()

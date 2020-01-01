@@ -100,11 +100,11 @@ namespace Pianoforte.Sena.Lang
 
       var str = sb.ToString();
       var kind = TokenKind.Identifier;
-      Keyword keyword;
-      if (Keywords.Map.TryGetValue(str, out keyword))
+      if (Keywords.Map.TryGetValue(str, out var keyword))
       {
         kind = keyword.TokenKind;
       }
+
       return new Token(kind, str, pos);
     }
 
@@ -132,20 +132,15 @@ namespace Pianoforte.Sena.Lang
         throw new Exception("Not escapesequence");
       }
       Consume();
-      switch(head)
+      return head switch
       {
-        case '\\':
-          return '\\';
-        case '"':
-          return '"';
-        case 'n':
-          return '\n';
-        case 'r':
-          return '\r';
-        case 't':
-          return '\t';
-      }
-      throw new Exception("Invalid escapesequence");
+        '\\' => '\\',
+        '"' => '"',
+        'n' => '\n',
+        'r' => '\r',
+        't' => '\t',
+        _ => throw new Exception("Invalid escapesequence"),
+      };
     }
 
     private Token ReadStringLiteral(char quote)
@@ -159,7 +154,6 @@ namespace Pianoforte.Sena.Lang
       Consume();
 
       var sb = new StringBuilder();
-      var escaping = false;
       while (true)
       {
         if (endOfInput || IsEol)
@@ -291,7 +285,6 @@ namespace Pianoforte.Sena.Lang
 
     public Token Next()
     {
-      var sb = new StringBuilder();
       SkipWhiteSpaces();
 
       var pos = position;
@@ -308,21 +301,15 @@ namespace Pianoforte.Sena.Lang
       }
 
       SkipWhiteSpaces();
-      switch (head)
+      return head switch
       {
-        case char c when char.IsDigit(c):
-          return ReadNumberLiteral();
-        case char c when IsIdentifierFirstLetter(c):
-          return ReadIdentifierOrKeyword();
-        case char c when IsSymbol(c):
-          return ReadSymbol();
-        case '"':
-          return ReadStringLiteral('"');
-        case '\'':
-          return ReadStringLiteral('\'');
-          
-      }
-      throw new Exception($"{pos}: Lexical Error '{head}'");
+        char c when char.IsDigit(c) => ReadNumberLiteral(),
+        char c when IsIdentifierFirstLetter(c) => ReadIdentifierOrKeyword(),
+        char c when IsSymbol(c) => ReadSymbol(),
+        '"' => ReadStringLiteral('"'),
+        '\'' => ReadStringLiteral('\''),
+        _ => throw new Exception($"{pos}: Lexical Error '{head}'"),
+      };
     }
 
     public IEnumerable<Token> Lex()
