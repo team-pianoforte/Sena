@@ -213,7 +213,16 @@ namespace Pianoforte.Sena.Lang
       switch (c)
       {
         case '+':
-          if (head == '=')
+          if (head == '+')
+          {
+            Consume();
+            if (head == '=')
+            {
+              return new Token(TokenKind.OpConcatenationAssigment, "++=", pos);
+            }
+            return new Token(TokenKind.OpConcatenation, "++", pos);
+          }
+          else if (head == '=')
           {
             Consume();
             return new Token(TokenKind.OpPlusAssignment, "+=", pos);
