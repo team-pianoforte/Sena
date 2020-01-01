@@ -184,6 +184,102 @@ namespace Pianoforte.Sena.Lang
       }
     }
 
+    private bool IsSymbol(char c)
+    {
+      switch (c)
+      {
+        case '+':
+        case '-':
+        case '*':
+        case '/':
+        case '=':
+        case '!':
+        case '(':
+        case ')':
+        case '[':
+        case ']':
+        case '<':
+        case '>':
+          return true;
+      }
+      return false;
+    }
+
+    private Token ReadSymbol()
+    {
+      var pos = position;
+      var c = head;
+      Consume();
+      switch (c)
+      {
+        case '+':
+          if (head == '=')
+          {
+            Consume();
+            return new Token(TokenKind.OpPlusAssignment, "+=", pos);
+          }
+          return new Token(TokenKind.OpPlus, "+", pos);
+        case '-':
+          if (head == '=')
+          {
+            Consume();
+            return new Token(TokenKind.OpMinusAssignment, "-=", pos);
+          }
+          return new Token(TokenKind.OpMinus, "-", pos);
+        case '*':
+          if (head == '=')
+          {
+            Consume();
+            return new Token(TokenKind.OpMultiplicationAssignment, "*=", pos);
+          }
+          return new Token(TokenKind.OpMultiplication, "*", pos);
+        case '/':
+          if (head == '=')
+          {
+            Consume();
+            return new Token(TokenKind.OpDivisionAssignment, "/=", pos);
+          }
+          return new Token(TokenKind.OpDivision, "/", pos);
+        case '=':
+          if (head == '=')
+          {
+            Consume();
+            return new Token(TokenKind.OpEqual, "==", pos);
+          }
+          return new Token(TokenKind.OpAssignment, "=", pos);
+        case '!':
+          if (head == '=')
+          {
+            Consume();
+            return new Token(TokenKind.OpNotEqual, "!=", pos);
+          }
+          break;
+        case '<':
+          if (head == '=')
+          {
+            Consume();
+            return new Token(TokenKind.OpLessThanOrEqual, "<=", pos);
+          }
+          return new Token(TokenKind.OpLessThan, "<", pos);
+        case '>':
+          if (head == '=')
+          {
+            Consume();
+            return new Token(TokenKind.OpGreaterThanOrEqual, ">=", pos);
+          }
+          return new Token(TokenKind.OpGreaterThan, ">", pos);
+        case '(':
+          return new Token(TokenKind.ParenLeft, "(", pos);
+        case ')':
+          return new Token(TokenKind.ParenRight, ")", pos);
+        case '[':
+          return new Token(TokenKind.SquareBracketLeft, "[", pos);
+        case ']':
+          return new Token(TokenKind.SquareBracketRight, "]", pos);
+      }
+      throw new Exception("Invalid Symbol");
+    }
+
     public Token Next()
     {
       var sb = new StringBuilder();
@@ -209,13 +305,15 @@ namespace Pianoforte.Sena.Lang
           return ReadNumberLiteral();
         case char c when IsIdentifierFirstLetter(c):
           return ReadIdentifierOrKeyword();
+        case char c when IsSymbol(c):
+          return ReadSymbol();
         case '"':
           return ReadStringLiteral('"');
         case '\'':
           return ReadStringLiteral('\'');
           
       }
-      throw new Exception("Syntax Error");
+      throw new Exception($"{pos}: Lexical Error '{head}'");
     }
 
     public IEnumerable<Token> Lex()

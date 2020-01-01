@@ -14,8 +14,27 @@ namespace Pianoforte.Sena.Lang
     NumberLiteral,
     EndOfLine,
     EndOfFile,
-    Identifier
+    Identifier,
 
+    OpAssignment,
+    OpPlusAssignment,
+    OpMinusAssignment,
+    OpMultiplicationAssignment,
+    OpDivisionAssignment,
+    OpEqual,
+    OpNotEqual,
+    OpLessThan,
+    OpLessThanOrEqual,
+    OpGreaterThan,
+    OpGreaterThanOrEqual,
+    OpPlus,
+    OpMinus,
+    OpMultiplication,
+    OpDivision,
+    ParenLeft,
+    ParenRight,
+    SquareBracketLeft,
+    SquareBracketRight,
   }
 
   public readonly struct Keyword
