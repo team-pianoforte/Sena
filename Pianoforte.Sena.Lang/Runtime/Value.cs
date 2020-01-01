@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Pianoforte.Sena.Lang
+namespace Pianoforte.Sena.Lang.Runtime
 {
-  public enum RuntimeValueType
+  public enum ValueType
   {
     None,
     Bool,
@@ -12,14 +12,14 @@ namespace Pianoforte.Sena.Lang
     String,
   }
 
-  public struct RuntimeValue
+  public struct Value
   {
     public const string NoneStr = "None";
     public const string TrueStr = "True";
     public const string FalseStr = "False";
-    public RuntimeValueType Type { get; set; }
+    public ValueType Type { get; set; }
 
-    private void AssertType(RuntimeValueType t)
+    private void AssertType(ValueType t)
     {
       if (Type != t)
       {
@@ -34,7 +34,7 @@ namespace Pianoforte.Sena.Lang
     {
       get
       {
-        AssertType(RuntimeValueType.Bool);
+        AssertType(ValueType.Bool);
         return _bool;
       }
       set { _bool = value; }
@@ -45,7 +45,7 @@ namespace Pianoforte.Sena.Lang
     {
       get
       {
-        AssertType(RuntimeValueType.Number);
+        AssertType(ValueType.Number);
         return _number;
       }
       set { _number = value; }
@@ -56,7 +56,7 @@ namespace Pianoforte.Sena.Lang
     {
       get
       {
-        AssertType(RuntimeValueType.String);
+        AssertType(ValueType.String);
         return _string;
       }
       set { _string = value; }
@@ -65,11 +65,11 @@ namespace Pianoforte.Sena.Lang
     #endregion
 
     #region Constructors
-    public RuntimeValue(RuntimeValueType type) : this(type, false, 0, "")
+    public Value(ValueType type) : this(type, false, 0, "")
     {
     }
 
-    public RuntimeValue(RuntimeValueType type, bool b, decimal num, string str)
+    public Value(ValueType type, bool b, decimal num, string str)
     {
       Type = type;
       _bool = b;
@@ -80,7 +80,7 @@ namespace Pianoforte.Sena.Lang
 
     #region FromXXX
 
-    public static RuntimeValue FromObject(object value)
+    public static Value FromObject(object value)
     {
       switch (value)
       {
@@ -96,25 +96,25 @@ namespace Pianoforte.Sena.Lang
       throw new Exception("Cannot convert RuntimeValue");
     }
 
-    public static RuntimeValue FromToken(Token token)
+    public static Value FromToken(Token token)
     {
-      RuntimeValueType type;
+      ValueType type;
       switch(token.Kind)
       {
         case TokenKind.NoneLiteral:
-          type = RuntimeValueType.None;
+          type = ValueType.None;
           break;
         case TokenKind.TrueLiteral:
-          type = RuntimeValueType.Bool;
+          type = ValueType.Bool;
           break;
         case TokenKind.FalseLiteral:
-          type = RuntimeValueType.Bool;
+          type = ValueType.Bool;
           break;
         case TokenKind.NumberLiteral:
-          type = RuntimeValueType.Number;
+          type = ValueType.Number;
           break;
         case TokenKind.StringLiteral:
-          type = RuntimeValueType.String;
+          type = ValueType.String;
           break;
         default:
           throw new Exception("Cannot convert RuntimeValue");
@@ -122,23 +122,23 @@ namespace Pianoforte.Sena.Lang
       return FromString(type, token.Text);
     }
 
-    public static RuntimeValue FromString(RuntimeValueType type, string v)
+    public static Value FromString(ValueType type, string v)
     {
-      if (type == RuntimeValueType.None && v == NoneStr)
+      if (type == ValueType.None && v == NoneStr)
       {
         return MakeNone();
       }
-      else if (type == RuntimeValueType.Bool && (v == TrueStr || v == FalseStr))
+      else if (type == ValueType.Bool && (v == TrueStr || v == FalseStr))
       {
         return MakeBool(v == TrueStr);
       }
-      else if (type == RuntimeValueType.Number)
+      else if (type == ValueType.Number)
       {
         decimal n;
         decimal.TryParse(v, out n);
         return MakeNumber(n);
       }
-      else if (type == RuntimeValueType.String)
+      else if (type == ValueType.String)
       {
         return MakeString(v);
       }
@@ -147,24 +147,24 @@ namespace Pianoforte.Sena.Lang
     #endregion
 
     #region MakeXXX
-    public static RuntimeValue MakeNone()
+    public static Value MakeNone()
     {
-      return new RuntimeValue(RuntimeValueType.None);
+      return new Value(ValueType.None);
     }
 
-    public static RuntimeValue MakeBool(bool v)
+    public static Value MakeBool(bool v)
     {
-      return new RuntimeValue(RuntimeValueType.Bool, v, 0, "");
+      return new Value(ValueType.Bool, v, 0, "");
     }
 
-    public static RuntimeValue MakeNumber(decimal v)
+    public static Value MakeNumber(decimal v)
     {
-      return new RuntimeValue(RuntimeValueType.Number, false, v, "");
+      return new Value(ValueType.Number, false, v, "");
     }
 
-    public static RuntimeValue MakeString(string v)
+    public static Value MakeString(string v)
     {
-      return new RuntimeValue(RuntimeValueType.String, false, 0, v);
+      return new Value(ValueType.String, false, 0, v);
     }
     #endregion
 
@@ -174,23 +174,24 @@ namespace Pianoforte.Sena.Lang
     {
       switch (Type)
       {
-        case RuntimeValueType.None:
+        case ValueType.None:
           return NoneStr;
-        case RuntimeValueType.Bool:
+        case ValueType.Bool:
           return Bool ? TrueStr : FalseStr;
-        case RuntimeValueType.Number:
+        case ValueType.Number:
           return Number.ToString();
-        case RuntimeValueType.String:
+        case ValueType.String:
           return String;
       }
       throw new Exception("Unknown RuntimeValueType");
     }
 
-    public RuntimeValue ConvertType(RuntimeValueType type)
+    public Value ConvertType(ValueType type)
     {
-      return RuntimeValue.FromString(type, ToString());
+      return Value.FromString(type, ToString());
     }
 
     #endregion
+
   }
 }

@@ -32,7 +32,7 @@ namespace Pianoforte.Sena.Lang
       {
         case TokenKind.NumberLiteral:
         case TokenKind.StringLiteral:
-          return Expression.Constant(RuntimeValue.FromToken(tok));
+          return Expression.Constant(Runtime.Value.FromToken(tok));
       }
       throw new Exception("Invalid token");
     }
@@ -72,7 +72,7 @@ namespace Pianoforte.Sena.Lang
 
       return Expression.Lambda(
         Expression.Block(
-          lines.Select((line) => Expression.Call(writeLine, Expression.Call(line, typeof(RuntimeValue).GetMethod("ToString"))))
+          lines.Select((line) => Expression.Call(writeLine, Expression.Call(line, typeof(Runtime.Value).GetMethod("ToString"))))
         )
       );
     }
