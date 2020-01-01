@@ -17,8 +17,4 @@ namespace Pianoforte.Sena.Lang
       this.Position = pos;
     }
   }
-
-  public class RuntimeException : Exception
-  {
-  }
 }
