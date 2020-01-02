@@ -37,6 +37,23 @@ namespace Pianoforte.Sena.Lang
     SquareBracketRight,
   }
 
+  public static class TokenKindExtension
+  {
+    public static bool IsAssignment(this TokenKind v)
+      => v == TokenKind.OpAssignment
+      || v == TokenKind.OpPlusAssignment
+      || v == TokenKind.OpMinusAssignment
+      || v == TokenKind.OpMultiplicationAssignment
+      || v == TokenKind.OpDivisionAssignment;
+
+    public static bool IsTermOp(this TokenKind v)
+      => v == TokenKind.OpPlus
+      || v == TokenKind.OpMinus;
+    public static bool IsFactorOp(this TokenKind v)
+     => v == TokenKind.OpMultiplication
+     || v == TokenKind.OpDivision;
+  }
+
   public readonly struct Keyword
   {
     public readonly string Text;
