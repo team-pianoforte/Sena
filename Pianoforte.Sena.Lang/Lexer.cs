@@ -13,7 +13,7 @@ namespace Pianoforte.Sena.Lang
     private TokenPosition position;
     private bool endOfInput;
 
-    private bool IsEol { get => !endOfInput && head == '\n'; }
+    private bool IsEol(char c) => !endOfInput && c == '\n';
 
     public Lexer(string filename, Stream input)
     {
@@ -60,7 +60,7 @@ namespace Pianoforte.Sena.Lang
 
     private void Consume()
     {
-      if (IsEol)
+      if (IsEol(head))
       {
         position.Line += 1;
         position.Column = 0;
@@ -72,7 +72,7 @@ namespace Pianoforte.Sena.Lang
 
     private void SkipWhiteSpaces()
     {
-      while (!IsEol && char.IsWhiteSpace(head))
+      while (!IsEol(head) && char.IsWhiteSpace(head))
       {
         Consume();
       }
@@ -90,7 +90,7 @@ namespace Pianoforte.Sena.Lang
       var sb = new StringBuilder();
       if (!IsIdentifierFirstLetter(head))
       {
-        throw new Exception(string.Format("Unexpected {0}", head));
+        throw new InternalAssertionException($"First letter of identifier is {head}. But it is invalid");
       }
       while (IsIdentifierLetter(head))
       {
@@ -129,7 +129,7 @@ namespace Pianoforte.Sena.Lang
     {
       if (head != '\\')
       {
-        throw new Exception("Not escapesequence");
+        throw new InternalAssertionException($"The first letter of escape sequence must be '\\'. But found '{head}'.");
       }
       Consume();
       return head switch
@@ -139,7 +139,7 @@ namespace Pianoforte.Sena.Lang
         'n' => '\n',
         'r' => '\r',
         't' => '\t',
-        _ => throw new Exception("Invalid escapesequence"),
+        _ => throw new SyntaxException(position, Properties.Resources.InvalidEscapeSequence),
       };
     }
 
@@ -156,9 +156,9 @@ namespace Pianoforte.Sena.Lang
       var sb = new StringBuilder();
       while (true)
       {
-        if (endOfInput || IsEol)
+        if (endOfInput || IsEol(head))
         {
-          throw new Exception("Unterminated String Literal");
+          throw new SyntaxException(pos, Properties.Resources.UnterminatedStringLiteral);
         }
 
         if (head == '\\')
@@ -280,35 +280,39 @@ namespace Pianoforte.Sena.Lang
         case ']':
           return new Token(TokenKind.SquareBracketRight, "]", pos);
       }
-      throw new Exception("Invalid Symbol");
+      throw new SyntaxException(pos, string.Format(Properties.Resources.UnknownSymbol, head));
+    }
+
+    private Token ReadEol() {
+      if (!IsEol(head))
+      {
+        throw new InternalAssertionException("EOL expected, but fonud " + head);
+      }
+      var t = new Token(TokenKind.EndOfLine, "\n", position);
+      Consume();
+      return t;
     }
 
     public Token Next()
     {
       SkipWhiteSpaces();
 
-      var pos = position;
-
-      if (IsEol)
-      {
-        Consume();
-        return new Token(TokenKind.EndOfLine, "\n", pos);
-      }
-
       if (endOfInput)
       {
-        return new Token(TokenKind.EndOfFile, "", pos);
+        return new Token(TokenKind.EndOfFile, "", position);
       }
 
       SkipWhiteSpaces();
       return head switch
       {
+        char c when IsEol(c) => ReadEol(),
         char c when char.IsDigit(c) => ReadNumberLiteral(),
         char c when IsIdentifierFirstLetter(c) => ReadIdentifierOrKeyword(),
         char c when IsSymbol(c) => ReadSymbol(),
         '"' => ReadStringLiteral('"'),
         '\'' => ReadStringLiteral('\''),
-        _ => throw new Exception($"{pos}: Lexical Error '{head}'"),
+        _ => throw new SyntaxException(position,
+          string.Format(Properties.Resources.InvalidCharacter, head)),
       };
     }
 

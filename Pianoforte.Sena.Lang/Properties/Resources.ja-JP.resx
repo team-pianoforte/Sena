@@ -117,7 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="String1" xml:space="preserve">
-    <value>Nihon</value>
+  <data name="InvalidCharacter" xml:space="preserve">
+    <value>使用できない文字が含まれています</value>
+  </data>
+  <data name="InvallidEscapeSequence" xml:space="preserve">
+    <value>無効なエスケープシーケンスです。</value>
+  </data>
+  <data name="SyntaxExceptionMessage" xml:space="preserve">
+    <value>構文エラー {0}: {1}</value>
+  </data>
+  <data name="UnknownSymbol" xml:space="preserve">
+    <value>使用できない記号が含まれています</value>
+  </data>
+  <data name="UnterminatedStringLiteral" xml:space="preserve">
+    <value>文字列が終了していません</value>
   </data>
 </root>

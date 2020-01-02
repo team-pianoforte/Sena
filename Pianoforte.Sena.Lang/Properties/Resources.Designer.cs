@@ -61,11 +61,47 @@ namespace Pianoforte.Sena.Lang.Properties {
         }
         
         /// <summary>
-        ///   ASCII に類似しているローカライズされた文字列を検索します。
+        ///   Invalid character &apos;{0}&apos;. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string String1 {
+        public static string InvalidCharacter {
             get {
-                return ResourceManager.GetString("String1", resourceCulture);
+                return ResourceManager.GetString("InvalidCharacter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Invalid escape sequence. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InvalidEscapeSequence {
+            get {
+                return ResourceManager.GetString("InvalidEscapeSequence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   {0} SyntaxError -  に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SyntaxExceptionMessage {
+            get {
+                return ResourceManager.GetString("SyntaxExceptionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Unknown symobl &apos;{0}&apos;. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UnknownSymbol {
+            get {
+                return ResourceManager.GetString("UnknownSymbol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Unterminated string literal に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UnterminatedStringLiteral {
+            get {
+                return ResourceManager.GetString("UnterminatedStringLiteral", resourceCulture);
             }
         }
     }
