@@ -15,8 +15,14 @@
     <Folder Include="Properties\" />
   </ItemGroup>
 
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="xcopy /I /Y $(SolutionDir)\Examples $(OutDir)\Examples" />
+  <ItemGroup>
+    <SenaExampleFiles Include="..\Examples\**\*.sena" />
+  </ItemGroup>
+
+  <Target Name="CopyExamples" AfterTargets="PostBuildEvent">
+    <Copy
+      SourceFiles="@(SenaExampleFiles)"
+      DestinationFiles="@(SenaExampleFiles->'$(TargetDir)Examples\%(RecursiveDir)%(Filename)%(Extension)')" />
   </Target>
 
 </Project>
