@@ -10,7 +10,7 @@ namespace Pianoforte.Sena.Lang
   public class Parser
   {
     private readonly Lexer lexer;
-    private Token lookahead;
+    private readonly LookaheadList<Token> lookahead = new LookaheadList<Token>(2);
 
     public Parser(Lexer lexer)
     {
@@ -20,8 +20,8 @@ namespace Pianoforte.Sena.Lang
 
     private Token ReadToken()
     {
-      var tok = lookahead;
-      lookahead = lexer.Next();
+      var tok = lookahead.First;
+      lookahead.Push(lexer.Next());
       return tok;
     }
 
@@ -42,7 +42,7 @@ namespace Pianoforte.Sena.Lang
       var exp = ParseFactor();
       while(true)
       {
-        switch (lookahead.Kind)
+        switch (lookahead.First.Kind)
         {
           case TokenKind.OpPlus:
             ReadToken();
@@ -56,13 +56,13 @@ namespace Pianoforte.Sena.Lang
 
     private Expression ParseExpr()
     {
-      switch (lookahead.Kind)
+      switch (lookahead.First.Kind)
       {
         case TokenKind.NumberLiteral:
         case TokenKind.StringLiteral:
           return ParseTerm();
       }
-      throw new Exception(string.Format("Unexpected {0}", lookahead.Kind));
+      throw new Exception(string.Format("Unexpected {0}", lookahead.First.Kind));
     }
 
     private Expression ParseLine()
@@ -80,7 +80,7 @@ namespace Pianoforte.Sena.Lang
     {
 
       var lines = new List<Expression>();
-      while (lookahead.Kind != TokenKind.EndOfFile)
+      while (lookahead.First.Kind != TokenKind.EndOfFile)
       {
         lines.Add(ParseLine());
       }
