@@ -67,7 +67,7 @@ namespace Pianoforte.Sena.Lang
       }
       inputReader.Read();
       Peek();
-      position.Column += 1;  
+      position.Column += 1;
     }
 
     private void SkipWhiteSpaces()
@@ -283,7 +283,8 @@ namespace Pianoforte.Sena.Lang
       throw new SyntaxException(pos, string.Format(Properties.Resources.UnknownSymbol, head));
     }
 
-    private Token ReadEol() {
+    private Token ReadEol()
+    {
       if (!IsEol(head))
       {
         throw new InternalAssertionException("EOL expected, but fonud " + head);

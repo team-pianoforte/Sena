@@ -8,7 +8,7 @@ namespace Pianoforte.Sena.Lang
   {
     public void Execute(string filename)
       => Execute(filename, new FileStream(filename, FileMode.Open));
-     
+
 
     public void Execute(string filename, Stream input)
     {

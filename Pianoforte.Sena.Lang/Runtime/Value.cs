@@ -51,7 +51,7 @@ namespace Pianoforte.Sena.Lang.Runtime
       set { _number = value; }
     }
 
-    private string  _string;
+    private string _string;
     public string String
     {
       get
@@ -125,7 +125,7 @@ namespace Pianoforte.Sena.Lang.Runtime
       {
         return MakeString(v);
       }
-      throw new Exception(string.Format("{0} is not {1}", v, type)); 
+      throw new Exception(string.Format("{0} is not {1}", v, type));
     }
     #endregion
 
@@ -163,7 +163,7 @@ namespace Pianoforte.Sena.Lang.Runtime
         ValueType.String => String,
         _ => throw new Exception("Unknown RuntimeValueType"),
       };
-  }
+    }
 
     public Value ConvertType(ValueType type)
     {
