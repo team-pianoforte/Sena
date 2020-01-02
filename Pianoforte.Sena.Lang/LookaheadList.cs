@@ -38,6 +38,8 @@ namespace Pianoforte.Sena.Lang
       return buffer[calcBufferIndex(i)];
     }
 
+    public T First { get => Lookup(0); }
+
     public T Push(T v)
     {
       if (filledCount < capacity)

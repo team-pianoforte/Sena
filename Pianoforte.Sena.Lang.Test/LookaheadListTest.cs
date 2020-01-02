@@ -17,13 +17,14 @@ namespace Pianoforte.Sena.Lang.Test
 
       Assert.Throws<IndexOutOfRangeException>(() =>
       {
-        list.Lookup(0);
+        var _ = list.First;
       });
 
       Assert.Equal(1, list.Push(1));
       Assert.Equal(2, list.Push(2));
       Assert.Equal(3, list.Push(3));
 
+      Assert.Equal(1, list.First);
       Assert.Equal(1, list.Lookup(0));
       Assert.Equal(2, list[1]);
       Assert.Equal(3, list.Lookup(2));
