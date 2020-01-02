@@ -66,5 +66,15 @@ namespace Pianoforte.Sena.Lang.Test
         Assert.Equal(t.expected, t.actual);
       }
     }
+
+    [Fact]
+    public void TestNextOfEndOfFile()
+    {
+      var lexer = new Lexer("", new MemoryStream());
+      var tok = new Token(TokenKind.EndOfFile, "", new TokenPosition("", 1, 1));
+      Assert.Equal(tok, lexer.Next());
+      Assert.Equal(tok, lexer.Next());
+      Assert.Equal(tok, lexer.Next());
+    }
   }
 }
