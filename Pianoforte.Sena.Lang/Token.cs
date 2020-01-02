@@ -86,18 +86,18 @@ namespace Pianoforte.Sena.Lang
   {
     public TokenKind Kind;
     public string Text;
-    public TokenPosition Pos;
+    public TokenPosition Position;
 
     public Token(TokenKind kind, string text, TokenPosition pos)
     {
       Kind = kind;
       Text = text;
-      Pos = pos;
+      Position = pos;
     }
 
     public override string ToString()
     {
-      return string.Format("{0}: {1} {2}", Pos.ToString(), Kind.ToString(), Text);
+      return string.Format("{0}: {1} {2}", Position.ToString(), Kind.ToString(), Text);
     }
   }
 }

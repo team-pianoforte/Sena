@@ -32,7 +32,7 @@ namespace Pianoforte.Sena.Lang
     public SyntaxException(Token token, string message) : base(message)
     {
       this.Token = token;
-      this.Position = token.Pos;
+      this.Position = token.Position;
     }
 
     public SyntaxException(TokenPosition pos, string message) : base(message)
