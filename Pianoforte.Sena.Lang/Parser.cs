@@ -37,13 +37,30 @@ namespace Pianoforte.Sena.Lang
       throw new Exception("Invalid token");
     }
 
+    private Expression ParseTerm()
+    {
+      var exp = ParseFactor();
+      while(true)
+      {
+        switch (lookahead.Kind)
+        {
+          case TokenKind.OpPlus:
+            ReadToken();
+            exp = Expression.Call(null, typeof(Runtime.Operations).GetMethod("Add"), exp, ParseFactor());
+            break;
+          default:
+            return exp;
+        }
+      }
+    }
+
     private Expression ParseExpr()
     {
       switch (lookahead.Kind)
       {
         case TokenKind.NumberLiteral:
         case TokenKind.StringLiteral:
-          return ParseFactor();
+          return ParseTerm();
       }
       throw new Exception(string.Format("Unexpected {0}", lookahead.Kind));
     }

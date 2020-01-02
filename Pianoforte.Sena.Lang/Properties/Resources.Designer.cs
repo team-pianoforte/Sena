@@ -61,6 +61,15 @@ namespace Pianoforte.Sena.Lang.Properties {
         }
         
         /// <summary>
+        ///   Cannot add {0} and {1} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InvalidAddition {
+            get {
+                return ResourceManager.GetString("InvalidAddition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Invalid character &apos;{0}&apos;. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string InvalidCharacter {
