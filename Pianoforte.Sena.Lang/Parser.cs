@@ -10,24 +10,29 @@ namespace Pianoforte.Sena.Lang
   public class Parser
   {
     private readonly Lexer lexer;
-    private readonly LookaheadList<Token> lookahead = new LookaheadList<Token>(2);
+    private readonly int lookaheadCount = 2;
+    private readonly LookaheadList<Token> lookahead;
 
     public Parser(Lexer lexer)
     {
       this.lexer = lexer;
-      ReadToken();
+      lookahead = new LookaheadList<Token>(lookaheadCount);
+      for (var i = 0; i < lookaheadCount; i++)
+      {
+        lookahead[i] = lexer.Next();
+      }
     }
 
-    private Token ReadToken()
+    private Token NextToken()
     {
-      var tok = lookahead.First;
-      lookahead.Push(lexer.Next());
+      var tok = lookahead.Next();
+      lookahead[lookaheadCount] = lexer.Next();
       return tok;
     }
 
     private Expression ParseFactor()
     {
-      var tok = ReadToken();
+      var tok = NextToken();
       switch (tok.Kind)
       {
         case TokenKind.NumberLiteral:
@@ -42,10 +47,10 @@ namespace Pianoforte.Sena.Lang
       var exp = ParseFactor();
       while(true)
       {
-        switch (lookahead.First.Kind)
+        switch (lookahead[0].Kind)
         {
           case TokenKind.OpPlus:
-            ReadToken();
+            NextToken();
             exp = Expression.Call(null, typeof(Runtime.Operations).GetMethod("Add"), exp, ParseFactor());
             break;
           default:
@@ -56,19 +61,19 @@ namespace Pianoforte.Sena.Lang
 
     private Expression ParseExpr()
     {
-      switch (lookahead.First.Kind)
+      switch (lookahead[0].Kind)
       {
         case TokenKind.NumberLiteral:
         case TokenKind.StringLiteral:
           return ParseTerm();
       }
-      throw new Exception(string.Format("Unexpected {0}", lookahead.First.Kind));
+      throw new Exception(string.Format("Unexpected {0}", lookahead[0].Kind));
     }
 
     private Expression ParseLine()
     {
       var expr = ParseExpr();
-      var eol = ReadToken();
+      var eol = NextToken();
       if (!(eol.Kind == TokenKind.EndOfFile || eol.Kind == TokenKind.EndOfLine))
       {
         throw new Exception("Syntax Error");
@@ -80,7 +85,7 @@ namespace Pianoforte.Sena.Lang
     {
 
       var lines = new List<Expression>();
-      while (lookahead.First.Kind != TokenKind.EndOfFile)
+      while (lookahead[0].Kind != TokenKind.EndOfFile)
       {
         lines.Add(ParseLine());
       }

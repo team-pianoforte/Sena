@@ -4,60 +4,48 @@ using System.Text;
 
 namespace Pianoforte.Sena.Lang
 {
+
+
   /// <summary>
   /// List for lookahead
   /// </summary>
   /// <typeparam name="T">Type of elements</typeparam>
   public class LookaheadList<T>
   {
-    readonly T[] buffer;
-    int head;
+    T[] buffer;
+    int pos;
     readonly int capacity;
-    int filledCount;
 
     public LookaheadList() { }
     public LookaheadList(int n)
     {
-      buffer = new T[n];
       capacity = n;
+      Clear();
+    }
+
+    private int calcIndex(int i)
+    {
+      return (pos + i) % capacity;
     }
 
     public T this[int i]
     {
-      get => Lookup(i);
+      get => buffer[calcIndex(i)];
+      set => buffer[calcIndex(i)] = value;
     }
 
-    private int calcBufferIndex(int i) => (head + i) % capacity;
-
-    public T Lookup(int i)
-    {
-      if (filledCount < capacity && i >= filledCount)
-      {
-        throw new IndexOutOfRangeException();
-      }
-      return buffer[calcBufferIndex(i)];
-    }
-
-    public T First { get => Lookup(0); }
-
-    public T Push(T v)
-    {
-      if (filledCount < capacity)
-      {
-        buffer[head] = v;
-        filledCount += 1;
-      }
-      else
-      {
-        buffer[calcBufferIndex(-1)] = v; // Set to last
-      }
-      head = calcBufferIndex(1);
-      return v;
-    }
+    public T Head { get => this[0]; }
 
     public void Clear()
     {
-      filledCount = 0;
+      buffer = new T[capacity];
+    }
+
+    public T Next()
+    {
+      var v = Head;
+      pos = calcIndex(1);
+      return v;
     }
   }
 }
