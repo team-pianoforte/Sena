@@ -37,21 +37,46 @@ namespace Pianoforte.Sena.Lang
     SquareBracketRight,
   }
 
-  public static class TokenKindExtension
+  public static class TokenGroups
   {
-    public static bool IsAssignment(this TokenKind v)
-      => v == TokenKind.OpAssignment
-      || v == TokenKind.OpPlusAssignment
-      || v == TokenKind.OpMinusAssignment
-      || v == TokenKind.OpMultiplicationAssignment
-      || v == TokenKind.OpDivisionAssignment;
+    public static bool IsAssignment(this Token v) => Assigments.Contains(v.Kind);
+    public static readonly List<TokenKind> Assigments = new List<TokenKind>() { 
+      TokenKind.OpAssignment,
+      TokenKind.OpPlusAssignment,
+      TokenKind.OpMinusAssignment,
+      TokenKind.OpMultiplicationAssignment,
+      TokenKind.OpDivisionAssignment,
+    };
 
-    public static bool IsTermOp(this TokenKind v)
-      => v == TokenKind.OpPlus
-      || v == TokenKind.OpMinus;
-    public static bool IsFactorOp(this TokenKind v)
-     => v == TokenKind.OpMultiplication
-     || v == TokenKind.OpDivision;
+    public static bool IsTermOp(this Token v) => Assigments.Contains(v.Kind);
+    public static readonly List<TokenKind> TermOps = new List<TokenKind>() {
+      TokenKind.OpPlus,
+      TokenKind.OpMinus,
+    };
+
+    public static bool IsFactorOp(this Token v) => Assigments.Contains(v.Kind);
+    public static readonly List<TokenKind> FactorOps = new List<TokenKind>() {
+      TokenKind.OpMultiplication,
+      TokenKind.OpDivision,
+    };
+
+    public static bool IsComparesionOp(this Token v) => Assigments.Contains(v.Kind);
+    public static readonly List<TokenKind> ComparesionOps = new List<TokenKind>() {
+      TokenKind.OpEqual,
+      TokenKind.OpNotEqual,
+      TokenKind.OpLessThan,
+      TokenKind.OpLessThanOrEqual,
+      TokenKind.OpGreaterThan,
+      TokenKind.OpGreaterThanOrEqual,
+    };
+
+    public static bool IsLiteral(this Token v) => Assigments.Contains(v.Kind);
+    public static readonly List<TokenKind> Literals = new List<TokenKind>() {
+      TokenKind.NoneLiteral,
+      TokenKind.TrueLiteral,
+      TokenKind.FalseLiteral,
+      TokenKind.TrueLiteral,
+    };
   }
 
   public readonly struct Keyword

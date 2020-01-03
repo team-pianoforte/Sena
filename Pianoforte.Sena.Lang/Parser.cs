@@ -33,13 +33,11 @@ namespace Pianoforte.Sena.Lang
     private Expression ParseFactor()
     {
       var tok = NextToken();
-      switch (tok.Kind)
+      return tok switch
       {
-        case TokenKind.NumberLiteral:
-        case TokenKind.StringLiteral:
-          return Expression.Constant(Runtime.Value.FromToken(tok));
-      }
-      throw new Exception("Invalid token");
+        var t when t.IsLiteral() => Expression.Constant(Runtime.Value.FromToken(tok)),
+        _ => throw new Exception("Invalid token"),
+      };
     }
 
     private Expression ParseTerm()
