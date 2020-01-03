@@ -36,7 +36,7 @@ namespace Pianoforte.Sena.Lang
       var tok = NextToken();
       return tok switch
       {
-        var t when t.IsLiteral() => Expression.Constant(Runtime.Value.FromToken(tok)),
+        var t when t.IsLiteral() => Syntax.Literal(tok),
         _ => throw new Exception("Invalid token"),
       };
     }
@@ -46,14 +46,13 @@ namespace Pianoforte.Sena.Lang
       var exp = ParseFactor();
       while(true)
       {
-        switch (lookahead[0].Kind)
+        if (lookahead.Head.IsBinaryOp())
         {
-          case TokenKind.OpPlus:
-            NextToken();
-            exp = Expression.Call(null, typeof(Runtime.Operations).GetMethod("Add"), exp, ParseFactor());
-            break;
-          default:
-            return exp;
+          exp = Syntax.BinaryExpr(exp, NextToken(), ParseFactor());
+        }
+        else
+        { 
+          return exp;
         }
       }
     }
