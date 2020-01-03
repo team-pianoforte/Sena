@@ -25,8 +25,9 @@ namespace Pianoforte.Sena.Lang
 
     private Token NextToken()
     {
-      var tok = lookahead.Next();
+      var tok = lookahead[0];
       lookahead[lookaheadCount] = lexer.Next();
+      lookahead.Next();
       return tok;
     }
 
