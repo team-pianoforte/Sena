@@ -129,6 +129,9 @@
   <data name="SyntaxExceptionMessage" xml:space="preserve">
     <value>構文エラー {0}: {1}</value>
   </data>
+  <data name="UndefinedVariable" xml:space="preserve">
+    <value>{0} という変数はありません</value>
+  </data>
   <data name="UnknownSymbol" xml:space="preserve">
     <value>使用できない記号が含まれています</value>
   </data>

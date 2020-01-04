@@ -129,6 +129,9 @@
   <data name="SyntaxExceptionMessage" xml:space="preserve">
     <value>{0} SyntaxError - </value>
   </data>
+  <data name="UndefinedVariable" xml:space="preserve">
+    <value>Undefined variables '{0}'</value>
+  </data>
   <data name="UnknownSymbol" xml:space="preserve">
     <value>Unknown symobl '{0}'.</value>
   </data>

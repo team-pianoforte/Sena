@@ -97,6 +97,15 @@ namespace Pianoforte.Sena.Lang.Properties {
         }
         
         /// <summary>
+        ///   Undefined variables &apos;{0}&apos; に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UndefinedVariable {
+            get {
+                return ResourceManager.GetString("UndefinedVariable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Unknown symobl &apos;{0}&apos;. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string UnknownSymbol {
