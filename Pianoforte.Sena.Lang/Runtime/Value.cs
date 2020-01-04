@@ -23,7 +23,7 @@ namespace Pianoforte.Sena.Lang.Runtime
     {
       if (Type != t)
       {
-        throw new Exception("Type mismatch");
+        throw new InternalAssertionException("Type mismatch");
       }
     }
 
@@ -88,45 +88,24 @@ namespace Pianoforte.Sena.Lang.Runtime
         decimal n => MakeNumber(n),
         string s => MakeString(s),
         null => MakeNone(),
-        _ => throw new Exception("Cannot convert RuntimeValue"),
+        _ => throw new InternalAssertionException("Cannot convert RuntimeValue"),
       };
     }
 
     public static Value FromToken(Token token)
     {
-      var kind = token.Kind switch
+      var type = token.Kind switch
       {
         TokenKind.NoneLiteral => ValueType.None,
         TokenKind.TrueLiteral => ValueType.Bool,
         TokenKind.FalseLiteral => ValueType.Bool,
         TokenKind.NumberLiteral => ValueType.Number,
         TokenKind.StringLiteral => ValueType.String,
-        _ => throw new Exception("Cannot convert RuntimeValue"),
+        _ => throw new InternalAssertionException("Cannot convert RuntimeValue"),
       };
-      return FromString(kind, token.Text);
+      return MakeString(token.Text).ConvertType(type);
     }
 
-    public static Value FromString(ValueType type, string v)
-    {
-      if (type == ValueType.None && v == NoneStr)
-      {
-        return MakeNone();
-      }
-      else if (type == ValueType.Bool && (v == TrueStr || v == FalseStr))
-      {
-        return MakeBool(v == TrueStr);
-      }
-      else if (type == ValueType.Number)
-      {
-        decimal.TryParse(v, out var n);
-        return MakeNumber(n);
-      }
-      else if (type == ValueType.String)
-      {
-        return MakeString(v);
-      }
-      throw new Exception(string.Format("{0} is not {1}", v, type));
-    }
     #endregion
 
     #region MakeXXX
@@ -161,13 +140,37 @@ namespace Pianoforte.Sena.Lang.Runtime
         ValueType.Bool => Bool ? TrueStr : FalseStr,
         ValueType.Number => Number.ToString(),
         ValueType.String => String,
-        _ => throw new Exception("Unknown RuntimeValueType"),
+        _ => throw new InternalAssertionException("Unknown RuntimeValueType"),
       };
     }
 
     public Value ConvertType(ValueType type)
     {
-      return Value.FromString(type, ToString());
+      if(Type == type)
+      {
+        return this;
+      }
+      var s = ToString();
+      if (type == ValueType.None)
+      {
+        return MakeNone();
+      }
+      else if (type == ValueType.Bool && (s == TrueStr || s == FalseStr))
+      {
+        return MakeBool(s == TrueStr);
+      }
+      else if (type == ValueType.Number)
+      {
+        if (decimal.TryParse(s, out var n))
+        {
+          return MakeNumber(n);
+        }
+      }
+      else if (type == ValueType.String)
+      {
+        return MakeString(s);
+      }
+      throw new RuntimeException(string.Format(Properties.Resources.CannotConvertType, s, type));
     }
 
     #endregion

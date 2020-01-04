@@ -61,6 +61,15 @@ namespace Pianoforte.Sena.Lang.Properties {
         }
         
         /// <summary>
+        ///   Cannot conevrt {0} to {1} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CannotConvertType {
+            get {
+                return ResourceManager.GetString("CannotConvertType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cannot add {0} and {1} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string InvalidAddition {
