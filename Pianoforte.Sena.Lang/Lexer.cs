@@ -207,32 +207,12 @@ namespace Pianoforte.Sena.Lang
       switch (c)
       {
         case '+':
-          if (head == '=')
-          {
-            Consume();
-            return new Token(TokenKind.OpPlusAssignment, "+=", pos);
-          }
           return new Token(TokenKind.OpPlus, "+", pos);
         case '-':
-          if (head == '=')
-          {
-            Consume();
-            return new Token(TokenKind.OpMinusAssignment, "-=", pos);
-          }
           return new Token(TokenKind.OpMinus, "-", pos);
         case '*':
-          if (head == '=')
-          {
-            Consume();
-            return new Token(TokenKind.OpMultiplicationAssignment, "*=", pos);
-          }
           return new Token(TokenKind.OpMultiplication, "*", pos);
         case '/':
-          if (head == '=')
-          {
-            Consume();
-            return new Token(TokenKind.OpDivisionAssignment, "/=", pos);
-          }
           return new Token(TokenKind.OpDivision, "/", pos);
         case '=':
           if (head == '=')
@@ -240,7 +220,7 @@ namespace Pianoforte.Sena.Lang
             Consume();
             return new Token(TokenKind.OpEqual, "==", pos);
           }
-          return new Token(TokenKind.OpAssignment, "=", pos);
+          break;
         case '!':
           if (head == '=')
           {
@@ -253,6 +233,11 @@ namespace Pianoforte.Sena.Lang
           {
             Consume();
             return new Token(TokenKind.OpLessThanOrEqual, "<=", pos);
+          }
+          else if (head == '-')
+          {
+            Consume();
+            return new Token(TokenKind.OpAssignment, "<-", pos);
           }
           return new Token(TokenKind.OpLessThan, "<", pos);
         case '>':

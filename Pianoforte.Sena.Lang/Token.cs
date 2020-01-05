@@ -17,10 +17,6 @@ namespace Pianoforte.Sena.Lang
     Identifier,
 
     OpAssignment,
-    OpPlusAssignment,
-    OpMinusAssignment,
-    OpMultiplicationAssignment,
-    OpDivisionAssignment,
     OpEqual,
     OpNotEqual,
     OpLessThan,
@@ -42,10 +38,6 @@ namespace Pianoforte.Sena.Lang
     public static bool IsAssignment(this Token v) => v.Kind switch
     {
       TokenKind.OpAssignment => true,
-      TokenKind.OpPlusAssignment => true,
-      TokenKind.OpMinusAssignment => true,
-      TokenKind.OpMultiplicationAssignment => true,
-      TokenKind.OpDivisionAssignment => true,
       _ => false,
     };
     public static bool IsBinaryOp(this Token v) => v.IsTermOp() || v.IsFactorOp();
