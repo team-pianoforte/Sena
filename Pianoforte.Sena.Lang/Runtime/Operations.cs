@@ -27,5 +27,14 @@ namespace Pianoforte.Sena.Lang.Runtime
       }
       return receiver.Object.Member(name);
     }
+
+    public static Value FunctionCall(Value f, params Value[] args)
+    {
+      if (f.Type != ValueType.Function)
+      {
+        throw new RuntimeException(Properties.Resources.NonFunctionCalling);
+      }
+      return f.Function.Call(args);
+    }
   }
 }

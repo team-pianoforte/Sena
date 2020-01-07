@@ -138,6 +138,9 @@
   <data name="InvalidToken" xml:space="preserve">
     <value>{0} is required but found {1}</value>
   </data>
+  <data name="NonFunctionCalling" xml:space="preserve">
+    <value>Calli is only function</value>
+  </data>
   <data name="NonObjectMemberAccess" xml:space="preserve">
     <value>Member access is allowed only objects.</value>
   </data>

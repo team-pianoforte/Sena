@@ -34,20 +34,27 @@ namespace Pianoforte.Sena.Lang
     private Expression ParseValue()
     {
       var tok = NextToken();
-      var v = tok switch
+      var expr= tok switch
       {
         var c when c.IsLiteral() => Syntax.Literal(tok),
         var c when c.Kind == TokenKind.Identifier => Syntax.Variable(tok.Text),
         _ => throw new SyntaxException(tok, string.Format(Properties.Resources.UnexpectedToken, tok.Kind)),
       };
 
-      while (lookahead[0].Kind == TokenKind.Dot)
+      while (lookahead.Head.Kind == TokenKind.Dot || lookahead.Head.Kind == TokenKind.ParenLeft)
       {
-        NextToken();
-        var nameTok = NextToken();
-        v = Syntax.MemberAccess(v, nameTok.Text);
+        if (lookahead.Head.Kind == TokenKind.Dot)
+        {
+          NextToken();
+          var nameTok = NextToken();
+          expr = Syntax.MemberAccess(expr, nameTok.Text);
+        }
+        else if(lookahead.Head.Kind == TokenKind.ParenLeft)
+        {
+          expr = ParseFunctionCall(expr);
+        }
       }
-      return v;
+      return expr;
     }
 
     private Expression ParseFactor()
@@ -76,6 +83,32 @@ namespace Pianoforte.Sena.Lang
       return ParseTerm();
     }
 
+    private Expression ParseFunctionCall(Expression func)
+    {
+      if (NextToken().Kind != TokenKind.ParenLeft)
+      {
+        throw new InternalAssertionException("Invalid token");
+      }
+      if (lookahead.Head.Kind == TokenKind.ParenRight)
+      {
+        return Syntax.FunctionCall(func);
+      }
+
+      IEnumerable<Expression> args = new[] { ParseExpr() };
+      while(lookahead.Head.Kind == TokenKind.Comma)
+      {
+        NextToken();
+        args = args.Append(ParseExpr());
+      }
+      var rightParen = NextToken();
+      if (rightParen.Kind != TokenKind.ParenRight)
+      {
+        throw new SyntaxException(rightParen,
+          string.Format(Properties.Resources.InvalidToken, TokenKind.ParenRight, rightParen.Kind));
+      }
+      return Syntax.FunctionCall(func, args.ToArray());
+    }
+
     private Expression ParseLine()
     {
       Expression expr = null;
@@ -93,12 +126,6 @@ namespace Pianoforte.Sena.Lang
       else
       {
         expr = ParseExpr();
-
-        // TODO: It is debugging
-        expr = Expression.Call(
-          typeof(Console).GetMethod("WriteLine", new Type[] { typeof(string) }),
-          Expression.Call(expr, typeof(Runtime.Value).GetMethod("ToString"))
-        );
       }
       var eol = NextToken();
       if (!(eol.Kind == TokenKind.EndOfFile || eol.Kind == TokenKind.EndOfLine))
@@ -118,7 +145,7 @@ namespace Pianoforte.Sena.Lang
       }
 
 
-      return Expression.Lambda(Syntax.Block(null, lines));
+      return Expression.Lambda(Syntax.Block(Runtime.Embeded.RootBlock, lines));
     }
   }
 }

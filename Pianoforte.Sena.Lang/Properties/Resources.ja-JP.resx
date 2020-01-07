@@ -138,6 +138,9 @@
   <data name="InvallidEscapeSequence" xml:space="preserve">
     <value>無効なエスケープシーケンスです。</value>
   </data>
+  <data name="NonFunctionCalling" xml:space="preserve">
+    <value>関数以外を呼び出すことはできません</value>
+  </data>
   <data name="NonObjectMemberAccess" xml:space="preserve">
     <value>オブジェクト以外のメンバアクセスはできません</value>
   </data>

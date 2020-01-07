@@ -1,2 +1,2 @@
 v <- 40 + 2 + "Hello" + "World!"
-"v: " + v
+Console.WriteLine(v)

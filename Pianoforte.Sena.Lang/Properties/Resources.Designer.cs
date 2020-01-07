@@ -124,6 +124,15 @@ namespace Pianoforte.Sena.Lang.Properties {
         }
         
         /// <summary>
+        ///   Calli is only function に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NonFunctionCalling {
+            get {
+                return ResourceManager.GetString("NonFunctionCalling", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Member access is allowed only objects. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string NonObjectMemberAccess {
