@@ -132,6 +132,9 @@
   <data name="SyntaxExceptionMessage" xml:space="preserve">
     <value>構文エラー {0}: {1}</value>
   </data>
+  <data name="UndefinedMember" xml:space="preserve">
+    <value>{0} には {1} は定義されていません</value>
+  </data>
   <data name="UndefinedVariable" xml:space="preserve">
     <value>{0} という変数はありません</value>
   </data>

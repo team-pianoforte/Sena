@@ -106,6 +106,15 @@ namespace Pianoforte.Sena.Lang.Properties {
         }
         
         /// <summary>
+        ///   Object {0} has not member {1} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UndefinedMember {
+            get {
+                return ResourceManager.GetString("UndefinedMember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Undefined variables &apos;{0}&apos; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string UndefinedVariable {

@@ -132,6 +132,9 @@
   <data name="SyntaxExceptionMessage" xml:space="preserve">
     <value>{0} SyntaxError - </value>
   </data>
+  <data name="UndefinedMember" xml:space="preserve">
+    <value>Object {0} has not member {1}</value>
+  </data>
   <data name="UndefinedVariable" xml:space="preserve">
     <value>Undefined variables '{0}'</value>
   </data>
