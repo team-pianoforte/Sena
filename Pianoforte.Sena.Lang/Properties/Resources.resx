@@ -129,6 +129,9 @@
   <data name="InvalidEscapeSequence" xml:space="preserve">
     <value>Invalid escape sequence.</value>
   </data>
+  <data name="InvalidNumberOfArgs" xml:space="preserve">
+    <value>Function requires {0} args, but passed {1} args</value>
+  </data>
   <data name="SyntaxExceptionMessage" xml:space="preserve">
     <value>{0} SyntaxError - </value>
   </data>

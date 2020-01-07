@@ -97,6 +97,15 @@ namespace Pianoforte.Sena.Lang.Properties {
         }
         
         /// <summary>
+        ///   Function requires {0} args, but passed {1} args に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InvalidNumberOfArgs {
+            get {
+                return ResourceManager.GetString("InvalidNumberOfArgs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   {0} SyntaxError -  に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SyntaxExceptionMessage {

@@ -126,6 +126,9 @@
   <data name="InvalidCharacter" xml:space="preserve">
     <value>使用できない文字が含まれています</value>
   </data>
+  <data name="InvalidNumberOfArgs" xml:space="preserve">
+    <value>この関数には {0} 個の引数が必要ですが、{1} 個の引数が指定されています。</value>
+  </data>
   <data name="InvallidEscapeSequence" xml:space="preserve">
     <value>無効なエスケープシーケンスです。</value>
   </data>
