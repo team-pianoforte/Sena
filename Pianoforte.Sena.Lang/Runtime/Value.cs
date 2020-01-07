@@ -12,12 +12,12 @@ namespace Pianoforte.Sena.Lang.Runtime
     String,
   }
 
-  public struct Value
+  public readonly struct Value
   {
     public const string NoneStr = "None";
     public const string TrueStr = "True";
     public const string FalseStr = "False";
-    public ValueType Type { get; set; }
+    public ValueType Type { get; }
 
     private void AssertType(ValueType t)
     {
@@ -29,7 +29,7 @@ namespace Pianoforte.Sena.Lang.Runtime
 
     #region Properties
 
-    private bool _bool;
+    private readonly bool _bool;
     public bool Bool
     {
       get
@@ -37,10 +37,9 @@ namespace Pianoforte.Sena.Lang.Runtime
         AssertType(ValueType.Bool);
         return _bool;
       }
-      set { _bool = value; }
     }
 
-    private decimal _number;
+    private readonly decimal _number;
     public decimal Number
     {
       get
@@ -48,10 +47,9 @@ namespace Pianoforte.Sena.Lang.Runtime
         AssertType(ValueType.Number);
         return _number;
       }
-      set { _number = value; }
     }
 
-    private string _string;
+    private readonly string _string;
     public string String
     {
       get
@@ -59,7 +57,6 @@ namespace Pianoforte.Sena.Lang.Runtime
         AssertType(ValueType.String);
         return _string;
       }
-      set { _string = value; }
     }
 
     #endregion
