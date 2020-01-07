@@ -1,2 +1,2 @@
-hello = 40 + 2 + "Hello" + "World!"
-hello
+v <- 40 + 2 + "Hello" + "World!"
+"v: " + v

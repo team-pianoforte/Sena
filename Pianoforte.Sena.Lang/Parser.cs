@@ -37,6 +37,7 @@ namespace Pianoforte.Sena.Lang
       return tok switch
       {
         var t when t.IsLiteral() => Syntax.Literal(tok),
+        var t when t.Kind == TokenKind.Identifier => Syntax.Variable(t.Text),
         _ => throw new Exception("Invalid token"),
       };
     }
@@ -59,18 +60,33 @@ namespace Pianoforte.Sena.Lang
 
     private Expression ParseExpr()
     {
-      switch (lookahead[0].Kind)
-      {
-        case TokenKind.NumberLiteral:
-        case TokenKind.StringLiteral:
-          return ParseTerm();
-      }
-      throw new Exception(string.Format("Unexpected {0}", lookahead[0].Kind));
+      return ParseTerm();
     }
 
     private Expression ParseLine()
     {
-      var expr = ParseExpr();
+      Expression expr = null;
+      if (lookahead[1].Kind == TokenKind.OpAssignment)
+      {
+        var ident = lookahead[0];
+        if (ident.Kind != TokenKind.Identifier)
+        {
+          throw new Exception(string.Format("Unexpected {0}", ident.Kind));
+        }
+        NextToken();
+        NextToken();
+        expr = Syntax.Assign(ident.Text, ParseExpr());
+      }
+      else
+      {
+        expr = ParseExpr();
+        
+        // TODO: It is debugging
+        expr = Expression.Call(
+          typeof(Console).GetMethod("WriteLine", new Type[] { typeof(string) }),
+          Expression.Call(expr, typeof(Runtime.Value).GetMethod("ToString"))
+        );
+      }
       var eol = NextToken();
       if (!(eol.Kind == TokenKind.EndOfFile || eol.Kind == TokenKind.EndOfLine))
       {
@@ -87,14 +103,9 @@ namespace Pianoforte.Sena.Lang
       {
         lines.Add(ParseLine());
       }
-      var writeLine = typeof(Console).GetMethod("WriteLine", new Type[] { typeof(string) });
 
 
-      return Expression.Lambda(
-        Expression.Block(
-          lines.Select((line) => Expression.Call(writeLine, Expression.Call(line, typeof(Runtime.Value).GetMethod("ToString"))))
-        )
-      );
+      return Expression.Lambda(Syntax.Block(null, lines));
     }
   }
 }
