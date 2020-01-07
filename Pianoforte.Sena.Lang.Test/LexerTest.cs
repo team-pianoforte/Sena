@@ -28,7 +28,7 @@ namespace Pianoforte.Sena.Lang.Test
       new object[] { string.Join("",
         "<-", "+", "-", "*", "/",
         "==", "!=", "<", ">", "<=", ">=",
-        "(", ")", "[", "]", "1.2.3",
+        "(", ")", "[", "]", "1.2.3", ",",
         "\n"), new[] {
           new Token(TokenKind.OpAssignment, "<-", new TokenPosition("", 1, 1)),
           new Token(TokenKind.OpPlus, "+", new TokenPosition("", 1, 3)),
@@ -48,7 +48,8 @@ namespace Pianoforte.Sena.Lang.Test
           new Token(TokenKind.NumberLiteral, "1.2", new TokenPosition("", 1, 21)),
           new Token(TokenKind.Dot, ".", new TokenPosition("", 1, 24)),
           new Token(TokenKind.NumberLiteral, "3", new TokenPosition("", 1, 25)),
-          new Token(TokenKind.EndOfLine, "\n", new TokenPosition("", 1, 26)),
+          new Token(TokenKind.Comma, ",", new TokenPosition("", 1, 26)),
+          new Token(TokenKind.EndOfLine, "\n", new TokenPosition("", 1, 27)),
           new Token(TokenKind.EndOfFile, "", new TokenPosition("", 2, 1)),
       }},
     };
