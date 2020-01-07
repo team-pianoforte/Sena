@@ -17,17 +17,18 @@ namespace Pianoforte.Sena.Lang.Runtime
       Parent = parent;
     }
 
-    public Block Root {
+    public Block Root
+    {
       get
       {
         var v = this;
-        while(v.Parent != null)
+        while (v.Parent != null)
         {
           v = v.Parent;
         }
         return v;
       }
-    } 
+    }
 
     public Value GetVariable(string name)
     {

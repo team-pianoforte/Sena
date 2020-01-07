@@ -45,14 +45,14 @@ namespace Pianoforte.Sena.Lang
     private Expression ParseTerm()
     {
       var exp = ParseFactor();
-      while(true)
+      while (true)
       {
         if (lookahead.Head.IsBinaryOp())
         {
           exp = Syntax.BinaryExpr(exp, NextToken(), ParseFactor());
         }
         else
-        { 
+        {
           return exp;
         }
       }
@@ -80,7 +80,7 @@ namespace Pianoforte.Sena.Lang
       else
       {
         expr = ParseExpr();
-        
+
         // TODO: It is debugging
         expr = Expression.Call(
           typeof(Console).GetMethod("WriteLine", new Type[] { typeof(string) }),

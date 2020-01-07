@@ -61,9 +61,10 @@ namespace Pianoforte.Sena.Lang.Runtime
       switch (obj)
       {
         case Value v: return v;
-        default: throw new InternalAssertionException(
-          string.Format("Return value must be Runtime.Value not {0}", obj.GetType())
-        );
+        default:
+          throw new InternalAssertionException(
+   string.Format("Return value must be Runtime.Value not {0}", obj.GetType())
+ );
       }
     }
   }

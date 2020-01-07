@@ -34,7 +34,7 @@ namespace Pianoforte.Sena.Lang
       return Expression.Call(null, typeof(Runtime.Operations).GetMethod(method), lhs, rhs);
     }
 
-    public static Expression Block(Runtime.Block parent, params Expression[]lines)
+    public static Expression Block(Runtime.Block parent, params Expression[] lines)
       => Block(parent, lines);
 
     public static Expression Block(Runtime.Block parent, IEnumerable<Expression> lines)

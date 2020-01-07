@@ -10,7 +10,7 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
     public void TestConstructorWithMembers()
     {
       var v = Value.MakeNumber(42);
-      var members = new Dictionary<string, Value>() { { "v", v} };
+      var members = new Dictionary<string, Value>() { { "v", v } };
       var obj = new Object("name", members);
       Assert.Equal(v, obj.Member("v"));
     }

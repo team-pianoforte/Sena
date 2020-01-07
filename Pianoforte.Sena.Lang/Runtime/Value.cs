@@ -165,7 +165,7 @@ namespace Pianoforte.Sena.Lang.Runtime
 
     public Value ConvertType(ValueType type)
     {
-      if(Type == type)
+      if (Type == type)
       {
         return this;
       }
