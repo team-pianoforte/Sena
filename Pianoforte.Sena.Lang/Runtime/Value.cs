@@ -77,18 +77,6 @@ namespace Pianoforte.Sena.Lang.Runtime
 
     #region FromXXX
 
-    public static Value FromObject(object value)
-    {
-      return value switch
-      {
-        bool b => MakeBool(b),
-        decimal n => MakeNumber(n),
-        string s => MakeString(s),
-        null => MakeNone(),
-        _ => throw new InternalAssertionException("Cannot convert RuntimeValue"),
-      };
-    }
-
     public static Value FromToken(Token token)
     {
       var type = token.Kind switch
