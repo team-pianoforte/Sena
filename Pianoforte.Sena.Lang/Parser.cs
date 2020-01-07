@@ -38,7 +38,7 @@ namespace Pianoforte.Sena.Lang
       {
         var c when c.IsLiteral() => Syntax.Literal(tok),
         var c when c.Kind == TokenKind.Identifier => Syntax.Variable(tok.Text),
-        _ => throw new SyntaxException(tok, string.Format(Properties.Resources.UnexpectedToken, tok)),
+        _ => throw new SyntaxException(tok, string.Format(Properties.Resources.UnexpectedToken, tok.Kind)),
       };
 
       while (lookahead[0].Kind == TokenKind.Dot)
@@ -103,7 +103,7 @@ namespace Pianoforte.Sena.Lang
       var eol = NextToken();
       if (!(eol.Kind == TokenKind.EndOfFile || eol.Kind == TokenKind.EndOfLine))
       {
-        throw new SyntaxException(eol, Properties.Resources.EolRequired);
+        throw new SyntaxException(eol, string.Format(Properties.Resources.InvalidToken, TokenKind.EndOfLine, eol.Kind));
       }
       return expr;
     }

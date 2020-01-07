@@ -70,15 +70,6 @@ namespace Pianoforte.Sena.Lang.Properties {
         }
         
         /// <summary>
-        ///   Eol is required に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string EolRequired {
-            get {
-                return ResourceManager.GetString("EolRequired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Cannot add {0} and {1} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string InvalidAddition {
@@ -124,11 +115,38 @@ namespace Pianoforte.Sena.Lang.Properties {
         }
         
         /// <summary>
+        ///   {0} is required but found {1} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InvalidToken {
+            get {
+                return ResourceManager.GetString("InvalidToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Member access is allowed only objects. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string NonObjectMemberAccess {
             get {
                 return ResourceManager.GetString("NonObjectMemberAccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   RuntimeError {0} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string RuntimeError {
+            get {
+                return ResourceManager.GetString("RuntimeError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   SyntaxErrror at {0}: {1} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SyntaxError {
+            get {
+                return ResourceManager.GetString("SyntaxError", resourceCulture);
             }
         }
         

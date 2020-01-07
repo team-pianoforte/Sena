@@ -120,9 +120,6 @@
   <data name="CannotConvertType" xml:space="preserve">
     <value>Cannot conevrt {0} to {1}</value>
   </data>
-  <data name="EolRequired" xml:space="preserve">
-    <value>Eol is required</value>
-  </data>
   <data name="InvalidAddition" xml:space="preserve">
     <value>Cannot add {0} and {1}</value>
   </data>
@@ -138,8 +135,17 @@
   <data name="InvalidNumberOfArgs" xml:space="preserve">
     <value>Function requires {0} args, but passed {1} args</value>
   </data>
+  <data name="InvalidToken" xml:space="preserve">
+    <value>{0} is required but found {1}</value>
+  </data>
   <data name="NonObjectMemberAccess" xml:space="preserve">
     <value>Member access is allowed only objects.</value>
+  </data>
+  <data name="RuntimeError" xml:space="preserve">
+    <value>RuntimeError {0}</value>
+  </data>
+  <data name="SyntaxError" xml:space="preserve">
+    <value>SyntaxErrror at {0}: {1}</value>
   </data>
   <data name="SyntaxExceptionMessage" xml:space="preserve">
     <value>{0} SyntaxError - </value>

@@ -120,9 +120,6 @@
   <data name="CannotConvertType" xml:space="preserve">
     <value>{0} を {1} に変換できません</value>
   </data>
-  <data name="EolRequired" xml:space="preserve">
-    <value>ここには改行が必要です</value>
-  </data>
   <data name="InvalidAddition" xml:space="preserve">
     <value>{0} と {1} を足すことはできません</value>
   </data>
@@ -135,11 +132,20 @@
   <data name="InvalidNumberOfArgs" xml:space="preserve">
     <value>この関数には {0} 個の引数が必要ですが、{1} 個の引数が指定されています。</value>
   </data>
+  <data name="InvalidToken" xml:space="preserve">
+    <value>{0} が必要ですが、{1} が見つかりました</value>
+  </data>
   <data name="InvallidEscapeSequence" xml:space="preserve">
     <value>無効なエスケープシーケンスです。</value>
   </data>
   <data name="NonObjectMemberAccess" xml:space="preserve">
     <value>オブジェクト以外のメンバアクセスはできません</value>
+  </data>
+  <data name="RuntimeError" xml:space="preserve">
+    <value>実行エラー: {0}</value>
+  </data>
+  <data name="SyntaxError" xml:space="preserve">
+    <value>構文エラー {0}: {1}</value>
   </data>
   <data name="SyntaxExceptionMessage" xml:space="preserve">
     <value>構文エラー {0}: {1}</value>

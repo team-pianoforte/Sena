@@ -16,9 +16,18 @@ namespace Pianoforte.Sena.Lang
   }
 
   /// <summary>
+  /// The exception that casued by sena user
+  /// </summary>
+  public class SenaUserException : Exception
+  {
+    public SenaUserException() : base() { }
+    public SenaUserException(string message) : base(message) { }
+  }
+
+  /// <summary>
   /// The exception that is throw when found a parisng error.
   /// </summary>
-  public class SyntaxException : Exception
+  public class SyntaxException : SenaUserException
   {
     /// <summary>
     /// Position of syntax error.
@@ -39,6 +48,11 @@ namespace Pianoforte.Sena.Lang
     {
       this.Token = null;
       this.Position = pos;
+    }
+
+    public override string ToString()
+    {
+      return string.Format(Properties.Resources.SyntaxError, Position, Message);
     }
   }
 }

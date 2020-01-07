@@ -4,9 +4,14 @@ using System.Text;
 
 namespace Pianoforte.Sena.Lang.Runtime
 {
-  public class RuntimeException : Exception
+  public class RuntimeException : SenaUserException
   {
     public RuntimeException() { }
     public RuntimeException(string message) : base(message) { }
+
+    public override string ToString()
+    {
+      return string.Format(Properties.Resources.RuntimeError, Message);
+    }
   }
 }

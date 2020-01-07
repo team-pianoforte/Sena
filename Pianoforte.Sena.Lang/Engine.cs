@@ -12,8 +12,15 @@ namespace Pianoforte.Sena.Lang
 
     public void Execute(string filename, Stream input)
     {
-      var f = Compile(filename, input);
-      f.DynamicInvoke();
+      try
+      {
+        var f = Compile(filename, input);
+        f.DynamicInvoke();
+      }
+      catch (SenaUserException e)
+      {
+        Console.WriteLine(e.ToString());
+      }
     }
 
     public Delegate Compile(string filename)
