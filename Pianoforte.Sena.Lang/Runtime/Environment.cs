@@ -5,19 +5,26 @@ using System.Linq.Expressions;
 
 namespace Pianoforte.Sena.Lang.Runtime
 {
-  public static class Embeded
+  public class Environment
   {
-    public static Object Console = new Object("Console", new Dictionary<string, Value>()
+    public Object Console { get; }
+    public Block RootBlock
     {
-      { "WriteLine", Value.MakeFunction(WriteLine) },
-    });
+      get
+      {
+        return new Block(null, new Dictionary<string, Value>()
+        {
+          { "Console", Value.MakeObject(Console) },
+        });
+      }
+    }
 
-    public static readonly Block RootBlock = new Block(null, new Dictionary<string, Value>()
+    public Environment(Object console)
     {
-      { "Console", Value.MakeObject(Console) },
-    });
+      Console = console;
+    }
 
-    private static Function WriteLine
+    private static Function cliWriteLine
     {
       get
       {
@@ -34,5 +41,10 @@ namespace Pianoforte.Sena.Lang.Runtime
         );
       }
     }
+
+    public static Environment Cli = new Environment(new Object("Console", new Dictionary<string, Value>()
+    {
+      { "WriteLine", Value.MakeFunction(cliWriteLine) },
+    }));
   }
 }

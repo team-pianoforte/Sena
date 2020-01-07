@@ -135,7 +135,7 @@ namespace Pianoforte.Sena.Lang
       return expr;
     }
 
-    public LambdaExpression Parse()
+    public LambdaExpression Parse(Runtime.Environment env)
     {
 
       var lines = new List<Expression>();
@@ -145,7 +145,7 @@ namespace Pianoforte.Sena.Lang
       }
 
 
-      return Expression.Lambda(Syntax.Block(Runtime.Embeded.RootBlock, lines));
+      return Expression.Lambda(Syntax.Block(env.RootBlock, lines));
     }
   }
 }

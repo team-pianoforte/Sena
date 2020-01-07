@@ -6,6 +6,11 @@ namespace Pianoforte.Sena.Lang
 {
   public class Engine
   {
+    public Runtime.Environment Environment { get; }
+    public Engine(Runtime.Environment env)
+    {
+      Environment = env;
+    }
     public void Execute(string filename)
       => Execute(filename, new FileStream(filename, FileMode.Open));
 
@@ -29,7 +34,7 @@ namespace Pianoforte.Sena.Lang
     public Delegate Compile(string filename, Stream input)
     {
       var parser = new Parser(new Lexer(filename, input));
-      var expr = parser.Parse();
+      var expr = parser.Parse(Environment);
       return expr.Compile();
     }
   }
