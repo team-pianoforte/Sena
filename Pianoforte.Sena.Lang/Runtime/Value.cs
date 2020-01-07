@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace Pianoforte.Sena.Lang.Runtime
 {
@@ -10,6 +13,8 @@ namespace Pianoforte.Sena.Lang.Runtime
     Bool,
     Number,
     String,
+    Object,
+    Function,
   }
 
   public readonly struct Value
@@ -59,19 +64,41 @@ namespace Pianoforte.Sena.Lang.Runtime
       }
     }
 
+    private readonly Object _object;
+    public Object Object
+    {
+      get
+      {
+        AssertType(ValueType.Object);
+        return _object;
+      }
+    }
+
+    private readonly Function _function;
+    public Function Function
+    {
+      get
+      {
+        AssertType(ValueType.Function);
+        return _function;
+      }
+    }
+
     #endregion
 
     #region Constructors
-    public Value(ValueType type) : this(type, false, 0, "")
+    public Value(ValueType type) : this(type, false, 0, "", null, null)
     {
     }
 
-    public Value(ValueType type, bool b, decimal num, string str)
+    public Value(ValueType type, bool b, decimal num, string str, Object obj, Function func)
     {
       Type = type;
       _bool = b;
       _number = num;
       _string = str;
+      _object = obj;
+      _function = func;
     }
     #endregion
 
@@ -101,33 +128,40 @@ namespace Pianoforte.Sena.Lang.Runtime
 
     public static Value MakeBool(bool v)
     {
-      return new Value(ValueType.Bool, v, 0, "");
+      return new Value(ValueType.Bool, v, 0, "", null, null);
     }
 
     public static Value MakeNumber(decimal v)
     {
-      return new Value(ValueType.Number, false, v, "");
+      return new Value(ValueType.Number, false, v, "", null, null);
     }
 
     public static Value MakeString(string v)
     {
-      return new Value(ValueType.String, false, 0, v);
+      return new Value(ValueType.String, false, 0, v, null, null);
+    }
+
+    public static Value MakeObject(Object v)
+    {
+      return new Value(ValueType.Object, false, 0, "", v, null);
+    }
+    public static Value MakeFunction(Function v)
+    {
+      return new Value(ValueType.Function, false, 0, "", null, v);
     }
     #endregion
 
     #region Converts
 
-    public override string ToString()
+    public override string ToString() => Type switch
     {
-      return Type switch
-      {
-        ValueType.None => NoneStr,
-        ValueType.Bool => Bool ? TrueStr : FalseStr,
-        ValueType.Number => Number.ToString(),
-        ValueType.String => String,
-        _ => throw new InternalAssertionException("Unknown RuntimeValueType"),
-      };
-    }
+      ValueType.None => NoneStr,
+      ValueType.Bool => Bool ? TrueStr : FalseStr,
+      ValueType.Number => Number.ToString(),
+      ValueType.String => String,
+      ValueType.Object => Object.ToString(),
+      ValueType.Function => Function.ToString(),
+    };
 
     public Value ConvertType(ValueType type)
     {
