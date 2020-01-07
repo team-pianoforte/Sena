@@ -120,6 +120,9 @@
   <data name="CannotConvertType" xml:space="preserve">
     <value>Cannot conevrt {0} to {1}</value>
   </data>
+  <data name="EolRequired" xml:space="preserve">
+    <value>Eol is required</value>
+  </data>
   <data name="InvalidAddition" xml:space="preserve">
     <value>Cannot add {0} and {1}</value>
   </data>
@@ -128,6 +131,9 @@
   </data>
   <data name="InvalidEscapeSequence" xml:space="preserve">
     <value>Invalid escape sequence.</value>
+  </data>
+  <data name="InvalidLeftOfAssignment" xml:space="preserve">
+    <value>Left of assignment must be identifier</value>
   </data>
   <data name="InvalidNumberOfArgs" xml:space="preserve">
     <value>Function requires {0} args, but passed {1} args</value>
@@ -143,6 +149,9 @@
   </data>
   <data name="UndefinedVariable" xml:space="preserve">
     <value>Undefined variables '{0}'</value>
+  </data>
+  <data name="UnexpectedToken" xml:space="preserve">
+    <value>Unexpected token {0}</value>
   </data>
   <data name="UnknownSymbol" xml:space="preserve">
     <value>Unknown symobl '{0}'.</value>

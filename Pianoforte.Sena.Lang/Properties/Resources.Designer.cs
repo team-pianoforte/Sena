@@ -70,6 +70,15 @@ namespace Pianoforte.Sena.Lang.Properties {
         }
         
         /// <summary>
+        ///   Eol is required に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EolRequired {
+            get {
+                return ResourceManager.GetString("EolRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cannot add {0} and {1} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string InvalidAddition {
@@ -93,6 +102,15 @@ namespace Pianoforte.Sena.Lang.Properties {
         public static string InvalidEscapeSequence {
             get {
                 return ResourceManager.GetString("InvalidEscapeSequence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Left of assignment must be identifier に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InvalidLeftOfAssignment {
+            get {
+                return ResourceManager.GetString("InvalidLeftOfAssignment", resourceCulture);
             }
         }
         
@@ -138,6 +156,15 @@ namespace Pianoforte.Sena.Lang.Properties {
         public static string UndefinedVariable {
             get {
                 return ResourceManager.GetString("UndefinedVariable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Unexpected token {0} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UnexpectedToken {
+            get {
+                return ResourceManager.GetString("UnexpectedToken", resourceCulture);
             }
         }
         

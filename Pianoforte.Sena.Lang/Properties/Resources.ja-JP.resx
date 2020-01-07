@@ -120,11 +120,17 @@
   <data name="CannotConvertType" xml:space="preserve">
     <value>{0} を {1} に変換できません</value>
   </data>
+  <data name="EolRequired" xml:space="preserve">
+    <value>ここには改行が必要です</value>
+  </data>
   <data name="InvalidAddition" xml:space="preserve">
     <value>{0} と {1} を足すことはできません</value>
   </data>
   <data name="InvalidCharacter" xml:space="preserve">
     <value>使用できない文字が含まれています</value>
+  </data>
+  <data name="InvalidLeftOfAssignment" xml:space="preserve">
+    <value>変数以外には代入できません</value>
   </data>
   <data name="InvalidNumberOfArgs" xml:space="preserve">
     <value>この関数には {0} 個の引数が必要ですが、{1} 個の引数が指定されています。</value>
@@ -143,6 +149,9 @@
   </data>
   <data name="UndefinedVariable" xml:space="preserve">
     <value>{0} という変数はありません</value>
+  </data>
+  <data name="UnexpectedToken" xml:space="preserve">
+    <value>ここでは {0} は使用できません</value>
   </data>
   <data name="UnknownSymbol" xml:space="preserve">
     <value>使用できない記号が含まれています</value>
