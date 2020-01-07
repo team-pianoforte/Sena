@@ -11,12 +11,15 @@ namespace Pianoforte.Sena.Lang.Runtime
   public class Object
   {
     public string Name { get; }
-    private readonly Dictionary<string, Value> members = new Dictionary<string, Value>();
+    private Dictionary<string, Value> Members { get; }
+    public Object(string name) : this(name, new Dictionary<string, Value>()) { }
 
-    public Object(string name)
+    public Object(string name, Dictionary<string, Value> members)
     {
       Name = name;
+      Members = members;
     }
+
 
     public override string ToString()
     {
@@ -25,12 +28,12 @@ namespace Pianoforte.Sena.Lang.Runtime
 
     public void SetMember(string name, Value value)
     {
-      members[name] = value;
+      Members[name] = value;
     }
 
     public Value Member(string name)
     {
-      if (members.TryGetValue(name, out var value))
+      if (Members.TryGetValue(name, out var value))
       {
         return value;
       }
