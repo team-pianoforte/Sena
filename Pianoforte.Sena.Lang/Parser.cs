@@ -34,7 +34,7 @@ namespace Pianoforte.Sena.Lang
     private Expression ParseValue()
     {
       var tok = NextToken();
-      var expr= tok switch
+      var expr = tok switch
       {
         var c when c.IsLiteral() => Syntax.Literal(tok),
         var c when c.Kind == TokenKind.Identifier => Syntax.Variable(tok.Text),
@@ -49,7 +49,7 @@ namespace Pianoforte.Sena.Lang
           var nameTok = NextToken();
           expr = Syntax.MemberAccess(expr, nameTok.Text);
         }
-        else if(lookahead.Head.Kind == TokenKind.ParenLeft)
+        else if (lookahead.Head.Kind == TokenKind.ParenLeft)
         {
           expr = ParseFunctionCall(expr);
         }
@@ -95,7 +95,7 @@ namespace Pianoforte.Sena.Lang
       }
 
       IEnumerable<Expression> args = new[] { ParseExpr() };
-      while(lookahead.Head.Kind == TokenKind.Comma)
+      while (lookahead.Head.Kind == TokenKind.Comma)
       {
         NextToken();
         args = args.Append(ParseExpr());
