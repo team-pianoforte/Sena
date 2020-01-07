@@ -106,6 +106,15 @@ namespace Pianoforte.Sena.Lang.Properties {
         }
         
         /// <summary>
+        ///   Member access is allowed only objects. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NonObjectMemberAccess {
+            get {
+                return ResourceManager.GetString("NonObjectMemberAccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   {0} SyntaxError -  に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SyntaxExceptionMessage {

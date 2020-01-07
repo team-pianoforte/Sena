@@ -132,6 +132,9 @@
   <data name="InvalidNumberOfArgs" xml:space="preserve">
     <value>Function requires {0} args, but passed {1} args</value>
   </data>
+  <data name="NonObjectMemberAccess" xml:space="preserve">
+    <value>Member access is allowed only objects.</value>
+  </data>
   <data name="SyntaxExceptionMessage" xml:space="preserve">
     <value>{0} SyntaxError - </value>
   </data>

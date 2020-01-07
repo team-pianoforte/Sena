@@ -132,6 +132,9 @@
   <data name="InvallidEscapeSequence" xml:space="preserve">
     <value>無効なエスケープシーケンスです。</value>
   </data>
+  <data name="NonObjectMemberAccess" xml:space="preserve">
+    <value>オブジェクト以外のメンバアクセスはできません</value>
+  </data>
   <data name="SyntaxExceptionMessage" xml:space="preserve">
     <value>構文エラー {0}: {1}</value>
   </data>

@@ -31,15 +31,28 @@ namespace Pianoforte.Sena.Lang
       return tok;
     }
 
-    private Expression ParseFactor()
+    private Expression ParseValue()
     {
       var tok = NextToken();
-      return tok switch
+      var v = tok switch
       {
-        var t when t.IsLiteral() => Syntax.Literal(tok),
-        var t when t.Kind == TokenKind.Identifier => Syntax.Variable(t.Text),
+        var c when c.IsLiteral() => Syntax.Literal(tok),
+        var c when c.Kind == TokenKind.Identifier => Syntax.Variable(tok.Text),
         _ => throw new Exception("Invalid token"),
       };
+
+      while (lookahead[0].Kind == TokenKind.Dot)
+      {
+        NextToken();
+        var nameTok = NextToken();
+        v = Syntax.MemberAccess(v, nameTok.Text);
+      }
+      return v;
+    }
+
+    private Expression ParseFactor()
+    {
+      return ParseValue();
     }
 
     private Expression ParseTerm()

@@ -8,13 +8,16 @@ namespace Pianoforte.Sena.Lang.Runtime
 {
   public class Block
   {
-    private readonly Dictionary<string, Value> variables = new Dictionary<string, Value>();
+    private readonly Dictionary<string, Value> variables;
     public Block Parent { get; }
     public Block() : this(null) { }
 
-    public Block(Block parent) : base()
+    public Block(Block parent) : this(parent, new Dictionary<string, Value>()) { }
+
+    public Block(Block parent, Dictionary<string, Value> vars)
     {
       Parent = parent;
+      variables = vars;
     }
 
     public Block Root

@@ -31,6 +31,7 @@ namespace Pianoforte.Sena.Lang
     ParenRight,
     SquareBracketLeft,
     SquareBracketRight,
+    Dot,
   }
 
   public static class TokenExtensions

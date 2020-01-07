@@ -73,5 +73,11 @@ namespace Pianoforte.Sena.Lang
       var m = blockType.GetMethod("SetVariable");
       return Expression.Call(blockParam, m, Expression.Constant(name), expr);
     }
+
+    public static Expression MemberAccess(Expression receiver, string name)
+    {
+      var method = typeof(Runtime.Operations).GetMethod("MemberAccess");
+      return Expression.Call(null, method, receiver, Expression.Constant(name));
+    }
   }
 }

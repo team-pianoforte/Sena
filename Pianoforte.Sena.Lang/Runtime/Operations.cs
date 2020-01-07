@@ -18,5 +18,14 @@ namespace Pianoforte.Sena.Lang.Runtime
       }
       throw new RuntimeException(string.Format(Properties.Resources.InvalidAddition, lhs, rhs));
     }
+
+    public static Value MemberAccess(Value receiver, string name)
+    {
+      if (receiver.Type != ValueType.Object)
+      {
+        throw new RuntimeException(Properties.Resources.NonObjectMemberAccess);
+      }
+      return receiver.Object.Member(name);
+    }
   }
 }

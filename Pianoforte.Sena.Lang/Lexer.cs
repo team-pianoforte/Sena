@@ -194,6 +194,7 @@ namespace Pianoforte.Sena.Lang
         case ']':
         case '<':
         case '>':
+        case '.':
           return true;
       }
       return false;
@@ -255,6 +256,8 @@ namespace Pianoforte.Sena.Lang
           return new Token(TokenKind.SquareBracketLeft, "[", pos);
         case ']':
           return new Token(TokenKind.SquareBracketRight, "]", pos);
+        case '.':
+          return new Token(TokenKind.Dot, ".", pos);
       }
       throw new SyntaxException(pos, string.Format(Properties.Resources.UnknownSymbol, head));
     }
