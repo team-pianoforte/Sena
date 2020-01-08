@@ -16,6 +16,11 @@ namespace Pianoforte.Sena.Lang
     EndOfFile,
     Identifier,
 
+    If,
+    For,
+    End,
+    Func,
+
     OpAssignment,
     OpEqual,
     OpNotEqual,
@@ -96,11 +101,19 @@ namespace Pianoforte.Sena.Lang
     public static readonly Keyword None = new Keyword("none", TokenKind.NoneLiteral);
     public static readonly Keyword True = new Keyword("true", TokenKind.TrueLiteral);
     public static readonly Keyword False = new Keyword("false", TokenKind.TrueLiteral);
+    public static readonly Keyword If = new Keyword("if", TokenKind.If);
+    public static readonly Keyword For = new Keyword("for", TokenKind.For);
+    public static readonly Keyword Func = new Keyword("func", TokenKind.Func);
+    public static readonly Keyword End = new Keyword("end", TokenKind.End);
 
     public static readonly Dictionary<string, Keyword> Map = new Dictionary<string, Keyword> {
       { None.Text, None },
       { True.Text, True },
       { False.Text, False },
+      { If.Text, If },
+      { For.Text, For },
+      { Func.Text, Func },
+      { End.Text, End },
     };
   }
 

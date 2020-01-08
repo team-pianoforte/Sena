@@ -17,12 +17,16 @@ namespace Pianoforte.Sena.Lang.Test
         new Token(TokenKind.EndOfLine, "\n", new TokenPosition("", 1, 13)),
         new Token(TokenKind.EndOfFile, "", new TokenPosition("", 2, 1)),
       }},
-      new object[] { "none true false value\n", new[] {
+      new object[] { "none true false value if for func end\n", new[] {
         new Token(Keywords.None.TokenKind, Keywords.None.Text, new TokenPosition("", 1, 1)),
         new Token(Keywords.True.TokenKind, Keywords.True.Text, new TokenPosition("", 1, 6)),
         new Token(Keywords.False.TokenKind, Keywords.False.Text, new TokenPosition("", 1, 11)),
         new Token(TokenKind.Identifier, "value", new TokenPosition("", 1, 17)),
-        new Token(TokenKind.EndOfLine, "\n", new TokenPosition("", 1, 22)),
+        new Token(Keywords.If.TokenKind, Keywords.If.Text, new TokenPosition("", 1, 23)),
+        new Token(Keywords.For.TokenKind, Keywords.For.Text, new TokenPosition("", 1, 26)),
+        new Token(Keywords.Func.TokenKind, Keywords.Func.Text, new TokenPosition("", 1, 30)),
+        new Token(Keywords.End.TokenKind, Keywords.End.Text, new TokenPosition("", 1, 35)),
+        new Token(TokenKind.EndOfLine, "\n", new TokenPosition("", 1, 38)),
         new Token(TokenKind.EndOfFile, "", new TokenPosition("", 2, 1)),
       }},
       new object[] { string.Join("",
