@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pianoforte.Sena.Lang.Test", "Pianoforte.Sena.Lang.Test\Pianoforte.Sena.Lang.Test.csproj", "{48BEF656-98C0-418C-B61D-7CF4509BED4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pianoforte.Sena.Web", "Pianoforte.Sena.Web\Pianoforte.Sena.Web.csproj", "{FD5191D8-71DC-4820-A5F7-273790E020D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pianoforte.Sena.Web", "Pianoforte.Sena.Web\Pianoforte.Sena.Web.csproj", "{FD5191D8-71DC-4820-A5F7-273790E020D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
