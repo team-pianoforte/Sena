@@ -12,4 +12,8 @@
     <Watch Include="**\*.css" Exclude="node_modules\**\*;**\*.js.map;obj\**\*;bin\**\*" />
     <Watch Include="**\*.js" Exclude="node_modules\**\*;**\*.js.map;obj\**\*;bin\**\*" />
   </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Blazor.Extensions.XTerm" Version="0.1.0" />
+  </ItemGroup>
 </Project>
