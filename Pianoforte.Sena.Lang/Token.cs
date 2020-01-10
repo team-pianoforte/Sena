@@ -21,6 +21,12 @@ namespace Pianoforte.Sena.Lang
     End,
     Func,
 
+    And,
+    Or,
+    Not,
+    To,
+    In,
+
     OpAssignment,
     OpEqual,
     OpNotEqual,
@@ -47,7 +53,17 @@ namespace Pianoforte.Sena.Lang
       TokenKind.OpAssignment => true,
       _ => false,
     };
-    public static bool IsBinaryOp(this Token v) => v.IsTermOp() || v.IsFactorOp();
+    public static bool IsBoolBinaryOp(this Token v)
+      => v.Kind == TokenKind.And
+      || v.Kind == TokenKind.Or;
+
+    public static bool IsBinaryOp(this Token v)
+      => v.IsTermOp()
+      || v.IsFactorOp()
+      || v.IsComparesionOp()
+      || v.IsBoolBinaryOp()
+      || v.Kind == TokenKind.To;
+
     public static bool IsTermOp(this Token v) => v.Kind switch
     {
       TokenKind.OpPlus => true,
@@ -105,6 +121,11 @@ namespace Pianoforte.Sena.Lang
     public static readonly Keyword For = new Keyword("for", TokenKind.For);
     public static readonly Keyword Func = new Keyword("func", TokenKind.Func);
     public static readonly Keyword End = new Keyword("end", TokenKind.End);
+    public static readonly Keyword And = new Keyword("and", TokenKind.And);
+    public static readonly Keyword Or = new Keyword("or", TokenKind.Or);
+    public static readonly Keyword Not = new Keyword("not", TokenKind.Not);
+    public static readonly Keyword To = new Keyword("to", TokenKind.To);
+    public static readonly Keyword In = new Keyword("in", TokenKind.In);
 
     public static readonly Dictionary<string, Keyword> Map = new Dictionary<string, Keyword> {
       { None.Text, None },
@@ -114,6 +135,11 @@ namespace Pianoforte.Sena.Lang
       { For.Text, For },
       { Func.Text, Func },
       { End.Text, End },
+      { And.Text, And },
+      { Or.Text, Or },
+      { Not.Text, Not },
+      { To.Text, To },
+      { In.Text, In },
     };
   }
 
