@@ -26,7 +26,7 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
     public void TestSetItem()
     {
       var arr = new Array();
-      arr.SetItem(2, Value.MakeNumber(42)); 
+      arr.SetItem(2, Value.MakeNumber(42));
       Assert.Equal("[none, none, 42]", arr.ToString());
       arr.SetItem(0, Value.MakeBool(true));
       Assert.Equal("[true, none, 42]", arr.ToString());
