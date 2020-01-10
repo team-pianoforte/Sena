@@ -85,5 +85,23 @@ namespace Pianoforte.Sena.Lang
       var method = typeof(Runtime.Operations).GetMethod("FunctionCall");
       return Expression.Call(null, method, func, Expression.NewArrayInit(typeof(Runtime.Value), args));
     }
+
+    public static Expression InitArray(IEnumerable<Expression> items)
+    {
+      var method = typeof(Runtime.Operations).GetMethod("InitArray");
+      return Expression.Call(null, method, Expression.NewArrayInit(typeof(Runtime.Value), items));
+    }
+
+    public static Expression ArrayItem(Expression arr, Expression i)
+    {
+      var method = typeof(Runtime.Operations).GetMethod("ArrayItem");
+      return Expression.Call(null, method, arr, i);
+    }
+
+    public static Expression AssignArrayItem(Expression arr, Expression i, Expression v)
+    {
+      var method = typeof(Runtime.Operations).GetMethod("SetArrayItem");
+      return Expression.Call(null, method, arr, i, v);
+    }
   }
 }

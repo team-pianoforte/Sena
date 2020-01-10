@@ -93,6 +93,11 @@ namespace Pianoforte.Sena.Lang.Runtime
 
     #endregion
 
+    public bool IsInteger
+    {
+      get => Type == ValueType.Number && decimal.Floor(Number) == Number;
+    }
+
     #region Constructors
     public Value(ValueType type) : this(type, false, 0, "", null, null, null)
     {

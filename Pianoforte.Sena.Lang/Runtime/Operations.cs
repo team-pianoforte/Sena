@@ -36,5 +36,34 @@ namespace Pianoforte.Sena.Lang.Runtime
       }
       return f.Function.Call(args);
     }
+
+    public static Value InitArray(params Value[] items)
+    {
+      return Value.MakeArray(new Array(items));
+    }
+
+    private static void AssertTypeOfArrayAndIndex(Value v, Value index)
+    {
+      if (v.Type != ValueType.Array)
+      {
+        throw new RuntimeException(Properties.Resources.NonArrayIndexAccess);
+      }
+      if (!index.IsInteger)
+      {
+        throw new RuntimeException(Properties.Resources.NonIntArrayIndex);
+      }
+    }
+
+    public static Value ArrayItem(Value v, Value index)
+    {
+      AssertTypeOfArrayAndIndex(v, index);
+      return v.Array.Item((int)index.Number);
+    }
+
+    public static void SetArrayItem(Value v, Value index, Value e)
+    {
+      AssertTypeOfArrayAndIndex(v, index);
+      v.Array.SetItem((int)index.Number, e);
+    }
   }
 }

@@ -142,11 +142,29 @@ namespace Pianoforte.Sena.Lang.Properties {
         }
         
         /// <summary>
+        ///   Index access is array only に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NonArrayIndexAccess {
+            get {
+                return ResourceManager.GetString("NonArrayIndexAccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Calli is only function に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string NonFunctionCalling {
             get {
                 return ResourceManager.GetString("NonFunctionCalling", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Index of array must be integer. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NonIntArrayIndex {
+            get {
+                return ResourceManager.GetString("NonIntArrayIndex", resourceCulture);
             }
         }
         

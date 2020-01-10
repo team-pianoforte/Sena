@@ -144,8 +144,14 @@
   <data name="NegativeLength" xml:space="preserve">
     <value>長さをマイナスにはできません</value>
   </data>
+  <data name="NonArrayIndexAccess" xml:space="preserve">
+    <value>配列以外にはインデックスでアクセスできません</value>
+  </data>
   <data name="NonFunctionCalling" xml:space="preserve">
     <value>関数以外を呼び出すことはできません</value>
+  </data>
+  <data name="NonIntArrayIndex" xml:space="preserve">
+    <value>整数以外のインデックスは使用できません</value>
   </data>
   <data name="NonObjectMemberAccess" xml:space="preserve">
     <value>オブジェクト以外のメンバアクセスはできません</value>

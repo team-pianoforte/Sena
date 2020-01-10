@@ -144,8 +144,15 @@
   <data name="NegativeLength" xml:space="preserve">
     <value>Cannot use negative value as length of array</value>
   </data>
+  <data name="NonArrayIndexAccess" xml:space="preserve">
+    <value>Index access is array only</value>
+    <comment> </comment>
+  </data>
   <data name="NonFunctionCalling" xml:space="preserve">
     <value>Calli is only function</value>
+  </data>
+  <data name="NonIntArrayIndex" xml:space="preserve">
+    <value>Index of array must be integer.</value>
   </data>
   <data name="NonObjectMemberAccess" xml:space="preserve">
     <value>Member access is allowed only objects.</value>

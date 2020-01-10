@@ -1,2 +1,2 @@
-v <- 40 + 2 + "Hello" + "World!"
+v <- [40, 41, 40 + 2][1 + 1] + "Hello" + "World!"
 Console.WriteLine(v)

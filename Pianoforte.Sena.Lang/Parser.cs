@@ -31,27 +31,81 @@ namespace Pianoforte.Sena.Lang
       return tok;
     }
 
-    private Expression ParseValue()
+    private void AssertTokenKind(TokenKind k, Token tok)
+    {
+      if (tok.Kind != k)
+      {
+        var s = Properties.Resources.InvalidToken;
+        throw new SyntaxException(tok, string.Format(s, k, tok));
+      }
+    }
+
+    private Expression ParseArray()
+    {
+      if (NextToken().Kind != TokenKind.SquareBracketLeft)
+      {
+        throw new InternalAssertionException("Invalid token");
+      }
+
+      var items = new List<Expression>();
+      if (lookahead.Head.Kind == TokenKind.ParenRight)
+      {
+        return Syntax.InitArray(items);
+      }
+
+      while (true)
+      {
+        items.Add(ParseExpr());
+
+        var tok = NextToken();
+        if (tok.Kind == TokenKind.SquareBracketRight)
+        {
+          break;
+        }
+        AssertTokenKind(TokenKind.Comma, tok);
+      }
+      return Syntax.InitArray(items);
+    }
+
+    private Expression ParseLiteral()
     {
       var tok = NextToken();
-      var expr = tok switch
+      return Syntax.Literal(tok);
+    }
+    private Expression ParseVariable()
+    {
+      var tok = NextToken();
+      return Syntax.Variable(tok.Text);
+    }
+    private Expression ParseValue()
+    {
+      var expr = lookahead.Head switch
       {
-        var c when c.IsLiteral() => Syntax.Literal(tok),
-        var c when c.Kind == TokenKind.Identifier => Syntax.Variable(tok.Text),
-        _ => throw new SyntaxException(tok, string.Format(Properties.Resources.UnexpectedToken, tok.Kind)),
+        var c when c.IsLiteral() => ParseLiteral(),
+        var c when c.Kind == TokenKind.Identifier => ParseVariable(),
+        var c when c.Kind == TokenKind.SquareBracketLeft => ParseArray(),
+        _ => throw new SyntaxException(lookahead.Head, string.Format(Properties.Resources.UnexpectedToken, lookahead.Head.Kind)),
       };
 
-      while (lookahead.Head.Kind == TokenKind.Dot || lookahead.Head.Kind == TokenKind.ParenLeft)
+      var loop = true;
+      while (loop)
       {
-        if (lookahead.Head.Kind == TokenKind.Dot)
+        switch (lookahead.Head.Kind)
         {
-          NextToken();
-          var nameTok = NextToken();
-          expr = Syntax.MemberAccess(expr, nameTok.Text);
-        }
-        else if (lookahead.Head.Kind == TokenKind.ParenLeft)
-        {
-          expr = ParseFunctionCall(expr);
+          case TokenKind.Dot:
+            NextToken();
+            var nameTok = NextToken();
+            expr = Syntax.MemberAccess(expr, nameTok.Text);
+            break;
+          case TokenKind.ParenLeft:
+            expr = ParseFunctionCall(expr);
+            break;
+          case TokenKind.SquareBracketLeft:
+            expr = Syntax.ArrayItem(expr, ParseArrayIndex());
+            break;
+          default:
+            loop = false;
+            break;
         }
       }
       return expr;
@@ -101,12 +155,22 @@ namespace Pianoforte.Sena.Lang
         args = args.Append(ParseExpr());
       }
       var rightParen = NextToken();
-      if (rightParen.Kind != TokenKind.ParenRight)
-      {
-        throw new SyntaxException(rightParen,
-          string.Format(Properties.Resources.InvalidToken, TokenKind.ParenRight, rightParen.Kind));
-      }
+      AssertTokenKind(TokenKind.ParenRight, rightParen);
       return Syntax.FunctionCall(func, args.ToArray());
+    }
+
+
+
+    private Expression ParseArrayIndex()
+    {
+      var tok = NextToken();
+      AssertTokenKind(TokenKind.SquareBracketLeft, tok);
+
+      var v = ParseExpr();
+
+      tok = NextToken();
+      AssertTokenKind(TokenKind.SquareBracketRight, tok);
+      return v;
     }
 
     private Expression ParseLine()
