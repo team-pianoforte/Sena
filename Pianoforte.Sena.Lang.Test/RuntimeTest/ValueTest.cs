@@ -15,27 +15,27 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
     {
       var v = Value.MakeBool(true);
       Assert.True(v.Bool);
-      Assert.Equal(Value.TrueStr, v.ToString());
+      Assert.Equal(Keywords.True.Text, v.ToString());
       Assert.Equal(v, v.ConvertType(ValueType.Bool));
       Assert.Equal(ValueType.None, v.ConvertType(ValueType.None).Type);
-      Assert.Equal(Value.MakeString(Value.TrueStr).String, v.ConvertType(ValueType.String).String);
+      Assert.Equal(Value.MakeString(Keywords.True.Text).String, v.ConvertType(ValueType.String).String);
       Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Number));
       Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Object));
       Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Function));
 
-      Assert.True(Value.MakeString(Value.TrueStr).ConvertType(ValueType.Bool).Bool);
+      Assert.True(Value.MakeString(Keywords.True.Text).ConvertType(ValueType.Bool).Bool);
 
       v = Value.MakeBool(false);
-      Assert.Equal(Value.FalseStr, v.ToString());
+      Assert.Equal(Keywords.False.Text, v.ToString());
 
       Assert.Equal(ValueType.None, v.ConvertType(ValueType.None).Type);
       Assert.Equal(v, v.ConvertType(ValueType.Bool));
       Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Number));
-      Assert.Equal(Value.MakeString(Value.FalseStr).String, v.ConvertType(ValueType.String).String);
+      Assert.Equal(Value.MakeString(Keywords.False.Text).String, v.ConvertType(ValueType.String).String);
       Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Object));
       Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Function));
 
-      Assert.False(Value.MakeString(Value.FalseStr).ConvertType(ValueType.Bool).Bool);
+      Assert.False(Value.MakeString(Keywords.False.Text).ConvertType(ValueType.Bool).Bool);
 
       Assert.Throws<InternalAssertionException>(() => v.Number);
       Assert.Throws<InternalAssertionException>(() => v.String);

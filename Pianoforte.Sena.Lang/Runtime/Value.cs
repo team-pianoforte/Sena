@@ -19,9 +19,6 @@ namespace Pianoforte.Sena.Lang.Runtime
 
   public readonly struct Value
   {
-    public const string NoneStr = "None";
-    public const string TrueStr = "True";
-    public const string FalseStr = "False";
     public ValueType Type { get; }
 
     private void AssertType(ValueType t)
@@ -155,8 +152,8 @@ namespace Pianoforte.Sena.Lang.Runtime
 
     public override string ToString() => Type switch
     {
-      ValueType.None => NoneStr,
-      ValueType.Bool => Bool ? TrueStr : FalseStr,
+      ValueType.None => Keywords.None.Text,
+      ValueType.Bool => Bool ? Keywords.True.Text : Keywords.False.Text,
       ValueType.Number => Number.ToString(),
       ValueType.String => String,
       ValueType.Object => Object.ToString(),
@@ -174,9 +171,9 @@ namespace Pianoforte.Sena.Lang.Runtime
       {
         return MakeNone();
       }
-      else if (type == ValueType.Bool && (s == TrueStr || s == FalseStr))
+      else if (type == ValueType.Bool && (s == Keywords.True.Text || s == Keywords.False.Text))
       {
-        return MakeBool(s == TrueStr);
+        return MakeBool(s == Keywords.True.Text);
       }
       else if (type == ValueType.Number)
       {
