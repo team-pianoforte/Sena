@@ -120,6 +120,9 @@
   <data name="CannotConvertType" xml:space="preserve">
     <value>{0} を {1} に変換できません</value>
   </data>
+  <data name="IndexOutOfRange" xml:space="preserve">
+    <value>{0} 番目は配列の範囲外です</value>
+  </data>
   <data name="InvalidAddition" xml:space="preserve">
     <value>{0} と {1} を足すことはできません</value>
   </data>
@@ -137,6 +140,9 @@
   </data>
   <data name="InvallidEscapeSequence" xml:space="preserve">
     <value>無効なエスケープシーケンスです。</value>
+  </data>
+  <data name="NegativeLength" xml:space="preserve">
+    <value>長さをマイナスにはできません</value>
   </data>
   <data name="NonFunctionCalling" xml:space="preserve">
     <value>関数以外を呼び出すことはできません</value>

@@ -70,6 +70,15 @@ namespace Pianoforte.Sena.Lang.Properties {
         }
         
         /// <summary>
+        ///   Index, {0}, is out of array range に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string IndexOutOfRange {
+            get {
+                return ResourceManager.GetString("IndexOutOfRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cannot add {0} and {1} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string InvalidAddition {
@@ -120,6 +129,15 @@ namespace Pianoforte.Sena.Lang.Properties {
         public static string InvalidToken {
             get {
                 return ResourceManager.GetString("InvalidToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cannot use negative value as length of array に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NegativeLength {
+            get {
+                return ResourceManager.GetString("NegativeLength", resourceCulture);
             }
         }
         

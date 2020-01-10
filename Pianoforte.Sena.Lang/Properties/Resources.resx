@@ -120,6 +120,9 @@
   <data name="CannotConvertType" xml:space="preserve">
     <value>Cannot conevrt {0} to {1}</value>
   </data>
+  <data name="IndexOutOfRange" xml:space="preserve">
+    <value>Index, {0}, is out of array range</value>
+  </data>
   <data name="InvalidAddition" xml:space="preserve">
     <value>Cannot add {0} and {1}</value>
   </data>
@@ -137,6 +140,9 @@
   </data>
   <data name="InvalidToken" xml:space="preserve">
     <value>{0} is required but found {1}</value>
+  </data>
+  <data name="NegativeLength" xml:space="preserve">
+    <value>Cannot use negative value as length of array</value>
   </data>
   <data name="NonFunctionCalling" xml:space="preserve">
     <value>Calli is only function</value>
