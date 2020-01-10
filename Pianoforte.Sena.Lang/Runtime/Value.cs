@@ -14,6 +14,7 @@ namespace Pianoforte.Sena.Lang.Runtime
     Number,
     String,
     Object,
+    Array,
     Function,
   }
 
@@ -71,6 +72,15 @@ namespace Pianoforte.Sena.Lang.Runtime
       }
     }
 
+    private readonly Array _array;
+    public Array Array
+    {
+      get
+      {
+        AssertType(ValueType.Array);
+        return _array;
+      }
+    }
     private readonly Function _function;
     public Function Function
     {
@@ -84,17 +94,18 @@ namespace Pianoforte.Sena.Lang.Runtime
     #endregion
 
     #region Constructors
-    public Value(ValueType type) : this(type, false, 0, "", null, null)
+    public Value(ValueType type) : this(type, false, 0, "", null, null, null)
     {
     }
 
-    public Value(ValueType type, bool b, decimal num, string str, Object obj, Function func)
+    public Value(ValueType type, bool b, decimal num, string str, Object obj, Array arr, Function func)
     {
       Type = type;
       _bool = b;
       _number = num;
       _string = str;
       _object = obj;
+      _array = arr;
       _function = func;
     }
     #endregion
@@ -125,26 +136,31 @@ namespace Pianoforte.Sena.Lang.Runtime
 
     public static Value MakeBool(bool v)
     {
-      return new Value(ValueType.Bool, v, 0, "", null, null);
+      return new Value(ValueType.Bool, v, 0, "", null, null, null);
     }
 
     public static Value MakeNumber(decimal v)
     {
-      return new Value(ValueType.Number, false, v, "", null, null);
+      return new Value(ValueType.Number, false, v, "", null, null, null);
     }
 
     public static Value MakeString(string v)
     {
-      return new Value(ValueType.String, false, 0, v, null, null);
+      return new Value(ValueType.String, false, 0, v, null, null, null);
     }
 
     public static Value MakeObject(Object v)
     {
-      return new Value(ValueType.Object, false, 0, "", v, null);
+      return new Value(ValueType.Object, false, 0, "", v, null, null);
     }
+    public static Value MakeArray(Array v)
+    {
+      return new Value(ValueType.Array, false, 0, "", null, v, null);
+    }
+
     public static Value MakeFunction(Function v)
     {
-      return new Value(ValueType.Function, false, 0, "", null, v);
+      return new Value(ValueType.Function, false, 0, "", null, null, v);
     }
     #endregion
 
@@ -157,6 +173,7 @@ namespace Pianoforte.Sena.Lang.Runtime
       ValueType.Number => Number.ToString(),
       ValueType.String => String,
       ValueType.Object => Object.ToString(),
+      ValueType.Array => Array.ToString(),
       ValueType.Function => Function.ToString(),
     };
 

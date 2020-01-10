@@ -20,6 +20,7 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
       Assert.Equal(ValueType.None, v.ConvertType(ValueType.None).Type);
       Assert.Equal(Value.MakeString(Keywords.True.Text).String, v.ConvertType(ValueType.String).String);
       Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Number));
+      Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Array));
       Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Object));
       Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Function));
 
@@ -32,6 +33,7 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
       Assert.Equal(v, v.ConvertType(ValueType.Bool));
       Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Number));
       Assert.Equal(Value.MakeString(Keywords.False.Text).String, v.ConvertType(ValueType.String).String);
+      Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Array));
       Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Object));
       Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Function));
 
@@ -39,6 +41,7 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
 
       Assert.Throws<InternalAssertionException>(() => v.Number);
       Assert.Throws<InternalAssertionException>(() => v.String);
+      Assert.Throws<InternalAssertionException>(() => v.Array);
       Assert.Throws<InternalAssertionException>(() => v.Object);
       Assert.Throws<InternalAssertionException>(() => v.Function);
     }
@@ -54,6 +57,7 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
       Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Bool));
       Assert.Equal(v, v.ConvertType(ValueType.Number));
       Assert.Equal(Value.MakeString("4.2").String, v.ConvertType(ValueType.String).String);
+      Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Array));
       Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Object));
       Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Function));
 
@@ -61,6 +65,9 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
 
       Assert.Throws<InternalAssertionException>(() => v.Bool);
       Assert.Throws<InternalAssertionException>(() => v.String);
+      Assert.Throws<InternalAssertionException>(() => v.Array);
+      Assert.Throws<InternalAssertionException>(() => v.Object);
+      Assert.Throws<InternalAssertionException>(() => v.Function);
     }
     [Fact]
     public void TestString()
@@ -73,11 +80,15 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
       Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Bool));
       Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Number));
       Assert.Equal(v, v.ConvertType(ValueType.String));
+      Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Array));
       Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Object));
       Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Function));
 
       Assert.Throws<InternalAssertionException>(() => v.Bool);
       Assert.Throws<InternalAssertionException>(() => v.Number);
+      Assert.Throws<InternalAssertionException>(() => v.Array);
+      Assert.Throws<InternalAssertionException>(() => v.Object);
+      Assert.Throws<InternalAssertionException>(() => v.Function);
     }
 
     [Fact]
@@ -91,6 +102,7 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
       Assert.Throws<InternalAssertionException>(() => v.Bool);
       Assert.Throws<InternalAssertionException>(() => v.Number);
       Assert.Throws<InternalAssertionException>(() => v.String);
+      Assert.Throws<InternalAssertionException>(() => v.Array);
       Assert.Equal(obj, v.Object);
       Assert.Throws<InternalAssertionException>(() => v.Function);
 
@@ -98,9 +110,35 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
       Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Bool));
       Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Number));
       Assert.Equal(v.ToString(), v.ConvertType(ValueType.String).String);
+      Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Array));
       Assert.Equal(v, v.ConvertType(ValueType.Object));
       Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Function));
     }
+
+    [Fact]
+    public void TestArray()
+    {
+      var arr = new Array(2);
+      var v = Value.MakeArray(arr);
+      Assert.Equal("[none, none]", v.ToString());
+
+
+      Assert.Throws<InternalAssertionException>(() => v.Bool);
+      Assert.Throws<InternalAssertionException>(() => v.Number);
+      Assert.Throws<InternalAssertionException>(() => v.String);
+      Assert.Equal(arr, v.Array);
+      Assert.Throws<InternalAssertionException>(() => v.Object);
+      Assert.Throws<InternalAssertionException>(() => v.Function);
+
+      Assert.Equal(ValueType.None, v.ConvertType(ValueType.None).Type);
+      Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Bool));
+      Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Number));
+      Assert.Equal(v.ToString(), v.ConvertType(ValueType.String).String);
+      Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Object));
+      Assert.Equal(v, v.ConvertType(ValueType.Array));
+      Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Function));
+    }
+
 
     [Fact]
     public void TestFunction()
@@ -114,6 +152,7 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
       Assert.Throws<InternalAssertionException>(() => v.Bool);
       Assert.Throws<InternalAssertionException>(() => v.Number);
       Assert.Throws<InternalAssertionException>(() => v.String);
+      Assert.Throws<InternalAssertionException>(() => v.Array);
       Assert.Throws<InternalAssertionException>(() => v.Object);
       Assert.Equal(f, v.Function);
 
@@ -121,6 +160,7 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
       Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Bool));
       Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Number));
       Assert.Equal(v.ToString(), v.ConvertType(ValueType.String).String);
+      Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Array));
       Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Object));
       Assert.Equal(v, v.ConvertType(ValueType.Function));
     }
