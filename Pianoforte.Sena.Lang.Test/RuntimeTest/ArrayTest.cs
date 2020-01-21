@@ -68,5 +68,24 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
       Assert.Throws<RuntimeException>(() => arr.SetItem(-1, Value.MakeNone()));
       Assert.Throws<RuntimeException>(() => arr.Item(-1));
     }
+
+    [Fact]
+    public void TestCompare()
+    {
+      var (a, b, c) = (
+        new Array(new[] { Value.MakeNone() }),
+        new Array(new[] { Value.MakeNone() }),
+        new Array(new Array(new[] { Value.MakeNumber(1), Value.MakeString("b") })));
+
+      Assert.True(a == b);
+      Assert.True(a.Equals(b));
+      Assert.Equal(b, a);
+      Assert.False(a != b);
+
+      Assert.False(a == c);
+      Assert.False(a.Equals(c));
+      Assert.NotEqual(c, a);
+      Assert.True(a != c);
+    }
   }
 }

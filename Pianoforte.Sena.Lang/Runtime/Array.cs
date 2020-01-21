@@ -83,6 +83,10 @@ namespace Pianoforte.Sena.Lang.Runtime
       return values[i];
     }
 
+    public Array Concat(Array v)
+      => new Array(Enumerable.Concat(this, v));
+    
+
     public IEnumerator<Value> GetEnumerator()
     {
       return values.GetEnumerator();
@@ -92,5 +96,23 @@ namespace Pianoforte.Sena.Lang.Runtime
     {
       return values.GetEnumerator();
     }
+
+    public override bool Equals(object obj)
+    {
+      return obj is Array array &&
+             Length == array.Length &&
+             Enumerable.All(Enumerable.Zip(values, array, (a, b) => (a, b)), (v) => v.a == v.b);
+    }
+
+    public static bool operator ==(Array lhs, Array rhs)
+    {
+      return lhs.Equals(rhs);
+    }
+
+    public static bool operator !=(Array lhs, Array rhs)
+    {
+      return !(lhs == rhs);
+    }
+
   }
 }
