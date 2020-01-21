@@ -134,6 +134,19 @@ namespace Pianoforte.Sena.Lang.Runtime
     #endregion
 
     #region MakeXXX
+    
+    public static Value MakeDefault(ValueType type)
+    {
+      return type switch
+      {
+        ValueType.None => MakeNone(),
+        ValueType.Bool => MakeBool(false),
+        ValueType.Number => MakeNumber(0),
+        ValueType.String => MakeString(""),
+        _ => throw new InternalAssertionException(string.Format("Cannot generate default of {0}", type)),
+      };
+    }
+
     public static Value MakeNone()
     {
       return new Value(ValueType.None);
