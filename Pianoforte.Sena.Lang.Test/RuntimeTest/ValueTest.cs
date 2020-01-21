@@ -9,6 +9,26 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
 {
   public class ValueTest
   {
+    [Fact]
+    public void TestEqual()
+    {
+      Assert.False(Value.MakeNone() != Value.MakeNone());
+      Assert.True(Value.MakeNone() != Value.MakeNumber(0));
+
+      var (obj, f) = (new Object("name"), new Function(null));
+
+      Assert.True(Value.MakeNone() == Value.MakeNone());
+      Assert.True(Value.MakeNumber(1) == Value.MakeNumber(1));
+      Assert.True(Value.MakeString("a") == Value.MakeString("a"));
+      Assert.True(
+        Value.MakeArray(new Array(new[] { Value.MakeNone() })) ==
+        Value.MakeArray(new Array(new[] { Value.MakeNone() }))
+      );
+      Assert.True(Value.MakeObject(obj) == Value.MakeObject(obj));
+      Assert.True(Value.MakeFunction(f) == Value.MakeFunction(f));
+
+    }
+
 
     [Fact]
     public void TestBool()

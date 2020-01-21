@@ -18,7 +18,7 @@ namespace Pianoforte.Sena.Lang.Runtime
     Function,
   }
 
-  public readonly struct Value
+  public readonly struct Value : IEquatable<Value>
   {
     public ValueType Type { get; }
 
@@ -223,8 +223,44 @@ namespace Pianoforte.Sena.Lang.Runtime
       }
       throw new RuntimeException(string.Format(Properties.Resources.CannotConvertType, s, type));
     }
-
     #endregion
 
+    #region Equals
+    public override bool Equals(object obj)
+    {
+      return obj is Value value && Equals(value);
+    }
+
+    public bool Equals(Value other)
+    {
+      if (Type != other.Type)
+      {
+        return false;
+      }
+      return Type switch
+      {
+        ValueType.None => true,
+        ValueType.Bool => Bool == other.Bool,
+        ValueType.Number => Number == other.Number,
+        ValueType.String => String == other.String,
+        ValueType.Array => Array == other.Array,
+        ValueType.Object =>
+             EqualityComparer<Object>.Default.Equals(Object, other.Object),
+        ValueType.Function =>
+             EqualityComparer<Function>.Default.Equals(Function, other.Function),
+      };
+    }
+
+    public static bool operator ==(Value lhs, Value rhs)
+    {
+      return lhs.Equals(rhs);
+    }
+
+    public static bool operator !=(Value lhs, Value rhs)
+    {
+      return !(lhs == rhs);
+    }
+
+    #endregion
   }
 }
