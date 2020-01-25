@@ -24,6 +24,15 @@ namespace Pianoforte.Sena.Lang.Runtime
       throw new RuntimeException(string.Format(Properties.Resources.InvalidAddition, lhs, rhs));
     }
 
+    public static Value Subtract(Value lhs, Value rhs)
+    {
+      if (lhs.Type == ValueType.Number && rhs.Type == ValueType.Number)
+      {
+        return Value.MakeNumber(lhs.Number - rhs.Number);
+      }
+      throw new RuntimeException(string.Format(Properties.Resources.InvalidSubtraction, lhs, rhs));
+    }
+
     public static Value Length(Value v)
       => Value.MakeNumber(
         v.Type switch

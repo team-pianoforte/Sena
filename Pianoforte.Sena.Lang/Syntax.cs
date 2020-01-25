@@ -28,6 +28,7 @@ namespace Pianoforte.Sena.Lang
       var method = op.Kind switch
       {
         TokenKind.OpPlus => "Add",
+        TokenKind.OpMinus => "Subtract",
         _ => throw new InternalAssertionException("Binary operator is required"),
 
       };

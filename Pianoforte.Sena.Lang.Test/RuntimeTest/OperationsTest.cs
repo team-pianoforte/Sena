@@ -33,6 +33,25 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
       Assert.Throws<RuntimeException>(() => Operations.Add(Value.MakeNone(), Value.MakeNumber(0)));
     }
 
+    public static object[][] subtractionData = {
+      new object[] { Value.MakeNumber(1), Value.MakeNumber(2), Value.MakeNumber(1) },
+      new object[] { Value.MakeNumber(-1), Value.MakeNumber(1), Value.MakeNumber(2) },
+    };
+
+    [Theory]
+    [MemberData(nameof(subtractionData))]
+    public void TestSubtract(Value expected, Value lhs, Value rhs)
+    {
+      Assert.Equal(expected, Operations.Subtract(lhs, rhs));
+    }
+
+    [Fact]
+    public void TestInvalidSubtract()
+    {
+      Assert.Throws<RuntimeException>(() =>
+        Operations.Subtract(Value.MakeString(""), Value.MakeString("")));
+    }
+
     [Fact]
     public void TestLength()
     {
