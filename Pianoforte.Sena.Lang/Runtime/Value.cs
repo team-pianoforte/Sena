@@ -139,7 +139,7 @@ namespace Pianoforte.Sena.Lang.Runtime
     #endregion
 
     #region MakeXXX
-    
+
     public static Value MakeDefault(ValueType type)
     {
       return type switch

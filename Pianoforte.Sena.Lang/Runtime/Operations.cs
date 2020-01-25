@@ -96,8 +96,8 @@ namespace Pianoforte.Sena.Lang.Runtime
       {
         ValueType.String => Value.MakeString(v.String.Substring(i, Math.Max(0, j - i))),
         ValueType.Array => Value.MakeArray(v.Array.Span(i, j)),
-      _ => throw new RuntimeException(string.Format(Properties.Resources.InvalidSlice, v)),
-    };
+        _ => throw new RuntimeException(string.Format(Properties.Resources.InvalidSlice, v)),
+      };
     }
     public static Value Repeat(Value v, Value n)
     {
