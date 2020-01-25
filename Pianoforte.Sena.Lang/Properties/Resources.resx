@@ -120,6 +120,9 @@
   <data name="CannotConvertType" xml:space="preserve">
     <value>Cannot conevrt {0} to {1}</value>
   </data>
+  <data name="DevideByZero" xml:space="preserve">
+    <value>Cannot devide by zero</value>
+  </data>
   <data name="IndexOutOfRange" xml:space="preserve">
     <value>Index, {0}, is out of array range</value>
   </data>

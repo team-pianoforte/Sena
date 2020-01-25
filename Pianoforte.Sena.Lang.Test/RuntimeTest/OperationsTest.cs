@@ -52,6 +52,57 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
         Operations.Subtract(Value.MakeString(""), Value.MakeString("")));
     }
 
+    public static object[][] multiplicationData = {
+      new object[] { Value.MakeNumber(6), Value.MakeNumber(2), Value.MakeNumber(3) },
+      new object[] { Value.MakeNumber(0), Value.MakeNumber(9), Value.MakeNumber(0) },
+      new object[] { Value.MakeNumber(1), Value.MakeNumber(-1), Value.MakeNumber(-1) },
+    };
+
+    [Theory]
+    [MemberData(nameof(multiplicationData))]
+    public void TestMultiple(Value expected, Value lhs, Value rhs)
+    {
+      Assert.Equal(expected, Operations.Multiple(lhs, rhs));
+    }
+
+    [Fact]
+    public void TestInvalidMultiple()
+    {
+      Assert.Throws<RuntimeException>(() =>
+        Operations.Multiple(Value.MakeNumber(1), Value.MakeString("")));
+      Assert.Throws<RuntimeException>(() =>
+        Operations.Multiple(Value.MakeNone(), Value.MakeNumber(1)));
+    }
+
+    public static object[][] divisionData = {
+      new object[] { Value.MakeNumber(2), Value.MakeNumber(6), Value.MakeNumber(3) },
+      new object[] { Value.MakeNumber(0), Value.MakeNumber(0), Value.MakeNumber(9) },
+      new object[] { Value.MakeNumber(1), Value.MakeNumber(-1), Value.MakeNumber(-1) },
+    };
+
+    [Theory]
+    [MemberData(nameof(divisionData))]
+    public void TestDevide(Value expected, Value lhs, Value rhs)
+    {
+      Assert.Equal(expected, Operations.Devide(lhs, rhs));
+    }
+
+    [Fact]
+    public void TestInvalidDivision()
+    {
+      Assert.Throws<RuntimeException>(() =>
+        Operations.Devide(Value.MakeNumber(1), Value.MakeString("")));
+      Assert.Throws<RuntimeException>(() =>
+        Operations.Devide(Value.MakeNone(), Value.MakeNumber(1)));
+    }
+
+    [Fact]
+    public void TestDevideByZero()
+    {
+      var zero = Value.MakeNumber(0);
+      Assert.Throws<RuntimeException>(() => Operations.Devide(zero, zero));
+    }
+
     [Fact]
     public void TestLength()
     {

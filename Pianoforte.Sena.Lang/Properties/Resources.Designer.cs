@@ -70,6 +70,15 @@ namespace Pianoforte.Sena.Lang.Properties {
         }
         
         /// <summary>
+        ///   Cannot devide by zero に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DevideByZero {
+            get {
+                return ResourceManager.GetString("DevideByZero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Index, {0}, is out of array range に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string IndexOutOfRange {

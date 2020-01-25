@@ -33,6 +33,35 @@ namespace Pianoforte.Sena.Lang.Runtime
       throw new RuntimeException(string.Format(Properties.Resources.InvalidSubtraction, lhs, rhs));
     }
 
+    public static Value Multiple(Value lhs, Value rhs)
+    {
+      if (rhs.Type == ValueType.Number)
+      {
+        switch (lhs.Type)
+        {
+          case ValueType.Number:
+            return Value.MakeNumber(lhs.Number * rhs.Number);
+        }
+      }
+      throw new RuntimeException(string.Format(Properties.Resources.InvalidMultiplication, lhs, rhs));
+    }
+    public static Value Devide(Value lhs, Value rhs)
+    {
+      if (rhs.Type == ValueType.Number)
+      {
+        if (rhs.Number == 0)
+        {
+          throw new RuntimeException(Properties.Resources.DevideByZero);
+        }
+        switch (lhs.Type)
+        {
+          case ValueType.Number:
+            return Value.MakeNumber(lhs.Number / rhs.Number);
+        }
+      }
+      throw new RuntimeException(string.Format(Properties.Resources.InvalidDivision, lhs, rhs));
+    }
+
     public static Value Length(Value v)
       => Value.MakeNumber(
         v.Type switch
