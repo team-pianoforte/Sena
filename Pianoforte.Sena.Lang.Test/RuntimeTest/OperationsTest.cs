@@ -11,16 +11,13 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
       new object[] { Value.MakeNumber(2), Value.MakeNumber(1), Value.MakeNumber(1) },
       new object[] { Value.MakeString("ab"), Value.MakeString("a"), Value.MakeString("b") },
       new object[] { Value.MakeString("1b"), Value.MakeNumber(1), Value.MakeString("b") },
+      new object[] { Value.MakeString("noneb"), Value.MakeNone(), Value.MakeString("b") },
+      new object[] { Value.MakeString("boolb"), Value.MakeBool(true), Value.MakeString("b") },
       new object[] {
         Value.MakeArray(new Array(new[] { Value.MakeNumber(0), Value.MakeString("a"), Value.MakeNone() })),
         Value.MakeArray(new Array(new[] { Value.MakeNumber(0), Value.MakeString("a") })),
         Value.MakeArray(new Array(new[] { Value.MakeNone() } )),
       }
-    };
-
-    public static object[][] invalidAdditionData = {
-      new object[] { Value.MakeNone(), Value.MakeNone() },
-      new object[] { Value.MakeNumber(1), Value.MakeNone() },
     };
 
     [Theory]
@@ -30,11 +27,10 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
       Assert.Equal(expected, Operations.Add(lhs, rhs));
     }
 
-    [Theory]
-    [MemberData(nameof(invalidAdditionData))]
-    public void TestInvalidAdd(Value lhs, Value rhs)
+    [Fact]
+    public void TestInvalidAdd()
     {
-      Assert.Throws<RuntimeException>(() => Operations.Add(lhs, rhs));
+      Assert.Throws<RuntimeException>(() => Operations.Add(Value.MakeNone(), Value.MakeNumber(0)));
     }
 
     [Fact]
