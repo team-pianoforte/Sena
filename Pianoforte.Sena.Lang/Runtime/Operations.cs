@@ -99,6 +99,38 @@ namespace Pianoforte.Sena.Lang.Runtime
       _ => throw new RuntimeException(string.Format(Properties.Resources.InvalidSlice, v)),
     };
     }
+    public static Value Repeat(Value v, Value n)
+    {
+      if (!(v.Type == ValueType.String || v.Type == ValueType.Array))
+      {
+        throw new RuntimeException(string.Format(Properties.Resources.InvalidRepeat, v));
+      }
+      if (n.Type != ValueType.Number)
+      {
+        throw new RuntimeException(Properties.Resources.RepeatByNonNunmber);
+      }
+      if (n.Number == 0)
+      {
+        return v.Type == ValueType.String ? Value.MakeString("") : Value.MakeArray(new Array());
+      }
+      if (n.Number < 0)
+      {
+        return Repeat(Reverse(v), Value.MakeNumber(-n.Number));
+      }
+
+      var res = Enumerable.Range(0, (n.Integer) - 1).Aggregate(v, (sum, x) => Add(sum, v));
+      if (!n.IsInteger)
+      {
+        res = Add(
+          res,
+          Slice(
+            v,
+            Value.MakeNumber(0),
+            Multiple(Length(v), Subtract(n, Value.MakeNumber(n.Integer))))
+          );
+      }
+      return res;
+    }
 
     public static Value Reverse(Value v)
     {

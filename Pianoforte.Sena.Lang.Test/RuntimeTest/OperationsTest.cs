@@ -177,5 +177,29 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
       Assert.Equal(v1, Operations.Reverse(Operations.Reverse(v1)));
     }
 
+    [Fact]
+    public void TestRepeatByNonNumber()
+    {
+      Assert.Throws<RuntimeException>(() => Operations.Repeat(Value.MakeNone(), Value.MakeNone()));
+      Assert.Throws<RuntimeException>(() => Operations.Repeat(Value.MakeNone(), Value.MakeString("")));
+    }
+
+    [Fact]
+    public void TestRepeatByInteger()
+    {
+      var n = Value.MakeNumber(3);
+      Assert.Equal(Value.MakeString("aaa"), Operations.Repeat(Value.MakeString("b"), n));
+    }
+
+    [Theory]
+    [InlineData(1, "a", "a")]
+    [InlineData(1.3, "a", "a")]
+    [InlineData(2.9, "a", "aa")]
+    [InlineData(3.0, "a", "aaa")]
+    public void TestRepeatByDecimal(decimal n, string s, string expected)
+    {
+      var vn = Value.MakeNumber(n);
+      Assert.Equal(Value.MakeString(expected), Operations.Repeat(Value.MakeString(s), vn));
+    }
   }
 }
