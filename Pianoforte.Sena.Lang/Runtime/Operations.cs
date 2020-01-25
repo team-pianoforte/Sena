@@ -16,6 +16,10 @@ namespace Pianoforte.Sena.Lang.Runtime
       {
         return Value.MakeNumber(lhs.Number + rhs.Number);
       }
+      if (lhs.Type == ValueType.Array && rhs.Type == ValueType.Array)
+      {
+        return Value.MakeArray(lhs.Array.Concat(rhs.Array));
+      }
       throw new RuntimeException(string.Format(Properties.Resources.InvalidAddition, lhs, rhs));
     }
 
