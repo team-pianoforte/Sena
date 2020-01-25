@@ -12,7 +12,7 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
       new object[] { Value.MakeString("ab"), Value.MakeString("a"), Value.MakeString("b") },
       new object[] { Value.MakeString("1b"), Value.MakeNumber(1), Value.MakeString("b") },
       new object[] { Value.MakeString("noneb"), Value.MakeNone(), Value.MakeString("b") },
-      new object[] { Value.MakeString("boolb"), Value.MakeBool(true), Value.MakeString("b") },
+      new object[] { Value.MakeString("trueb"), Value.MakeBool(true), Value.MakeString("b") },
       new object[] {
         Value.MakeArray(new Array(new[] { Value.MakeNumber(0), Value.MakeString("a"), Value.MakeNone() })),
         Value.MakeArray(new Array(new[] { Value.MakeNumber(0), Value.MakeString("a") })),
