@@ -37,5 +37,16 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
     {
       Assert.Throws<RuntimeException>(() => Operations.Add(lhs, rhs));
     }
+
+    [Fact]
+    public void TestLength()
+    {
+      var (zero, two, none) = (Value.MakeNumber(0), Value.MakeNumber(2), Value.MakeNone());
+      Assert.Equal(zero, Operations.Length(Value.MakeString("")));
+      Assert.Equal(zero, Operations.Length(Value.MakeArray(new Array())));
+
+      Assert.Equal(two, Operations.Length(Value.MakeString("aa")));
+      Assert.Equal(two, Operations.Length(Value.MakeArray(new Array(new[] { none, none }))));
+    }
   }
 }

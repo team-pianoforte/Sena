@@ -23,6 +23,16 @@ namespace Pianoforte.Sena.Lang.Runtime
       throw new RuntimeException(string.Format(Properties.Resources.InvalidAddition, lhs, rhs));
     }
 
+    public static Value Length(Value v)
+      => Value.MakeNumber(
+        v.Type switch
+        {
+          ValueType.String => v.String.Length,
+          ValueType.Array => v.Array.Length,
+          _ => throw new RuntimeException(string.Format(Properties.Resources.InvalidLength, v)),
+        }
+      );
+
     public static Value MemberAccess(Value receiver, string name)
     {
       if (receiver.Type != ValueType.Object)
