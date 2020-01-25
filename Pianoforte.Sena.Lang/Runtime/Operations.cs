@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace Pianoforte.Sena.Lang.Runtime
 {
@@ -32,6 +33,34 @@ namespace Pianoforte.Sena.Lang.Runtime
           _ => throw new RuntimeException(string.Format(Properties.Resources.InvalidLength, v)),
         }
       );
+
+    public static Value Slice(Value v, Value start, Value end)
+    {
+      if (!(v.Type == ValueType.String || v.Type == ValueType.Array))
+      {
+      }
+      if (!(start.Type == ValueType.Number && end.Type == ValueType.Number))
+      {
+        throw new RuntimeException(Properties.Resources.SliceByNonNumber);
+      }
+
+      var i = Math.Clamp(
+        start.Integer < 0
+          ? Length(v).Integer + start.Integer
+          : start.Integer,
+        0, Length(v).Integer - 1);
+      var j = Math.Clamp(
+        end.Integer < 0
+          ? Length(v).Integer + end.Integer + 1  // End はそれ自体を含まないので、-1 のときのインデックスは Length - 1 ではなく Length になる
+          : end.Integer,
+        0, Length(v).Integer);
+      return v.Type switch
+      {
+        ValueType.String => Value.MakeString(v.String.Substring(i, Math.Max(0, j - i))),
+        ValueType.Array => Value.MakeArray(v.Array.Span(i, j)),
+      _ => throw new RuntimeException(string.Format(Properties.Resources.InvalidSlice, v)),
+    };
+    }
 
     public static Value MemberAccess(Value receiver, string name)
     {
