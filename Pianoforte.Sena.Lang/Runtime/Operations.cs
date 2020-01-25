@@ -41,6 +41,9 @@ namespace Pianoforte.Sena.Lang.Runtime
         {
           case ValueType.Number:
             return Value.MakeNumber(lhs.Number * rhs.Number);
+          case ValueType.Array:
+          case ValueType.String:
+            return Repeat(lhs, rhs);
         }
       }
       throw new RuntimeException(string.Format(Properties.Resources.InvalidMultiplication, lhs, rhs));

@@ -56,6 +56,20 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
       new object[] { Value.MakeNumber(6), Value.MakeNumber(2), Value.MakeNumber(3) },
       new object[] { Value.MakeNumber(0), Value.MakeNumber(9), Value.MakeNumber(0) },
       new object[] { Value.MakeNumber(1), Value.MakeNumber(-1), Value.MakeNumber(-1) },
+      new object[] { Value.MakeString("abab"), Value.MakeString("ab"), Value.MakeNumber(2.2m) },
+      new object[] { Value.MakeString("ba"), Value.MakeString("ab"), Value.MakeNumber(-1) },
+      new object[]
+      {
+        Value.MakeArray(new Array(new [] { Value.MakeNumber(1), Value.MakeNumber(1) })),
+        Value.MakeArray(new Array(new [] { Value.MakeNumber(1) })),
+        Value.MakeNumber(2.9m),
+      },
+      new object[]
+      {
+        Value.MakeArray(new Array(new [] { Value.MakeNumber(1), Value.MakeNumber(2) })),
+        Value.MakeArray(new Array(new [] { Value.MakeNumber(2), Value.MakeNumber(1) })),
+        Value.MakeNumber(-1),
+      },
     };
 
     [Theory]
