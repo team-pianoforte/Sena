@@ -184,22 +184,31 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
       Assert.Throws<RuntimeException>(() => Operations.Repeat(Value.MakeNone(), Value.MakeString("")));
     }
 
-    [Fact]
-    public void TestRepeatByInteger()
+    public static object[][] repeatData =
     {
-      var n = Value.MakeNumber(3);
-      Assert.Equal(Value.MakeString("aaa"), Operations.Repeat(Value.MakeString("b"), n));
-    }
+      new object[] { Value.MakeString("a"), Value.MakeString("a"), 1 },
+      new object[] { Value.MakeString("aa"), Value.MakeString("a"), 2.9 },
+      new object[] { Value.MakeString("aaa"), Value.MakeString("a"), 3.2 },
+      new object[] { Value.MakeString("baba"), Value.MakeString("ab"), -2 },
+      new object[]
+      {
+        Value.MakeArray(new Array(new [] { Value.MakeNumber(1), Value.MakeNumber(1) })),
+        Value.MakeArray(new Array(new [] { Value.MakeNumber(1) })),
+        2.3,
+      },
+      new object[]
+      {
+        Value.MakeArray(new Array(new [] { Value.MakeNumber(1), Value.MakeNumber(2) })),
+        Value.MakeArray(new Array(new [] { Value.MakeNumber(2), Value.MakeNumber(1) })),
+        -1,
+      },
+    };
 
     [Theory]
-    [InlineData(1, "a", "a")]
-    [InlineData(1.3, "a", "a")]
-    [InlineData(2.9, "a", "aa")]
-    [InlineData(3.0, "a", "aaa")]
-    public void TestRepeatByDecimal(decimal n, string s, string expected)
+    [MemberData(nameof(repeatData))]
+    public void TestRepeat(Value expected, Value v, decimal n)
     {
-      var vn = Value.MakeNumber(n);
-      Assert.Equal(Value.MakeString(expected), Operations.Repeat(Value.MakeString(s), vn));
+      Assert.Equal(expected, Operations.Repeat(v, Value.MakeNumber(n)));
     }
   }
 }
