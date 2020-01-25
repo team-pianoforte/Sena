@@ -120,6 +120,9 @@
   <data name="CannotConvertType" xml:space="preserve">
     <value>{0} を {1} に変換できません</value>
   </data>
+  <data name="CannotReverse" xml:space="preserve">
+    <value>{0} は反転できません</value>
+  </data>
   <data name="IndexOutOfRange" xml:space="preserve">
     <value>{0} 番目は配列の範囲外です</value>
   </data>
@@ -129,11 +132,29 @@
   <data name="InvalidCharacter" xml:space="preserve">
     <value>使用できない文字が含まれています</value>
   </data>
+  <data name="InvalidDivision" xml:space="preserve">
+    <value>{0} を {1} で割ることはできません</value>
+  </data>
   <data name="InvalidLeftOfAssignment" xml:space="preserve">
     <value>変数以外には代入できません</value>
   </data>
+  <data name="InvalidLength" xml:space="preserve">
+    <value>{0} の長さは取得できません</value>
+  </data>
+  <data name="InvalidMultiplication" xml:space="preserve">
+    <value>{0} と {1} は掛け算できません</value>
+  </data>
   <data name="InvalidNumberOfArgs" xml:space="preserve">
     <value>この関数には {0} 個の引数が必要ですが、{1} 個の引数が指定されています。</value>
+  </data>
+  <data name="InvalidRepeat" xml:space="preserve">
+    <value>{0} は繰り返しできません</value>
+  </data>
+  <data name="InvalidSlice" xml:space="preserve">
+    <value>{0} をスライスすることは出来ません</value>
+  </data>
+  <data name="InvalidSubtraction" xml:space="preserve">
+    <value>{0} から {1} を引くことはできません</value>
   </data>
   <data name="InvalidToken" xml:space="preserve">
     <value>{0} が必要ですが、{1} が見つかりました</value>
@@ -156,8 +177,14 @@
   <data name="NonObjectMemberAccess" xml:space="preserve">
     <value>オブジェクト以外のメンバアクセスはできません</value>
   </data>
+  <data name="RepeatByNonNunmber" xml:space="preserve">
+    <value>数値以外では繰り返しできません</value>
+  </data>
   <data name="RuntimeError" xml:space="preserve">
     <value>実行エラー: {0}</value>
+  </data>
+  <data name="SliceByNonNumber" xml:space="preserve">
+    <value>スライスの範囲は数字で指定してください</value>
   </data>
   <data name="SyntaxError" xml:space="preserve">
     <value>構文エラー {0}: {1}</value>

@@ -129,14 +129,35 @@
   <data name="InvalidCharacter" xml:space="preserve">
     <value>Invalid character '{0}'.</value>
   </data>
+  <data name="InvalidDivision" xml:space="preserve">
+    <value>Cannot devide {0} by {1}</value>
+  </data>
   <data name="InvalidEscapeSequence" xml:space="preserve">
     <value>Invalid escape sequence.</value>
   </data>
   <data name="InvalidLeftOfAssignment" xml:space="preserve">
     <value>Left of assignment must be identifier</value>
   </data>
+  <data name="InvalidLength" xml:space="preserve">
+    <value>Cannot get length of {0}</value>
+  </data>
+  <data name="InvalidMultiplication" xml:space="preserve">
+    <value>Cannot multiply {0} by {1}</value>
+  </data>
   <data name="InvalidNumberOfArgs" xml:space="preserve">
     <value>Function requires {0} args, but passed {1} args</value>
+  </data>
+  <data name="InvalidRepeat" xml:space="preserve">
+    <value>Cannot repeat {0}</value>
+  </data>
+  <data name="InvalidReverse" xml:space="preserve">
+    <value>Cannot reverse {0}</value>
+  </data>
+  <data name="InvalidSlice" xml:space="preserve">
+    <value>Cannot slice {0}</value>
+  </data>
+  <data name="InvalidSubtraction" xml:space="preserve">
+    <value>Cannot subtract {1} from {0}</value>
   </data>
   <data name="InvalidToken" xml:space="preserve">
     <value>{0} is required but found {1}</value>
@@ -146,7 +167,6 @@
   </data>
   <data name="NonArrayIndexAccess" xml:space="preserve">
     <value>Index access is array only</value>
-    <comment> </comment>
   </data>
   <data name="NonFunctionCalling" xml:space="preserve">
     <value>Calli is only function</value>
@@ -157,8 +177,14 @@
   <data name="NonObjectMemberAccess" xml:space="preserve">
     <value>Member access is allowed only objects.</value>
   </data>
+  <data name="RepeatByNonNunmber" xml:space="preserve">
+    <value>Cannot repeat by non number</value>
+  </data>
   <data name="RuntimeError" xml:space="preserve">
     <value>RuntimeError {0}</value>
+  </data>
+  <data name="SliceByNonNumber" xml:space="preserve">
+    <value>Cannot slice by non number</value>
   </data>
   <data name="SyntaxError" xml:space="preserve">
     <value>SyntaxErrror at {0}: {1}</value>

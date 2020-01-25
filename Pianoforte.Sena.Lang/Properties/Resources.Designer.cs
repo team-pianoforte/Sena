@@ -97,6 +97,15 @@ namespace Pianoforte.Sena.Lang.Properties {
         }
         
         /// <summary>
+        ///   Cannot devide {0} by {1} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InvalidDivision {
+            get {
+                return ResourceManager.GetString("InvalidDivision", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Invalid escape sequence. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string InvalidEscapeSequence {
@@ -115,11 +124,65 @@ namespace Pianoforte.Sena.Lang.Properties {
         }
         
         /// <summary>
+        ///   Cannot get length of {0} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InvalidLength {
+            get {
+                return ResourceManager.GetString("InvalidLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cannot multiply {0} by {1} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InvalidMultiplication {
+            get {
+                return ResourceManager.GetString("InvalidMultiplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Function requires {0} args, but passed {1} args に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string InvalidNumberOfArgs {
             get {
                 return ResourceManager.GetString("InvalidNumberOfArgs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cannot repeat {0} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InvalidRepeat {
+            get {
+                return ResourceManager.GetString("InvalidRepeat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cannot reverse {0} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InvalidReverse {
+            get {
+                return ResourceManager.GetString("InvalidReverse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cannot slice {0} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InvalidSlice {
+            get {
+                return ResourceManager.GetString("InvalidSlice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cannot subtract {1} from {0} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InvalidSubtraction {
+            get {
+                return ResourceManager.GetString("InvalidSubtraction", resourceCulture);
             }
         }
         
@@ -178,11 +241,29 @@ namespace Pianoforte.Sena.Lang.Properties {
         }
         
         /// <summary>
+        ///   Cannot repeat by non number に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string RepeatByNonNunmber {
+            get {
+                return ResourceManager.GetString("RepeatByNonNunmber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   RuntimeError {0} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string RuntimeError {
             get {
                 return ResourceManager.GetString("RuntimeError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cannot slice by non number に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SliceByNonNumber {
+            get {
+                return ResourceManager.GetString("SliceByNonNumber", resourceCulture);
             }
         }
         
