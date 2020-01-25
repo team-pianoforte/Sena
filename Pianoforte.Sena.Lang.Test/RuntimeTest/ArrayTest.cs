@@ -87,5 +87,26 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
       Assert.NotEqual(c, a);
       Assert.True(a != c);
     }
+
+
+    public static object[][] spanData = new[]{
+      new object[] { -1, 5, new[] { "a", "b", "c" } },
+      new object[] { 0, 3, new[] { "a", "b", "c" } },
+      new object[] { 0, 1, new[] { "a" } },
+      new object[] { 1, 0, new string[] { } },
+    };
+    [Theory]
+    [MemberData(nameof(spanData))]
+    public void TestSpan(int i, int j, string[] ss)
+    {
+      var actual = new Array(new[] {
+        Value.MakeString("a"),
+        Value.MakeString("b"),
+        Value.MakeString("c"),
+      }).Span(i, j);
+      var expected = new Array(ss.Select((s) => Value.MakeString(s)));
+      Assert.Equal(expected.Length, actual.Length);
+      Assert.Equal(expected, actual);
+    }
   }
 }

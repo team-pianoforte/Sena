@@ -85,8 +85,17 @@ namespace Pianoforte.Sena.Lang.Runtime
 
     public Array Concat(Array v)
       => new Array(Enumerable.Concat(this, v));
-    
 
+    public Array Span(int start, int end)
+    {
+      if (end <= start)
+      {
+        return new Array();
+      }
+      int i = Math.Max(0, start);
+      int count = Math.Min(Length, end) - i;
+      return new Array(values.Skip(i).Take(count));
+    }
     public IEnumerator<Value> GetEnumerator()
     {
       return values.GetEnumerator();
