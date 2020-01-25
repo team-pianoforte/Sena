@@ -8,7 +8,7 @@ namespace Pianoforte.Sena.Cli
   {
     static void Main(string[] args)
     {
-      var engine = new Sena.Lang.Engine(Lang.Runtime.Environment.Cli);
+      var engine = new Sena.Lang.Engine(Lang.Runtime.CliRuntime.Environment);
       Directory.GetCurrentDirectory();
       var filename = Path.Join("Examples", "Hello.sena");
       engine.Execute(filename);
