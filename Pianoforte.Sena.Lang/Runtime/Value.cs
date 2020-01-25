@@ -52,6 +52,11 @@ namespace Pianoforte.Sena.Lang.Runtime
       }
     }
 
+    public int Integer
+    {
+      get => decimal.ToInt32(Number);
+    }
+
     private readonly string _string;
     public string String
     {

@@ -71,6 +71,7 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
     {
       var v = Value.MakeNumber(4.2m);
       Assert.Equal(4.2m, v.Number);
+      Assert.Equal(4, v.Integer);
       Assert.Equal("4.2", v.ToString());
 
       Assert.Equal(ValueType.None, v.ConvertType(ValueType.None).Type);
