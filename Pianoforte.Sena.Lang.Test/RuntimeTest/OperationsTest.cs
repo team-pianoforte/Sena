@@ -146,5 +146,36 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
       Assert.Equal(arr13, Operations.Slice(arr, Value.MakeNumber(-2), Value.MakeNumber(-1)));
     }
 
+    public static object[][] reverseData = {
+      new object[] { Value.MakeString("a"), Value.MakeString("a") },
+      new object[] { Value.MakeString("ba"), Value.MakeString("ab") },
+      new object[] {
+        Value.MakeArray(new Array(new[] {
+          Value.MakeNone(),
+        })),
+        Value.MakeArray(new Array(new[] {
+          Value.MakeNone(),
+        })),
+      },
+      new object[] {
+        Value.MakeArray(new Array(new[] {
+          Value.MakeNumber(1), Value.MakeNumber(2)
+        })),
+        Value.MakeArray(new Array(new[] {
+          Value.MakeNumber(2), Value.MakeNumber(1)
+        })),
+      },
+    };
+
+    [Theory]
+    [MemberData(nameof(reverseData))]
+    public void TestReverse(Value v1, Value v2)
+    {
+      Assert.Equal(v2, Operations.Reverse(v1));
+      Assert.Equal(v1, Operations.Reverse(v2));
+
+      Assert.Equal(v1, Operations.Reverse(Operations.Reverse(v1)));
+    }
+
   }
 }

@@ -100,6 +100,19 @@ namespace Pianoforte.Sena.Lang.Runtime
     };
     }
 
+    public static Value Reverse(Value v)
+    {
+      return v.Type switch
+      {
+        ValueType.String
+          => Value.MakeString(string.Join("", v.String.ToCharArray().Reverse())),
+        ValueType.Array
+          => Value.MakeArray(new Array(v.Array.Reverse())),
+        _ => throw new RuntimeException(string.Format(Properties.Resources.InvalidReverse, v)),
+      };
+    }
+
+
     public static Value MemberAccess(Value receiver, string name)
     {
       if (receiver.Type != ValueType.Object)
