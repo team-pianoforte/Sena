@@ -26,7 +26,7 @@ namespace Pianoforte.Sena.Lang.Runtime
       }
     }
 
-    
+
     public static Environment Environment = new Environment(
       new Lang.Runtime.Object("Console", new Dictionary<string, Value>()
       {
