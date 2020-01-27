@@ -8,6 +8,11 @@ using System.Collections;
 
 namespace Pianoforte.Sena.Lang.Runtime
 {
+  public enum FunctionKind
+  {
+    Lambda,
+    Func,
+  }
 
   public class FunctionArgs : IEnumerable<Value>
   {
@@ -22,6 +27,8 @@ namespace Pianoforte.Sena.Lang.Runtime
     public Value[] ToArray() => values.ToArray();
     public int Count => values.Count;
 
+    public Value this[int i] => values[i];
+
     public IEnumerator<Value> GetEnumerator()
       => values.GetEnumerator();
 
@@ -31,23 +38,36 @@ namespace Pianoforte.Sena.Lang.Runtime
 
   public class Function
   {
-    public string Name { get => Lambda.Name; }
-    public ReadOnlyCollection<ParameterExpression> Args
-    {
-      get => Lambda.Parameters;
+    public FunctionKind Kind {
+      get => Lambda != null ? FunctionKind.Lambda : FunctionKind.Func;
     }
+
     public LambdaExpression Lambda { get; }
+    public Func<FunctionArgs, Value> Func { get; }
 
     Delegate compiledLamda = null;
+
+    public string Name { get; }
+    public string[] ArgNames { get; }
+    public int ArgsCount => ArgNames.Length;
 
     public Function(LambdaExpression lambda)
     {
       Lambda = lambda;
+      Name = Lambda.Name;
+      ArgNames = Lambda.Parameters.Select((p) => p.Name).ToArray();
+    }
+
+    public Function(Func<FunctionArgs, Value> func, string name, params string[] argNames)
+    {
+      Func = func;
+      Name = name;
+      ArgNames = argNames;
     }
 
     public override string ToString()
     {
-      var argsStr = string.Join(", ", Args.Select((v) => v.Name));
+      var argsStr = string.Join(", ", ArgNames);
       return string.Format("func {0}({1})", Name, argsStr);
     }
 
@@ -56,21 +76,8 @@ namespace Pianoforte.Sena.Lang.Runtime
       return compiledLamda = Lambda.Compile();
     }
 
-    public Value Call(params Value[] args)
-      => Call(new FunctionArgs(args));
-
-    public Value Call(FunctionArgs args)
+    private Value CallLambda(FunctionArgs args)
     {
-      if (args.Count != Lambda.Parameters.Count)
-      {
-        throw new RuntimeException(
-          string.Format(
-            Properties.Resources.InvalidNumberOfArgs,
-            Args.Count,
-            args.Count
-          )
-        );
-      }
       if (compiledLamda == null)
       {
         Compile();
@@ -82,14 +89,35 @@ namespace Pianoforte.Sena.Lang.Runtime
       {
         return Value.MakeNone();
       }
-      switch (obj)
+
+      return obj switch
       {
-        case Value v: return v;
-        default:
+        Value v => v,
+        _ =>
           throw new InternalAssertionException(
-   string.Format("Return value must be Runtime.Value not {0}", obj.GetType())
- );
+            string.Format("Return value must be Runtime.Value not {0}", obj.GetType())
+          ),
+      };
+    }
+    private Value CallFunc(FunctionArgs args)
+      => Func.Invoke(args);
+
+    public Value Call(params Value[] args)
+      => Call(new FunctionArgs(args));
+
+    public Value Call(FunctionArgs args)
+    {
+      if (args.Count != ArgsCount)
+      {
+        throw new RuntimeException(
+          string.Format(
+            Properties.Resources.InvalidNumberOfArgs,
+            ArgsCount,
+            args.Count
+          )
+        );
       }
+      return Kind == FunctionKind.Lambda ? CallLambda(args) : CallFunc(args);
     }
   }
 }

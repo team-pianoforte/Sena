@@ -8,35 +8,38 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
   {
     static readonly ParameterExpression xParam = Expression.Parameter(typeof(Value), "x");
 
-    static readonly LambdaExpression expr = Expression.Lambda(
-      Syntax.BinaryExpr(
-        Expression.Constant(Value.MakeNumber(1), typeof(Value)),
-        new Token(TokenKind.OpPlus, "+", new TokenPosition("", 1, 2)),
-        xParam
-      ), "f", new[] { xParam }
-    );
+    private readonly Function lambdaFunction, funcFunction;
 
+    public FunctionTest() {
+      lambdaFunction = new Function(Expression.Lambda(
+        Syntax.BinaryExpr(
+          Expression.Constant(Value.MakeNumber(1), typeof(Value)),
+          new Token(TokenKind.OpPlus, "+", new TokenPosition("", 1, 2)),
+          xParam
+        ), "f", new[] { xParam }
+      ));
+      funcFunction = new Function((args) => Operations.Add(Value.MakeNumber(1), args[0]), "f", "x");
+    }
     [Fact]
     public void TestToString()
     {
-      var f = new Function(expr);
-      Assert.Equal("func f(x)", f.ToString());
+      Assert.Equal("func f(x)", lambdaFunction.ToString());
+      Assert.Equal("func f(x)", funcFunction.ToString());
     }
 
     [Fact]
     public void TestCall()
     {
-      var f = new Function(expr);
       var x = Value.MakeNumber(10);
-      var res = f.Call(x);
-      Assert.Equal(Value.MakeNumber(11), res);
+      Assert.Equal(Value.MakeNumber(11), lambdaFunction.Call(x));
+      Assert.Equal(Value.MakeNumber(11), funcFunction.Call(x));
     }
 
     [Fact]
     public void TestCallWithInvalidNuberOfArgument()
     {
-      var f = new Function(expr);
-      Assert.Throws<RuntimeException>(() => f.Call());
+      Assert.Throws<RuntimeException>(() => lambdaFunction.Call());
+      Assert.Throws<RuntimeException>(() => funcFunction.Call());
     }
 
     [Fact]
