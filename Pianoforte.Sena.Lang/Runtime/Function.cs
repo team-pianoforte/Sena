@@ -4,9 +4,30 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Collections;
 
 namespace Pianoforte.Sena.Lang.Runtime
 {
+
+  public class FunctionArgs : IEnumerable<Value>
+  {
+    private readonly List<Value> values;
+
+    public FunctionArgs(IEnumerable<Value> v)
+    {
+      values = new List<Value>(v);
+    }
+
+    public List<Value> ToList() => values;
+    public Value[] ToArray() => values.ToArray();
+    public int Count => values.Count;
+
+    public IEnumerator<Value> GetEnumerator()
+      => values.GetEnumerator();
+
+    IEnumerator IEnumerable.GetEnumerator()
+      => values.GetEnumerator();
+  }
 
   public class Function
   {
@@ -36,14 +57,17 @@ namespace Pianoforte.Sena.Lang.Runtime
     }
 
     public Value Call(params Value[] args)
+      => Call(new FunctionArgs(args));
+
+    public Value Call(FunctionArgs args)
     {
-      if (args.Length != Lambda.Parameters.Count)
+      if (args.Count != Lambda.Parameters.Count)
       {
         throw new RuntimeException(
           string.Format(
             Properties.Resources.InvalidNumberOfArgs,
             Args.Count,
-            args.Length
+            args.Count
           )
         );
       }
