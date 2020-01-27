@@ -1,24 +1,33 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Runtime.InteropServices;
+using Pianoforte.Sena.Lang;
 
 namespace Pianoforte.Sena.Env.Desktop
 {
-  public class Game1 : Game
+  public class SenaGame : Game
   {
-    GraphicsDeviceManager graphics;
-    SpriteBatch spriteBatch;
 
-    public Game1()
+    private readonly GraphicsDeviceManager graphics;
+    private SpriteBatch spriteBatch;
+
+    private readonly Engine engine;
+    private readonly string filepath;
+
+    public SenaGame(string filepath)
     {
       graphics = new GraphicsDeviceManager(this);
       Content.RootDirectory = "Content";
       IsMouseVisible = true;
+      engine = new Engine(Lang.Runtime.DesktopRuntime.Environment);
+      this.filepath = filepath;
     }
 
     protected override void Initialize()
     {
       // TODO: Add your initialization logic here
+      engine.Execute(filepath);
       base.Initialize();
     }
 
@@ -33,6 +42,11 @@ namespace Pianoforte.Sena.Env.Desktop
     {
       if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
         Exit();
+      if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+      {
+        System.Console.WriteLine("hello");
+
+      }
 
       // TODO: Add your update logic here
 
