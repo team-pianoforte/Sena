@@ -8,30 +8,14 @@ namespace Pianoforte.Sena.Lang.Runtime
 {
   internal static class CliRuntime
   {
-    private static Function writeLine
+    internal class Console : Library.IConsole
     {
-      get
+      public void WriteLine(Value v)
       {
-        var v = Expression.Parameter(typeof(Value), "v");
-        return new Function(
-          Expression.Lambda(
-            Expression.Call(
-              typeof(Console).GetMethod("WriteLine", new Type[] { typeof(string) }),
-              Expression.Call(v, typeof(Lang.Runtime.Value).GetMethod("ToString"))
-            ),
-            "WriteLine",
-            new[] { v }
-          )
-        );
+        System.Console.WriteLine(v);
       }
     }
 
-
-    public static Environment Environment = new Environment(
-      new Lang.Runtime.Object("Console", new Dictionary<string, Value>()
-      {
-        { "WriteLine", Value.MakeFunction(writeLine) },
-      })
-    );
+    public static Environment Environment = new Environment(new Library(new Console()));
   }
 }

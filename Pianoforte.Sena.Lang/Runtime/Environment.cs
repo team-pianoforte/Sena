@@ -1,27 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Linq.Expressions;
+using System.Linq;
 
 namespace Pianoforte.Sena.Lang.Runtime
 {
   public class Environment
   {
-    public Object Console { get; }
-    public Block RootBlock
-    {
-      get
-      {
-        return new Block(null, new Dictionary<string, Value>()
-        {
-          { "Console", Value.MakeObject(Console) },
-        });
-      }
-    }
+    public Library Library { get; }
+    public Block RootBlock =>
+      new Block(null, new Dictionary<string, Value>(
+        Library.Objects.Select((obj) =>
+          new KeyValuePair<string, Value>(obj.Name, Value.MakeObject(obj)))
+        )
+      );
 
-    public Environment(Object console)
+    public Environment(Library lib)
     {
-      Console = console;
+      Library = lib;
     }
   }
 }
