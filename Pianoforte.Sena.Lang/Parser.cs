@@ -210,7 +210,7 @@ namespace Pianoforte.Sena.Lang
     public LambdaExpression Parse(Runtime.Environment env)
     {
       var lines = ParseUntilTokenKind(TokenKind.EndOfFile);
-      return Expression.Lambda(Syntax.Block(env.RootBlock, lines));
+      return Syntax.Root(env, lines);
     }
   }
 }

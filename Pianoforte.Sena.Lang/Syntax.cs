@@ -37,10 +37,21 @@ namespace Pianoforte.Sena.Lang
       return Expression.Call(null, typeof(Runtime.Operations).GetMethod(method), lhs, rhs);
     }
 
-    public static Expression Block(Runtime.Block parent, params Expression[] lines)
-      => Block(parent, lines);
+    public static LambdaExpression Root(Runtime.Environment env, IEnumerable<Expression> lines)
+      => Expression.Lambda(
+        Expression.Block(
+          new[] { blockParam },
+          Enumerable.Concat(new [] {
+            Expression.Assign(blockParam, Expression.Constant(env.RootBlock)),
+          }, lines)));
 
-    public static Expression Block(Runtime.Block parent, IEnumerable<Expression> lines)
+    public static Expression Block(params Expression[] lines)
+      => Block(lines);
+
+    public static Expression Block(IEnumerable<Expression> lines)
+      => Block(Enumerable.Empty<ParameterExpression>(), lines);
+
+    public static Expression Block(IEnumerable<ParameterExpression> parameters, IEnumerable<Expression> lines)
     {
       /*
        * {
@@ -54,9 +65,9 @@ namespace Pianoforte.Sena.Lang
       var parentParam = Expression.Parameter(blockType, "parent");
       return Expression.Block(
         new[] { parentParam },
-        Expression.Assign(parentParam, Expression.Constant(parent, blockType)),
+        Expression.Assign(parentParam, Expression.Constant(blockParam, blockType)),
         Expression.Block(
-          new[] { blockParam },
+          Enumerable.Concat(parameters, new[] { blockParam }),
           Enumerable.Concat(
             new[] { Expression.Assign(blockParam, Expression.New(blockConstructor, parentParam)) },
             lines
