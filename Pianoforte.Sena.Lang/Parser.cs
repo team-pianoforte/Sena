@@ -173,6 +173,14 @@ namespace Pianoforte.Sena.Lang
       return v;
     }
 
+    private IEnumerable<Expression> ParseUntilTokenKind(TokenKind kind)
+    {
+      while (lookahead[0].Kind != kind)
+      {
+        yield return ParseLine();
+      }
+    }
+
     private Expression ParseLine()
     {
       Expression expr = null;
@@ -201,14 +209,7 @@ namespace Pianoforte.Sena.Lang
 
     public LambdaExpression Parse(Runtime.Environment env)
     {
-
-      var lines = new List<Expression>();
-      while (lookahead[0].Kind != TokenKind.EndOfFile)
-      {
-        lines.Add(ParseLine());
-      }
-
-
+      var lines = ParseUntilTokenKind(TokenKind.EndOfFile);
       return Expression.Lambda(Syntax.Block(env.RootBlock, lines));
     }
   }
