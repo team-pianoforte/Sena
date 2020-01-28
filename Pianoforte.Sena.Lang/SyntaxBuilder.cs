@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 namespace Pianoforte.Sena.Lang
 {
-  public static class Syntax
+  public class SyntaxBuilder
   {
     private static readonly Type blockType = typeof(Runtime.Block);
     private static readonly ConstructorInfo blockConstructor
@@ -15,12 +15,12 @@ namespace Pianoforte.Sena.Lang
       = Expression.Parameter(blockType, "block");
 
 
-    public static Expression Literal(Token token)
+    public Expression Literal(Token token)
     {
       return Expression.Constant(Runtime.Value.FromToken(token));
     }
 
-    public static Expression BinaryExpr(Expression lhs, Token op, Expression rhs)
+    public Expression BinaryExpr(Expression lhs, Token op, Expression rhs)
     {
       if (!op.IsBinaryOp())
       {
@@ -37,7 +37,7 @@ namespace Pianoforte.Sena.Lang
       return Expression.Call(null, typeof(Runtime.Operations).GetMethod(method), lhs, rhs);
     }
 
-    public static LambdaExpression Root(Runtime.Environment env, IEnumerable<Expression> lines)
+    public LambdaExpression Root(Runtime.Environment env, IEnumerable<Expression> lines)
       => Expression.Lambda(
         Expression.Block(
           new[] { blockParam },
@@ -45,13 +45,13 @@ namespace Pianoforte.Sena.Lang
             Expression.Assign(blockParam, Expression.Constant(env.RootBlock)),
           }, lines)));
 
-    public static Expression Block(params Expression[] lines)
+    public Expression Block(params Expression[] lines)
       => Block(lines);
 
-    public static Expression Block(IEnumerable<Expression> lines)
+    public Expression Block(IEnumerable<Expression> lines)
       => Block(Enumerable.Empty<ParameterExpression>(), lines);
 
-    public static Expression Block(IEnumerable<ParameterExpression> parameters, IEnumerable<Expression> lines)
+    public Expression Block(IEnumerable<ParameterExpression> parameters, IEnumerable<Expression> lines)
     {
       /*
        * {
@@ -65,12 +65,11 @@ namespace Pianoforte.Sena.Lang
       var parentParam = Expression.Parameter(blockType, "parent");
 
       var variables =
-        Enumerable.Concat(parameters, new[] { blockParam });,
+        Enumerable.Concat(parameters, new[] { blockParam });
       var body =
          new[] { Expression.Assign(blockParam, Expression.New(blockConstructor, parentParam)) };
 
       var block = Expression.Block(variables, body);
-      )
       return Expression.Block(
         new[] { parentParam },
         Expression.Assign(parentParam, Expression.Constant(blockParam, blockType)),
@@ -78,43 +77,43 @@ namespace Pianoforte.Sena.Lang
       );
     }
 
-    public static Expression Variable(string name)
+    public Expression Variable(string name)
     {
       var m = blockType.GetMethod("GetVariable");
       return Expression.Call(blockParam, m, Expression.Constant(name));
     }
 
-    public static Expression Assign(string name, Expression expr)
+    public Expression Assign(string name, Expression expr)
     {
       var m = blockType.GetMethod("SetVariable");
       return Expression.Call(blockParam, m, Expression.Constant(name), expr);
     }
 
-    public static Expression MemberAccess(Expression receiver, string name)
+    public Expression MemberAccess(Expression receiver, string name)
     {
       var method = typeof(Runtime.Operations).GetMethod("MemberAccess");
       return Expression.Call(null, method, receiver, Expression.Constant(name));
     }
 
-    public static Expression FunctionCall(Expression func, params Expression[] args)
+    public Expression FunctionCall(Expression func, params Expression[] args)
     {
       var method = typeof(Runtime.Operations).GetMethod("FunctionCall");
       return Expression.Call(null, method, func, Expression.NewArrayInit(typeof(Runtime.Value), args));
     }
 
-    public static Expression InitArray(IEnumerable<Expression> items)
+    public Expression InitArray(IEnumerable<Expression> items)
     {
       var method = typeof(Runtime.Operations).GetMethod("InitArray");
       return Expression.Call(null, method, Expression.NewArrayInit(typeof(Runtime.Value), items));
     }
 
-    public static Expression ArrayItem(Expression arr, Expression i)
+    public Expression ArrayItem(Expression arr, Expression i)
     {
       var method = typeof(Runtime.Operations).GetMethod("ArrayItem");
       return Expression.Call(null, method, arr, i);
     }
 
-    public static Expression AssignArrayItem(Expression arr, Expression i, Expression v)
+    public Expression AssignArrayItem(Expression arr, Expression i, Expression v)
     {
       var method = typeof(Runtime.Operations).GetMethod("SetArrayItem");
       return Expression.Call(null, method, arr, i, v);
