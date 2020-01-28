@@ -63,16 +63,18 @@ namespace Pianoforte.Sena.Lang
        * }
        */
       var parentParam = Expression.Parameter(blockType, "parent");
+
+      var variables =
+        Enumerable.Concat(parameters, new[] { blockParam });,
+      var body =
+         new[] { Expression.Assign(blockParam, Expression.New(blockConstructor, parentParam)) };
+
+      var block = Expression.Block(variables, body);
+      )
       return Expression.Block(
         new[] { parentParam },
         Expression.Assign(parentParam, Expression.Constant(blockParam, blockType)),
-        Expression.Block(
-          Enumerable.Concat(parameters, new[] { blockParam }),
-          Enumerable.Concat(
-            new[] { Expression.Assign(blockParam, Expression.New(blockConstructor, parentParam)) },
-            lines
-          )
-        )
+        block
       );
     }
 
