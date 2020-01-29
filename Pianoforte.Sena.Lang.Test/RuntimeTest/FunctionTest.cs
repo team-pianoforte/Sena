@@ -9,9 +9,10 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
     static readonly ParameterExpression xParam = Expression.Parameter(typeof(Value), "x");
 
     private readonly Function lambdaFunction, funcFunction;
-    private readonly SyntaxBuilder syntax;
+    private readonly SyntaxBuilder syntax = new SyntaxBuilder();
 
-    public FunctionTest() {
+    public FunctionTest()
+    {
       lambdaFunction = new Function(Expression.Lambda(
         syntax.BinaryExpr(
           Expression.Constant(Value.MakeNumber(1), typeof(Value)),

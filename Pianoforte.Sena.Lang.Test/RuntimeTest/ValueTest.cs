@@ -15,7 +15,8 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
       Assert.False(Value.MakeNone() != Value.MakeNone());
       Assert.True(Value.MakeNone() != Value.MakeNumber(0));
 
-      var (obj, f) = (new Object("name"), new Function(null));
+      var obj = new Object("name");
+      var f = new Function((_) => Value.MakeNone(), "f");
 
       Assert.True(Value.MakeNone() == Value.MakeNone());
       Assert.True(Value.MakeNumber(1) == Value.MakeNumber(1));
