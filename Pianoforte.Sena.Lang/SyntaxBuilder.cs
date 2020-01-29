@@ -41,7 +41,7 @@ namespace Pianoforte.Sena.Lang
       => Expression.Lambda(
         Expression.Block(
           new[] { blockParam },
-          Enumerable.Concat(new [] {
+          Enumerable.Concat(new[] {
             Expression.Assign(blockParam, Expression.Constant(env.RootBlock)),
           }, lines)));
 

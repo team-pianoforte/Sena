@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 namespace Pianoforte.Sena.Lang.Runtime
 {
   internal class DesktopRuntime
-  { 
+  {
     internal class Console : Library.IConsole
     {
       [DllImport("kernel32.dll")]

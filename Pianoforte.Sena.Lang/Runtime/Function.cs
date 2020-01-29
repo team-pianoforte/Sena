@@ -38,7 +38,8 @@ namespace Pianoforte.Sena.Lang.Runtime
 
   public class Function
   {
-    public FunctionKind Kind {
+    public FunctionKind Kind
+    {
       get => Lambda != null ? FunctionKind.Lambda : FunctionKind.Func;
     }
 
