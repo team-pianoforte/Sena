@@ -25,6 +25,15 @@ namespace Pianoforte.Sena.Lang.Runtime
           { "WriteLine", makeVoidFunc((args) => WriteLine(args[0]), "WriteLine", "v") },
         });
     }
+    public interface IDebug
+    {
+      void Error(Value v);
+
+      public Object AsObject()
+        => new Object("Debug", new Dictionary<string, Value>() {
+          { "Error", makeVoidFunc((args) => Error(args[0]), "Error", "v") },
+        });
+    }
 
     public IEnumerable<Object> Objects
     {
