@@ -16,6 +16,7 @@ namespace Pianoforte.Sena.Lang
     EndOfFile,
     Identifier,
 
+    Begin,
     If,
     For,
     End,
@@ -98,6 +99,15 @@ namespace Pianoforte.Sena.Lang
       TokenKind.StringLiteral => true,
       _ => false,
     };
+
+    public static bool IsConstituteBlock(this Token v) => v.Kind switch
+    {
+      TokenKind.Begin => true,
+      TokenKind.For => true,
+      TokenKind.If => true,
+      TokenKind.Func => true,
+      _ => false,
+    };
   }
 
   public readonly struct Keyword
@@ -117,6 +127,7 @@ namespace Pianoforte.Sena.Lang
     public static readonly Keyword None = new Keyword("none", TokenKind.NoneLiteral);
     public static readonly Keyword True = new Keyword("true", TokenKind.TrueLiteral);
     public static readonly Keyword False = new Keyword("false", TokenKind.TrueLiteral);
+    public static readonly Keyword Begin = new Keyword("begin", TokenKind.Begin);
     public static readonly Keyword If = new Keyword("if", TokenKind.If);
     public static readonly Keyword For = new Keyword("for", TokenKind.For);
     public static readonly Keyword Func = new Keyword("func", TokenKind.Func);
@@ -131,6 +142,7 @@ namespace Pianoforte.Sena.Lang
       { None.Text, None },
       { True.Text, True },
       { False.Text, False },
+      { Begin.Text, Begin },
       { If.Text, If },
       { For.Text, For },
       { Func.Text, Func },
