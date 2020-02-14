@@ -177,23 +177,28 @@ namespace Pianoforte.Sena.Lang
     {
       while (lookahead[0].Kind != kind)
       {
-        yield return ParseLine();
+        yield return ParseStatement();
       }
     }
 
-    private SyntaxTree.AST ParseLine()
+    private SyntaxTree.AST ParseAssignment()
+    {
+      var ident = lookahead[0];
+      if (ident.Kind != TokenKind.Identifier)
+      {
+        throw new SyntaxException(ident, Properties.Resources.InvalidLeftOfAssignment);
+      }
+      NextToken();
+      NextToken();
+      return new SyntaxTree.Assign(ident, ParseExpr());
+    }
+
+    private SyntaxTree.AST ParseStatement()
     {
       SyntaxTree.AST expr = null;
       if (lookahead[1].Kind == TokenKind.OpAssignment)
       {
-        var ident = lookahead[0];
-        if (ident.Kind != TokenKind.Identifier)
-        {
-          throw new SyntaxException(ident, Properties.Resources.InvalidLeftOfAssignment);
-        }
-        NextToken();
-        NextToken();
-        expr = new SyntaxTree.Assign(ident, ParseExpr());
+        expr = ParseAssignment();
       }
       else
       {
