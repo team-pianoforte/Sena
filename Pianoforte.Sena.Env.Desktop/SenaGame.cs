@@ -10,7 +10,7 @@ namespace Pianoforte.Sena.Env.Desktop
   {
 
     private readonly GraphicsDeviceManager graphics;
-    private SpriteBatch spriteBatch;
+    private Graphics2D spriteBatch;
 
     private readonly Engine engine;
     private readonly string filepath;
@@ -33,7 +33,7 @@ namespace Pianoforte.Sena.Env.Desktop
 
     protected override void LoadContent()
     {
-      spriteBatch = new SpriteBatch(GraphicsDevice);
+      spriteBatch = new Graphics2D(GraphicsDevice);
 
       // TODO: use this.Content to load your game content here
     }
@@ -52,7 +52,9 @@ namespace Pianoforte.Sena.Env.Desktop
     {
       GraphicsDevice.Clear(Color.CornflowerBlue);
 
-      // TODO: Add your drawing code here
+      spriteBatch.Begin();
+      spriteBatch.DrawRectangle(new Rectangle(0, 0, 10, 10), Color.Red);
+      spriteBatch.End();
 
       base.Draw(gameTime);
     }
