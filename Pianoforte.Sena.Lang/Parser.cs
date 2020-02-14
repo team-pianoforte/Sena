@@ -13,8 +13,6 @@ namespace Pianoforte.Sena.Lang
     private readonly int lookaheadCount = 2;
     private readonly LookaheadList<Token> lookahead;
 
-    private readonly SyntaxBuilder syntax = new SyntaxBuilder();
-
     public Parser(Lexer lexer)
     {
       this.lexer = lexer;
@@ -42,19 +40,19 @@ namespace Pianoforte.Sena.Lang
       }
     }
 
-    private Expression ParseArray()
+    private SyntaxTree.AST ParseArray()
     {
       if (NextToken().Kind != TokenKind.SquareBracketLeft)
       {
         throw new InternalAssertionException("Invalid token");
       }
 
-      var items = new List<Expression>();
       if (lookahead.Head.Kind == TokenKind.ParenRight)
       {
-        return syntax.InitArray(items);
+        return new SyntaxTree.InitArray(lookahead.Head);
       }
 
+      var items = new List<SyntaxTree.AST>();
       while (true)
       {
         items.Add(ParseExpr());
@@ -66,20 +64,20 @@ namespace Pianoforte.Sena.Lang
         }
         AssertTokenKind(TokenKind.Comma, tok);
       }
-      return syntax.InitArray(items);
+      return new SyntaxTree.InitArray(lookahead.Head, items);
     }
 
-    private Expression ParseLiteral()
+    private SyntaxTree.AST ParseLiteral()
     {
       var tok = NextToken();
-      return syntax.Literal(tok);
+      return new SyntaxTree.Literal(tok);
     }
-    private Expression ParseVariable()
+    private SyntaxTree.AST ParseVariable()
     {
       var tok = NextToken();
-      return syntax.Variable(tok.Text);
+      return new SyntaxTree.Variable(tok);
     }
-    private Expression ParseValue()
+    private SyntaxTree.AST ParseValue()
     {
       var expr = lookahead.Head switch
       {
@@ -97,13 +95,13 @@ namespace Pianoforte.Sena.Lang
           case TokenKind.Dot:
             NextToken();
             var nameTok = NextToken();
-            expr = syntax.MemberAccess(expr, nameTok.Text);
+            expr = new SyntaxTree.MemberAccess(nameTok, expr, nameTok.Text);
             break;
           case TokenKind.ParenLeft:
             expr = ParseFunctionCall(expr);
             break;
           case TokenKind.SquareBracketLeft:
-            expr = syntax.ArrayItem(expr, ParseArrayIndex());
+            expr = new SyntaxTree.ArrayItem(lookahead.Head, expr, ParseArrayIndex());
             break;
           default:
             loop = false;
@@ -113,33 +111,33 @@ namespace Pianoforte.Sena.Lang
       return expr;
     }
 
-    private Expression ParseFactor()
+    private SyntaxTree.AST ParseFactor()
     {
       return ParseValue();
     }
 
-    private Expression ParseTerm()
+    private SyntaxTree.AST ParseTerm()
     {
-      var exp = ParseFactor();
+      var expr = ParseFactor();
       while (true)
       {
         if (lookahead.Head.IsBinaryOp())
         {
-          exp = syntax.BinaryExpr(exp, NextToken(), ParseFactor());
+          expr = new SyntaxTree.Binary(NextToken(), expr, ParseFactor());
         }
         else
         {
-          return exp;
+          return expr;
         }
       }
     }
 
-    private Expression ParseExpr()
+    private SyntaxTree.AST ParseExpr()
     {
       return ParseTerm();
     }
 
-    private Expression ParseFunctionCall(Expression func)
+    private SyntaxTree.AST ParseFunctionCall(SyntaxTree.AST func)
     {
       if (NextToken().Kind != TokenKind.ParenLeft)
       {
@@ -147,23 +145,23 @@ namespace Pianoforte.Sena.Lang
       }
       if (lookahead.Head.Kind == TokenKind.ParenRight)
       {
-        return syntax.FunctionCall(func);
+        return new SyntaxTree.FunctionCall(lookahead.Head, func);
       }
 
-      IEnumerable<Expression> args = new[] { ParseExpr() };
+      var args = new List<SyntaxTree.AST>() { ParseExpr() };
       while (lookahead.Head.Kind == TokenKind.Comma)
       {
         NextToken();
-        args = args.Append(ParseExpr());
+        args.Add(ParseExpr());
       }
       var rightParen = NextToken();
       AssertTokenKind(TokenKind.ParenRight, rightParen);
-      return syntax.FunctionCall(func, args.ToArray());
+      return new SyntaxTree.FunctionCall(lookahead.Head, func, args);
     }
 
 
 
-    private Expression ParseArrayIndex()
+    private SyntaxTree.AST ParseArrayIndex()
     {
       var tok = NextToken();
       AssertTokenKind(TokenKind.SquareBracketLeft, tok);
@@ -175,7 +173,7 @@ namespace Pianoforte.Sena.Lang
       return v;
     }
 
-    private IEnumerable<Expression> ParseUntilTokenKind(TokenKind kind)
+    private IEnumerable<SyntaxTree.AST> ParseUntilTokenKind(TokenKind kind)
     {
       while (lookahead[0].Kind != kind)
       {
@@ -183,9 +181,9 @@ namespace Pianoforte.Sena.Lang
       }
     }
 
-    private Expression ParseLine()
+    private SyntaxTree.AST ParseLine()
     {
-      Expression expr = null;
+      SyntaxTree.AST expr = null;
       if (lookahead[1].Kind == TokenKind.OpAssignment)
       {
         var ident = lookahead[0];
@@ -195,7 +193,7 @@ namespace Pianoforte.Sena.Lang
         }
         NextToken();
         NextToken();
-        expr = syntax.Assign(ident.Text, ParseExpr());
+        expr = new SyntaxTree.Assign(ident, ParseExpr());
       }
       else
       {
@@ -209,10 +207,7 @@ namespace Pianoforte.Sena.Lang
       return expr;
     }
 
-    public LambdaExpression Parse(Runtime.Environment env)
-    {
-      var lines = ParseUntilTokenKind(TokenKind.EndOfFile);
-      return syntax.Root(env, lines);
-    }
+    public SyntaxTree.RootBlock Parse(Runtime.Environment env)
+      => new SyntaxTree.RootBlock(new Token(), env.RootBlock, ParseUntilTokenKind(TokenKind.EndOfFile));
   }
 }

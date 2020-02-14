@@ -42,11 +42,6 @@ namespace Pianoforte.Sena.Env.Desktop
     {
       if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
         Exit();
-      if (Mouse.GetState().LeftButton == ButtonState.Pressed)
-      {
-        System.Console.WriteLine("hello");
-
-      }
 
       // TODO: Add your update logic here
 

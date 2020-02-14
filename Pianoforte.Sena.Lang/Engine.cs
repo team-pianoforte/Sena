@@ -40,8 +40,8 @@ namespace Pianoforte.Sena.Lang
     public void Compile(string filename, Stream input)
     {
       var parser = new Parser(new Lexer(filename, input));
-      var expr = parser.Parse(Environment);
-      bin = expr.Compile();
+      var ast = parser.Parse(Environment);
+      bin = ast.Compile();
     }
   }
 }
