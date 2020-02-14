@@ -7,26 +7,24 @@ namespace Pianoforte.Sena.Lang.Runtime
 {
   public class Library
   {
+    private static Value makeVoidFunc(Action<FunctionArgs> f, string name, params string[] argNames)
+      => Value.MakeFunction(
+        new Function((args) =>
+        {
+          f(args);
+          return Value.MakeNone();
+        }, name, argNames));
+
+    public IConsole Console { get; }
     public interface IConsole
     {
       void WriteLine(Value v);
 
-      private Function WriteLineFunction
-      {
-        get => new Function((args) =>
-        {
-          WriteLine(args[0]);
-          return Value.MakeNone();
-        }, "WriteLine", "v");
-      }
       public Object AsObject()
-      {
-        return new Object("Console", new Dictionary<string, Value>() {
-          { "WriteLine", Value.MakeFunction(WriteLineFunction) },
+        => new Object("Console", new Dictionary<string, Value>() {
+          { "WriteLine", makeVoidFunc((args) => WriteLine(args[0]), "WriteLine", "v") },
         });
-      }
     }
-    public IConsole Console { get; }
 
     public IEnumerable<Object> Objects
     {
