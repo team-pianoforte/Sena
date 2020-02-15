@@ -1,2 +1,7 @@
-v <- [40, 41, 40 + 2][1 + 1] + "Hello" + "World!"
-Console.WriteLine(v)
+msg <- [40, 41, 40 + 2][1 + 1] + "Hello" + "World!"
+Console.WriteLine(msg)
+
+begin
+  msg <- "Hello block"
+  Console.WriteLine(msg)
+end

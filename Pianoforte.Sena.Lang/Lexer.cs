@@ -272,7 +272,10 @@ namespace Pianoforte.Sena.Lang
         throw new InternalAssertionException("EOL expected, but fonud " + head);
       }
       var t = new Token(TokenKind.EndOfLine, "\n", position);
-      Consume();
+      while (IsEol(head))
+      {
+        Consume();
+      }
       return t;
     }
 

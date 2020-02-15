@@ -286,12 +286,26 @@ namespace Pianoforte.Sena.Lang
       }
 
       public override Expression ToExpression()
+      {
+        var passign =
+           Expression.Assign(parentParam, blockParam);
+        var bassign =
+           Expression.Assign(blockParam, Expression.New(blockConstructor, parentParam));
+        return Expression.Block(
+           new[] { parentParam },
+           passign,
+           bassign,
+           Body.ToExpression()
+        );
+      }
+      /*
         => Expression.Block(
           new[] { parentParam },
-          Expression.Assign(parentParam, Expression.Constant(blockParam, blockType)),
+          Expression.Assign(parentParam, EblockParam),
           Expression.Assign(blockParam, Expression.New(blockConstructor, parentParam)),
           Expression.Block(new[] { blockParam }, Body.ToExpression())
         );
+        */
     }
 
     public class RootBlock : Block

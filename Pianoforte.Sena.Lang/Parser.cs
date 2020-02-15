@@ -181,6 +181,18 @@ namespace Pianoforte.Sena.Lang
       }
     }
 
+    private SyntaxTree.AST ParseBeginBlock()
+    {
+      var begin = NextToken();
+      AssertTokenKind(TokenKind.Begin, begin);
+      AssertTokenKind(TokenKind.EndOfLine, NextToken());
+
+      var ast = new SyntaxTree.Block(begin, ParseUntilTokenKind(TokenKind.End));
+      AssertTokenKind(TokenKind.End, NextToken());
+
+      return ast;
+    }
+
     private SyntaxTree.AST ParseAssignment()
     {
       var ident = lookahead[0];
@@ -195,15 +207,11 @@ namespace Pianoforte.Sena.Lang
 
     private SyntaxTree.AST ParseStatement()
     {
-      SyntaxTree.AST expr = null;
-      if (lookahead[1].Kind == TokenKind.OpAssignment)
+      SyntaxTree.AST expr = lookahead[0].Kind switch
       {
-        expr = ParseAssignment();
-      }
-      else
-      {
-        expr = ParseExpr();
-      }
+        TokenKind.Begin => ParseBeginBlock(),
+        _ => lookahead[1].Kind == TokenKind.OpAssignment ? ParseAssignment() : ParseExpr(),
+      };
       var eol = NextToken();
       if (!(eol.Kind == TokenKind.EndOfFile || eol.Kind == TokenKind.EndOfLine))
       {
