@@ -137,15 +137,13 @@ namespace Pianoforte.Sena.Lang
       return ParseTerm();
     }
 
-    private SyntaxTree.AST ParseFunctionCall(SyntaxTree.AST func)
+    private SyntaxTree.ASTList ParseFunctionArgs()
     {
-      if (NextToken().Kind != TokenKind.ParenLeft)
-      {
-        throw new InternalAssertionException("Invalid token");
-      }
+      var parentLeft = NextToken();
+      AssertTokenKind(TokenKind.ParenLeft, parentLeft);
       if (lookahead.Head.Kind == TokenKind.ParenRight)
       {
-        return new SyntaxTree.FunctionCall(lookahead.Head, func);
+        return new SyntaxTree.ASTList(lookahead.Head);
       }
 
       var args = new List<SyntaxTree.AST>() { ParseExpr() };
@@ -154,12 +152,14 @@ namespace Pianoforte.Sena.Lang
         NextToken();
         args.Add(ParseExpr());
       }
-      var rightParen = NextToken();
-      AssertTokenKind(TokenKind.ParenRight, rightParen);
-      return new SyntaxTree.FunctionCall(lookahead.Head, func, args);
+      AssertTokenKind(TokenKind.ParenRight, NextToken());
+      return new SyntaxTree.ASTList(parentLeft, args);
     }
 
-
+    private SyntaxTree.AST ParseFunctionCall(SyntaxTree.AST func)
+    {
+      return new SyntaxTree.FunctionCall(lookahead.Head, func, ParseFunctionArgs());
+    }
 
     private SyntaxTree.AST ParseArrayIndex()
     {
