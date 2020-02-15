@@ -277,6 +277,8 @@ namespace Pianoforte.Sena.Lang
       private readonly ParameterExpression parentParam = Expression.Parameter(blockType, "parent");
 
       public ASTList Body { get; }
+
+      public Block(Token token, IEnumerable<AST> body) : this(token, new ASTList(token, body)) { }
       public Block(Token token, ASTList body) : base(token)
       {
         Body = body;
