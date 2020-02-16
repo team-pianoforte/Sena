@@ -249,5 +249,31 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
       Assert.Equal(eq, Operations.Eq(lhs, rhs).Bool);
       Assert.Equal(!eq, Operations.NotEq(lhs, rhs).Bool);
     }
+
+    [Fact]
+    public void TestLessAndGreater()
+    {
+      Assert.True(Operations.LessThan(Value.MakeNumber(0), Value.MakeNumber(1)).Bool);
+      Assert.True(Operations.LessThan(Value.MakeString("a"), Value.MakeString("b")).Bool);
+      Assert.True(Operations.LessThanOrEquals(Value.MakeNumber(0), Value.MakeNumber(0)).Bool);
+      Assert.True(Operations.LessThanOrEquals(Value.MakeNumber(0), Value.MakeNumber(1)).Bool);
+
+      Assert.True(Operations.GreaterThan(Value.MakeNumber(1), Value.MakeNumber(0)).Bool);
+      Assert.True(Operations.GreaterThan(Value.MakeString("b"), Value.MakeString("a")).Bool);
+      Assert.True(Operations.GreaterThanOrEquals(Value.MakeNumber(0), Value.MakeNumber(0)).Bool);
+      Assert.True(Operations.GreaterThanOrEquals(Value.MakeNumber(1), Value.MakeNumber(0)).Bool);
+
+      Assert.False(Operations.LessThan(Value.MakeNumber(0), Value.MakeNumber(0)).Bool);
+      Assert.False(Operations.LessThan(Value.MakeNumber(1), Value.MakeNumber(0)).Bool);
+      Assert.False(Operations.LessThan(Value.MakeString("b"), Value.MakeString("a")).Bool);
+      Assert.False(Operations.LessThanOrEquals(Value.MakeNumber(1), Value.MakeNumber(0)).Bool);
+
+      Assert.False(Operations.GreaterThan(Value.MakeNumber(0), Value.MakeNumber(0)).Bool);
+      Assert.False(Operations.GreaterThan(Value.MakeNumber(0), Value.MakeNumber(1)).Bool);
+      Assert.False(Operations.GreaterThan(Value.MakeString("a"), Value.MakeString("b")).Bool);
+      Assert.False(Operations.GreaterThanOrEquals(Value.MakeNumber(0), Value.MakeNumber(1)).Bool);
+
+      Assert.False(Operations.LessThan(Value.MakeNone(), Value.MakeNumber(1)).Bool);
+    }
   }
 }

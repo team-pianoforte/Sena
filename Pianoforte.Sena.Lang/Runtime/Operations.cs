@@ -93,6 +93,38 @@ namespace Pianoforte.Sena.Lang.Runtime
     public static Value NotEq(Value lhs, Value rhs)
       => Not(Eq(lhs, rhs));
 
+    public static Value LessThan(Value lhs, Value rhs)
+    {
+      if (ValuesTypeIs(ValueType.Number, lhs, rhs))
+      {
+        return Value.MakeBool(lhs.Number < rhs.Number);
+      }
+      if (ValuesTypeIs(ValueType.String, lhs, rhs))
+      {
+        return Value.MakeBool(lhs.String.CompareTo(rhs.String) < 0);
+      }
+      return Value.MakeBool(false);
+    }
+
+    public static Value LessThanOrEquals(Value lhs, Value rhs)
+      => Value.MakeBool(LessThan(lhs, rhs).Bool || Eq(lhs, rhs).Bool);
+
+    public static Value GreaterThan(Value lhs, Value rhs)
+    {
+      if (ValuesTypeIs(ValueType.Number, lhs, rhs))
+      {
+        return Value.MakeBool(lhs.Number > rhs.Number);
+      }
+      if (ValuesTypeIs(ValueType.String, lhs, rhs))
+      {
+        return Value.MakeBool(lhs.String.CompareTo(rhs.String) > 0);
+      }
+      return Value.MakeBool(false);
+    }
+
+    public static Value GreaterThanOrEquals(Value lhs, Value rhs)
+      => Value.MakeBool(GreaterThan(lhs, rhs).Bool || Eq(lhs, rhs).Bool);
+
     public static Value Length(Value v)
       => Value.MakeNumber(
         v.Type switch
