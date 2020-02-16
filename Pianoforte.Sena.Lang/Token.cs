@@ -62,7 +62,7 @@ namespace Pianoforte.Sena.Lang
     public static bool IsBinaryOp(this Token v)
       => v.IsTermOp()
       || v.IsFactorOp()
-      || v.IsComparesionOp()
+      || v.IsComparsionOp()
       || v.IsBoolBinaryOp()
       || v.Kind == TokenKind.To;
 
@@ -80,7 +80,7 @@ namespace Pianoforte.Sena.Lang
       _ => false,
     };
 
-    public static bool IsComparesionOp(this Token v) => v.Kind switch
+    public static bool IsComparsionOp(this Token v) => v.Kind switch
     {
       TokenKind.OpEqual => true,
       TokenKind.OpNotEqual => true,
