@@ -200,6 +200,17 @@ namespace Pianoforte.Sena.Lang.Runtime
       ValueType.Function => Function.ToString(),
     };
 
+    public bool ToBool() => Type switch
+    {
+      ValueType.None => false,
+      ValueType.Bool => Bool,
+      ValueType.Number => Number != 0,
+      ValueType.String => String.Length > 0,
+      ValueType.Object => Object != null,
+      ValueType.Array => Array.Length > 0,
+      ValueType.Function => true,
+    };
+
     public Value ConvertType(ValueType type)
     {
       if (Type == type)

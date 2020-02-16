@@ -186,5 +186,23 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
       Assert.Throws<RuntimeException>(() => v.ConvertType(ValueType.Object));
       Assert.Equal(v, v.ConvertType(ValueType.Function));
     }
+
+    [Fact]
+    public void ToBool()
+    {
+      var v = Value.MakeString("s");
+      Assert.Equal("s", v.String);
+      Assert.Equal("s", v.ToString());
+
+      Assert.True(Value.MakeNumber(1).ToBool());
+      Assert.True(Value.MakeString("1").ToBool());
+      Assert.True(Value.MakeBool(true).ToBool());
+      Assert.True(Value.MakeArray(new Array(new[] { Value.MakeNone() })).ToBool());
+
+      Assert.False(Value.MakeNumber(0).ToBool());
+      Assert.False(Value.MakeString("").ToBool());
+      Assert.False(Value.MakeBool(false).ToBool());
+      Assert.False(Value.MakeArray(new Array()).ToBool());
+    }
   }
 }
