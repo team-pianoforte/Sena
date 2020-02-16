@@ -44,6 +44,7 @@ namespace Pianoforte.Sena.Lang
     SquareBracketLeft,
     SquareBracketRight,
     Dot,
+    DotDotDot,
     Comma,
   }
 

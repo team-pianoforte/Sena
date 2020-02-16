@@ -258,6 +258,19 @@ namespace Pianoforte.Sena.Lang
         case ']':
           return new Token(TokenKind.SquareBracketRight, "]", pos);
         case '.':
+          if (head == '.')
+          {
+            Consume();
+            if (head == '.')
+            {
+              Consume();
+              return new Token(TokenKind.DotDotDot, "...", pos);
+            }
+            else
+            {
+              throw new SyntaxException(pos, Properties.Resources.DotDotToken);
+            }
+          }
           return new Token(TokenKind.Dot, ".", pos);
         case ',':
           return new Token(TokenKind.Comma, ",", pos);

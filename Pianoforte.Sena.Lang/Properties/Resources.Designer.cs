@@ -79,6 +79,15 @@ namespace Pianoforte.Sena.Lang.Properties {
         }
         
         /// <summary>
+        ///   &quot;..&quot; is unknown syntax. Mistype of  &quot;...&quot; ? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DotDotToken {
+            get {
+                return ResourceManager.GetString("DotDotToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Index, {0}, is out of array range に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string IndexOutOfRange {

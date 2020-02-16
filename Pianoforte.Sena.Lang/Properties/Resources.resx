@@ -123,6 +123,9 @@
   <data name="DevideByZero" xml:space="preserve">
     <value>Cannot devide by zero</value>
   </data>
+  <data name="DotDotToken" xml:space="preserve">
+    <value>".." is unknown syntax. Mistype of  "..." ?</value>
+  </data>
   <data name="IndexOutOfRange" xml:space="preserve">
     <value>Index, {0}, is out of array range</value>
   </data>

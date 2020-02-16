@@ -126,6 +126,9 @@
   <data name="DevideByZero" xml:space="preserve">
     <value>ゼロで割ることはできません</value>
   </data>
+  <data name="DotDotToken" xml:space="preserve">
+    <value>".." という構文はありません。"..." の間違いかもしれません</value>
+  </data>
   <data name="IndexOutOfRange" xml:space="preserve">
     <value>{0} 番目は配列の範囲外です</value>
   </data>
