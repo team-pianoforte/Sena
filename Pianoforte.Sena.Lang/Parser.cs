@@ -111,14 +111,32 @@ namespace Pianoforte.Sena.Lang
       return expr;
     }
 
+    private SyntaxTree.AST ParseUnary()
+    {
+      var opTokens = new List<Token>();
+      while (lookahead.Head.IsUnaryOp())
+      {
+        opTokens.Add(NextToken());
+      }
+
+      var expr = ParseValue();
+      opTokens.Reverse();
+      foreach (var tok in opTokens)
+      {
+        expr = new SyntaxTree.Unary(tok, expr);
+      }
+
+      return expr;
+    }
+
     private SyntaxTree.AST ParseFactor()
     {
-      var expr = ParseValue();
+      var expr = ParseUnary();
       while (true)
       {
         if (lookahead.Head.IsFactorOp())
         {
-          expr = new SyntaxTree.Binary(NextToken(), expr, ParseValue());
+          expr = new SyntaxTree.Binary(NextToken(), expr, ParseUnary());
         }
         else
         {

@@ -66,6 +66,9 @@ namespace Pianoforte.Sena.Lang
       || v.IsBoolBinaryOp()
       || v.Kind == TokenKind.To;
 
+    public static bool IsUnaryOp(this Token v)
+      => v.Kind == TokenKind.Not;
+
     public static bool IsTermOp(this Token v) => v.Kind switch
     {
       TokenKind.OpPlus => true,

@@ -109,6 +109,27 @@ namespace Pianoforte.Sena.Lang
       }
     }
 
+    public class Unary : AST
+    {
+      public AST Value { get; }
+
+      public Unary(Token token, AST value) : base(token)
+      {
+        Value = value;
+        Value.Parent = this;
+      }
+
+      public override Expression ToExpression()
+      {
+        var method = Token.Kind switch
+        {
+          TokenKind.Not => "Not",
+          _ => throw new InternalAssertionException("Unary operator is required"),
+
+        };
+        return Expression.Call(null, typeof(Runtime.Operations).GetMethod(method), Value.ToExpression());
+      }
+    }
 
     public class Literal : AST
     {
