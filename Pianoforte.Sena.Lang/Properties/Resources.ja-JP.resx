@@ -180,6 +180,9 @@
   <data name="NonIntArrayIndex" xml:space="preserve">
     <value>整数以外のインデックスは使用できません</value>
   </data>
+  <data name="NonNumberDivision" xml:space="preserve">
+    <value>数値以外での割り算は出来ません</value>
+  </data>
   <data name="NonObjectMemberAccess" xml:space="preserve">
     <value>オブジェクト以外のメンバアクセスはできません</value>
   </data>

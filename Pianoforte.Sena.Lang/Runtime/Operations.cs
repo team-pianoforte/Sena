@@ -61,17 +61,19 @@ namespace Pianoforte.Sena.Lang.Runtime
     }
     public static Value Devide(Value lhs, Value rhs)
     {
-      if (rhs.Type == ValueType.Number)
+      if (rhs.Type != ValueType.Number)
       {
-        if (rhs.Number == 0)
-        {
-          throw new RuntimeException(Properties.Resources.DevideByZero);
-        }
-        switch (lhs.Type)
-        {
-          case ValueType.Number:
-            return Value.MakeNumber(lhs.Number / rhs.Number);
-        }
+        throw new RuntimeException(Properties.Resources.NonNumberDivision);
+      }
+      if (rhs.Number == 0)
+      {
+        throw new RuntimeException(Properties.Resources.DevideByZero);
+      }
+
+      switch (lhs.Type)
+      {
+        case ValueType.Number:
+          return Value.MakeNumber(lhs.Number / rhs.Number);
       }
       throw new RuntimeException(string.Format(Properties.Resources.InvalidDivision, lhs, rhs));
     }

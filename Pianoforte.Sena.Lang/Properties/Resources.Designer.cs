@@ -250,6 +250,15 @@ namespace Pianoforte.Sena.Lang.Properties {
         }
         
         /// <summary>
+        ///   Cannot devide by non number に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NonNumberDivision {
+            get {
+                return ResourceManager.GetString("NonNumberDivision", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Member access is allowed only objects. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string NonObjectMemberAccess {
