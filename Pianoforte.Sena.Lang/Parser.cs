@@ -113,7 +113,18 @@ namespace Pianoforte.Sena.Lang
 
     private SyntaxTree.AST ParseFactor()
     {
-      return ParseValue();
+      var expr = ParseValue();
+      while (true)
+      {
+        if (lookahead.Head.IsFactorOp())
+        {
+          expr = new SyntaxTree.Binary(NextToken(), expr, ParseValue());
+        }
+        else
+        {
+          return expr;
+        }
+      }
     }
 
     private SyntaxTree.AST ParseTerm()
@@ -121,7 +132,7 @@ namespace Pianoforte.Sena.Lang
       var expr = ParseFactor();
       while (true)
       {
-        if (lookahead.Head.IsBinaryOp())
+        if (lookahead.Head.IsTermOp())
         {
           expr = new SyntaxTree.Binary(NextToken(), expr, ParseFactor());
         }

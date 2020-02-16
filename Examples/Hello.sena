@@ -1,4 +1,4 @@
-msg <- [40, 41, 40 + 2][1 + 1] + "Hello" + "World!"
+msg <- [40, 41, 40 + 1 * 2][1 + 1] + "Hello" + "World!"
 Console.WriteLine(msg)
 
 begin
