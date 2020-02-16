@@ -7,17 +7,28 @@ namespace Pianoforte.Sena.Lang.Runtime
 {
   public static class Operations
   {
+    private static bool ValuesTypeIs(ValueType type, params Value[] values)
+      => values.All((v) => v.Type == type);
+    private static bool ValuesTypeIs(params (ValueType type, Value v)[] defs)
+      => defs.All((def) => def.v.Type == def.type);
+    private static bool ValueHasOneOfTypes(Value v, params ValueType[] types)
+      => types.Any((t) => v.Type == t);
+    private static bool OneOfValuesTypeIs(ValueType type, params Value[] values)
+      => values.Any((v) => v.Type == type);
+    private static bool OneOfValuesTypeIs(params (ValueType type, Value v)[] defs)
+      => defs.Any((def) => def.v.Type == def.type);
+
     public static Value Add(Value lhs, Value rhs)
     {
-      if (lhs.Type == ValueType.String || rhs.Type == ValueType.String)
+      if (OneOfValuesTypeIs(ValueType.String, lhs, rhs))
       {
         return Value.MakeString(lhs.ToString() + rhs.ToString());
       }
-      if (lhs.Type == ValueType.Number && rhs.Type == ValueType.Number)
+      if (ValuesTypeIs(ValueType.Number, lhs, rhs))
       {
         return Value.MakeNumber(lhs.Number + rhs.Number);
       }
-      if (lhs.Type == ValueType.Array && rhs.Type == ValueType.Array)
+      if (ValuesTypeIs(ValueType.Array, lhs, rhs))
       {
         return Value.MakeArray(lhs.Array.Concat(rhs.Array));
       }
@@ -26,7 +37,7 @@ namespace Pianoforte.Sena.Lang.Runtime
 
     public static Value Subtract(Value lhs, Value rhs)
     {
-      if (lhs.Type == ValueType.Number && rhs.Type == ValueType.Number)
+      if (ValuesTypeIs(ValueType.Number, lhs, rhs))
       {
         return Value.MakeNumber(lhs.Number - rhs.Number);
       }
@@ -35,17 +46,17 @@ namespace Pianoforte.Sena.Lang.Runtime
 
     public static Value Multiple(Value lhs, Value rhs)
     {
-      if (rhs.Type == ValueType.Number)
+      if (ValuesTypeIs(ValueType.Number, lhs, rhs))
       {
-        switch (lhs.Type)
-        {
-          case ValueType.Number:
-            return Value.MakeNumber(lhs.Number * rhs.Number);
-          case ValueType.Array:
-          case ValueType.String:
-            return Repeat(lhs, rhs);
-        }
+        return Value.MakeNumber(lhs.Number * rhs.Number);
       }
+
+      var repeatable = ValueHasOneOfTypes(lhs, ValueType.String, ValueType.Array);
+      if (repeatable && rhs.Type == ValueType.Number)
+      {
+        return Repeat(lhs, rhs);
+      }
+
       throw new RuntimeException(string.Format(Properties.Resources.InvalidMultiplication, lhs, rhs));
     }
     public static Value Devide(Value lhs, Value rhs)
@@ -77,10 +88,7 @@ namespace Pianoforte.Sena.Lang.Runtime
 
     public static Value Slice(Value v, Value start, Value end)
     {
-      if (!(v.Type == ValueType.String || v.Type == ValueType.Array))
-      {
-      }
-      if (!(start.Type == ValueType.Number && end.Type == ValueType.Number))
+      if (!(ValuesTypeIs(ValueType.Number, start, end)))
       {
         throw new RuntimeException(Properties.Resources.SliceByNonNumber);
       }
@@ -102,9 +110,10 @@ namespace Pianoforte.Sena.Lang.Runtime
         _ => throw new RuntimeException(string.Format(Properties.Resources.InvalidSlice, v)),
       };
     }
+
     public static Value Repeat(Value v, Value n)
     {
-      if (!(v.Type == ValueType.String || v.Type == ValueType.Array))
+      if (!(OneOfValuesTypeIs((ValueType.String, v), (ValueType.Array, v))))
       {
         throw new RuntimeException(string.Format(Properties.Resources.InvalidRepeat, v));
       }
@@ -146,7 +155,6 @@ namespace Pianoforte.Sena.Lang.Runtime
         _ => throw new RuntimeException(string.Format(Properties.Resources.InvalidReverse, v)),
       };
     }
-
 
     public static Value MemberAccess(Value receiver, string name)
     {
