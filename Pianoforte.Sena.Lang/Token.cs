@@ -29,12 +29,12 @@ namespace Pianoforte.Sena.Lang
     In,
 
     OpAssignment,
-    OpEqual,
-    OpNotEqual,
+    OpEquals,
+    OpNotEquals,
     OpLessThan,
-    OpLessThanOrEqual,
+    OpLessThanOrEquals,
     OpGreaterThan,
-    OpGreaterThanOrEqual,
+    OpGreaterThanOrEquals,
     OpPlus,
     OpMinus,
     OpMultiplication,
@@ -82,12 +82,12 @@ namespace Pianoforte.Sena.Lang
 
     public static bool IsComparsionOp(this Token v) => v.Kind switch
     {
-      TokenKind.OpEqual => true,
-      TokenKind.OpNotEqual => true,
+      TokenKind.OpEquals => true,
+      TokenKind.OpNotEquals => true,
       TokenKind.OpLessThan => true,
-      TokenKind.OpLessThanOrEqual => true,
+      TokenKind.OpLessThanOrEquals => true,
       TokenKind.OpGreaterThan => true,
-      TokenKind.OpGreaterThanOrEqual => true,
+      TokenKind.OpGreaterThanOrEquals => true,
       _ => false,
     };
 

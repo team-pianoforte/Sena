@@ -220,21 +220,21 @@ namespace Pianoforte.Sena.Lang
           if (head == '=')
           {
             Consume();
-            return new Token(TokenKind.OpEqual, "==", pos);
+            return new Token(TokenKind.OpEquals, "==", pos);
           }
           break;
         case '!':
           if (head == '=')
           {
             Consume();
-            return new Token(TokenKind.OpNotEqual, "!=", pos);
+            return new Token(TokenKind.OpNotEquals, "!=", pos);
           }
           break;
         case '<':
           if (head == '=')
           {
             Consume();
-            return new Token(TokenKind.OpLessThanOrEqual, "<=", pos);
+            return new Token(TokenKind.OpLessThanOrEquals, "<=", pos);
           }
           else if (head == '-')
           {
@@ -246,7 +246,7 @@ namespace Pianoforte.Sena.Lang
           if (head == '=')
           {
             Consume();
-            return new Token(TokenKind.OpGreaterThanOrEqual, ">=", pos);
+            return new Token(TokenKind.OpGreaterThanOrEquals, ">=", pos);
           }
           return new Token(TokenKind.OpGreaterThan, ">", pos);
         case '(':
