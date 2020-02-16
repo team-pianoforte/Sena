@@ -96,6 +96,8 @@ namespace Pianoforte.Sena.Lang
           TokenKind.OpMinus => "Subtract",
           TokenKind.OpMultiplication => "Multiple",
           TokenKind.OpDivision => "Devide",
+          TokenKind.OpEqual => "Eq",
+          TokenKind.OpNotEqual => "NotEq",
           _ => throw new InternalAssertionException("Binary operator is required"),
 
         };

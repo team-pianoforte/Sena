@@ -143,9 +143,25 @@ namespace Pianoforte.Sena.Lang
       }
     }
 
+    private SyntaxTree.AST ParseComparsion()
+    {
+      var expr = ParseTerm();
+      while (true)
+      {
+        if (lookahead.Head.IsComparsionOp())
+        {
+          expr = new SyntaxTree.Binary(NextToken(), expr, ParseTerm());
+        }
+        else
+        {
+          return expr;
+        }
+      }
+    }
+
     private SyntaxTree.AST ParseExpr()
     {
-      return ParseTerm();
+      return ParseComparsion();
     }
 
     private SyntaxTree.ASTList ParseFunctionArgs()

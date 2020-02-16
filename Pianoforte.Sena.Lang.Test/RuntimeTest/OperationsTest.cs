@@ -224,5 +224,30 @@ namespace Pianoforte.Sena.Lang.Runtime.Test
     {
       Assert.Equal(expected, Operations.Repeat(v, Value.MakeNumber(n)));
     }
+
+
+    public static object[][] eqData =
+    {
+      new object[] { true, Value.MakeString("a"), Value.MakeString("a") },
+      new object[] { false, Value.MakeString("a"), Value.MakeString("b") },
+      new object[] { true, Value.MakeNumber(0), Value.MakeNumber(0) },
+      new object[] { false, Value.MakeNumber(0), Value.MakeString("b") },
+      new object[] { true, Value.MakeNone(), Value.MakeNone() },
+      new object[] { true, Value.MakeBool(true), Value.MakeBool(true) },
+      new object[] { false, Value.MakeNone(), Value.MakeBool(true) },
+      new object[] {
+        true,
+        Value.MakeArray(new Array(new [] {Value.MakeNumber(1)} )),
+        Value.MakeArray(new Array(new [] {Value.MakeNumber(1)} )),
+      },
+    };
+
+    [Theory]
+    [MemberData(nameof(eqData))]
+    public void TestEqAndNotEq(bool eq, Value lhs, Value rhs)
+    {
+      Assert.Equal(eq, Operations.Eq(lhs, rhs).Bool);
+      Assert.Equal(!eq, Operations.NotEq(lhs, rhs).Bool);
+    }
   }
 }

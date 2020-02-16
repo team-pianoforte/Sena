@@ -232,6 +232,15 @@ namespace Pianoforte.Sena.Lang.Properties {
         }
         
         /// <summary>
+        ///   Cannot apply not to non bool に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NonBoolNot {
+            get {
+                return ResourceManager.GetString("NonBoolNot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Calli is only function に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string NonFunctionCalling {

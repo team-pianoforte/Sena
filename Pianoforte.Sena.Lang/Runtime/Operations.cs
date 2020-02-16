@@ -78,6 +78,21 @@ namespace Pianoforte.Sena.Lang.Runtime
       throw new RuntimeException(string.Format(Properties.Resources.InvalidDivision, lhs, rhs));
     }
 
+    public static Value Not(Value v)
+    {
+      if (v.Type != ValueType.Bool)
+      {
+        throw new RuntimeException(Properties.Resources.NonBoolNot);
+      }
+      return Value.MakeBool(!v.Bool);
+    }
+
+    public static Value Eq(Value lhs, Value rhs)
+      => Value.MakeBool(lhs == rhs);
+
+    public static Value NotEq(Value lhs, Value rhs)
+      => Not(Eq(lhs, rhs));
+
     public static Value Length(Value v)
       => Value.MakeNumber(
         v.Type switch
