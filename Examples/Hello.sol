@@ -7,3 +7,11 @@ end
 Console.WriteLine(1 + 1 == 2)
 Console.WriteLine(1 < 2)
 Console.WriteLine(not not true)
+
+if false
+  Console.WriteLine("OK1")
+elif 0 > 0
+  Console.WriteLine("OK2")
+else
+  Console.WriteLine("OK3")
+end

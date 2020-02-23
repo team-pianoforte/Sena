@@ -299,6 +299,64 @@ namespace Pianoforte.Solfege.Lang
         );
     }
 
+    public class If : AST
+    {
+      private AST test;
+      public AST Test
+      {
+        get => test;
+        set
+        {
+          test = value;
+          if (test != null)
+          {
+            test.Parent = this;
+          }
+        }
+      }
+      private AST ifTrue;
+      public AST IfTrue
+      {
+        get => ifTrue;
+        set
+        {
+          ifTrue = value;
+          if (ifTrue != null)
+          {
+            ifTrue.Parent = this;
+          }
+        }
+      }
+      private AST ifFalse;
+      public AST IfFalse
+      {
+        get => ifFalse;
+        set
+        {
+          ifFalse = value;
+          if (ifFalse != null)
+          {
+            ifFalse.Parent = this;
+          }
+        }
+      }
+
+      public If(Token token, AST test, AST ifTrue, AST ifFalse) : base(token)
+      {
+        Test = test;
+        IfTrue = ifTrue;
+        IfFalse = ifFalse;
+      }
+
+      private Expression ToBoolExpr(AST v)
+        => Expression.Property(v.ToExpression(), typeof(Runtime.Value).GetProperty("Bool"));
+
+      public override Expression ToExpression()
+        => ifFalse == null
+          ? Expression.IfThen(ToBoolExpr(Test), IfTrue.ToExpression())
+          : Expression.IfThenElse(ToBoolExpr(Test), IfTrue.ToExpression(), IfFalse.ToExpression());
+    }
+
     public class Block : AST
     {
       private readonly ParameterExpression parentParam = Expression.Parameter(blockType, "parent");

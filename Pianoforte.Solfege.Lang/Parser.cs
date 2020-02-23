@@ -219,9 +219,9 @@ namespace Pianoforte.Solfege.Lang
       return v;
     }
 
-    private IEnumerable<SyntaxTree.AST> ParseUntilTokenKind(TokenKind kind)
+    private IEnumerable<SyntaxTree.AST> ParseUntilTokenKind(params TokenKind[] kinds)
     {
-      while (lookahead[0].Kind != kind)
+      while (!kinds.Contains(lookahead[0].Kind))
       {
         yield return ParseStatement();
       }
@@ -236,6 +236,35 @@ namespace Pianoforte.Solfege.Lang
       var ast = new SyntaxTree.Block(begin, ParseUntilTokenKind(TokenKind.End));
       AssertTokenKind(TokenKind.End, NextToken());
 
+      return ast;
+    }
+
+    private SyntaxTree.If ParseIfOrElif(TokenKind ifOrElif)
+    {
+      var token = NextToken();
+      AssertTokenKind(ifOrElif, token);
+      var test = ParseExpr();
+      AssertTokenKind(TokenKind.EndOfLine, NextToken());
+      var block = new SyntaxTree.Block(token, ParseUntilTokenKind(TokenKind.End, TokenKind.Elif, TokenKind.Else));
+      return new SyntaxTree.If(token, test, block, null);
+    }
+
+    private SyntaxTree.AST ParseIfElse()
+    {
+      var ast = ParseIfOrElif(TokenKind.If);
+      while (lookahead.Head.Kind == TokenKind.Elif)
+      {
+        var v = ParseIfOrElif(TokenKind.Elif);
+        ast.IfFalse = v;
+        ast = v;
+      }
+      if (lookahead.Head.Kind == TokenKind.Else)
+      {
+        var token = NextToken();
+        AssertTokenKind(TokenKind.EndOfLine, NextToken());
+        ast.IfFalse = new SyntaxTree.Block(token, ParseUntilTokenKind(TokenKind.End));
+      }
+      AssertTokenKind(TokenKind.End, NextToken());
       return ast;
     }
 
@@ -256,6 +285,7 @@ namespace Pianoforte.Solfege.Lang
       SyntaxTree.AST expr = lookahead[0].Kind switch
       {
         TokenKind.Begin => ParseBeginBlock(),
+        TokenKind.If => ParseIfElse(),
         _ => lookahead[1].Kind == TokenKind.OpAssignment ? ParseAssignment() : ParseExpr(),
       };
       var eol = NextToken();
