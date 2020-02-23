@@ -167,6 +167,8 @@ namespace Pianoforte.Solfege.Lang.Runtime
       return new Value(ValueType.Number, false, v, "", null, null, null);
     }
 
+    public static Value MakeInteger(int v) => MakeNumber((decimal)v);
+
     public static Value MakeString(string v)
     {
       return new Value(ValueType.String, false, 0, v, null, null, null);

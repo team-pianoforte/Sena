@@ -18,6 +18,7 @@ namespace Pianoforte.Solfege.Lang
       = Expression.Parameter(blockType, "block");
 
 
+
     private static Expression CallOperation(string name, params Expression[] args)
       => Expression.Call(
         null,
@@ -32,6 +33,20 @@ namespace Pianoforte.Solfege.Lang
       => ValueProp(value.ToExpression(), prop);
     private static Expression ValueProp(Expression value, string prop)
       => Expression.Property(value, valueType.GetProperty(prop));
+    private static Expression MakeValue(string name, params object[] args)
+      => MakeValue(name, args.Select((v) => Expression.Constant(v)));
+    private static Expression MakeValue(string name, params Expression[] args)
+      => Expression.Call(null, valueType.GetMethod("Make" + name), args);
+
+    private static Expression AssignVar(string name, AST v)
+      => AssignVar(name, v.ToExpression());
+    private static Expression AssignVar(string name, Expression v)
+      => Expression.Call(
+          blockParam,
+          blockType.GetMethod("SetVariable"),
+          Expression.Constant(name),
+          v
+        );
 
     public abstract class AST
     {
@@ -189,12 +204,7 @@ namespace Pianoforte.Solfege.Lang
       }
 
       public override Expression ToExpression()
-        => Expression.Call(
-          blockParam,
-          blockType.GetMethod("SetVariable"),
-          Expression.Constant(Name),
-          Expr.ToExpression()
-        );
+        => AssignVar(Name, Expr);
     }
 
     public class MemberAccess : AST
@@ -358,6 +368,44 @@ namespace Pianoforte.Solfege.Lang
           : Expression.IfThenElse(ToBoolExpr(Test), IfTrue.ToExpression(), IfFalse.ToExpression());
     }
 
+
+    public class For : AST
+    {
+      public string VarName { get; }
+      public AST List { get; }
+      public Block Block { get; }
+      public LabelTarget BreakTarget { get; } = Expression.Label();
+      public LabelTarget ContinueTarget { get; } = Expression.Label();
+
+      public For(Token token, Token variable, AST list, Block block) : base(token)
+      {
+        VarName = variable.Text;
+        List = list;
+        Block = block;
+      }
+
+      public override Expression ToExpression()
+      {
+        var i = Expression.Parameter(typeof(int), "i");
+        var len = ValueProp(CallOperation("Length", List), "Integer");
+        var getItem = CallOperation("ArrayItem", List.ToExpression(), MakeValue("Integer", i));
+        return Expression.Block(
+            new[] { i },
+          Expression.Loop(
+
+          Expression.Block(
+            AssignVar(VarName, getItem),
+
+            Block.ToExpression(),
+            
+            Expression.AddAssign(i, Expression.Constant(1)),
+            Expression.IfThen(Expression.GreaterThanOrEqual(i, len),
+              Expression.Break(BreakTarget)
+            )
+          ), BreakTarget, ContinueTarget));
+      }
+    }
+
     public class Block : AST
     {
       private readonly ParameterExpression parentParam = Expression.Parameter(blockType, "parent");
@@ -370,6 +418,8 @@ namespace Pianoforte.Solfege.Lang
         Body = body;
         Body.Parent = this;
       }
+
+      public Block(Token token, Block inner) : this(token, new ASTList(token, inner)) { }
 
       public override Expression ToExpression()
       {

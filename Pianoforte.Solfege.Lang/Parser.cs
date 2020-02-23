@@ -268,6 +268,25 @@ namespace Pianoforte.Solfege.Lang
       return ast;
     }
 
+    private SyntaxTree.AST ParseFor()
+    {
+      var token = NextToken();
+      AssertTokenKind(TokenKind.For, token);
+
+      var ident = NextToken();
+      if (ident.Kind != TokenKind.Identifier)
+      {
+        throw new SyntaxException(ident, Properties.Resources.InvalidLeftOfAssignment);
+      }
+      AssertTokenKind(TokenKind.OpAssignment, NextToken());
+      var list = ParseExpr();
+      AssertTokenKind(TokenKind.EndOfLine, NextToken());
+
+      var block = new SyntaxTree.Block(token, ParseUntilTokenKind(TokenKind.End));
+      AssertTokenKind(TokenKind.End, NextToken());
+      return new SyntaxTree.For(token, ident, list, block);
+    }
+
     private SyntaxTree.AST ParseAssignment()
     {
       var ident = lookahead[0];
@@ -286,6 +305,7 @@ namespace Pianoforte.Solfege.Lang
       {
         TokenKind.Begin => ParseBeginBlock(),
         TokenKind.If => ParseIfElse(),
+        TokenKind.For => ParseFor(),
         _ => lookahead[1].Kind == TokenKind.OpAssignment ? ParseAssignment() : ParseExpr(),
       };
       var eol = NextToken();

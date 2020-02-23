@@ -8,6 +8,10 @@ Console.WriteLine(1 + 1 == 2)
 Console.WriteLine(1 < 2)
 Console.WriteLine(not not true)
 
+for i <- [1, 2, 3]
+  Console.WriteLine(i)
+end
+
 if false
   Console.WriteLine("OK1")
 elif 0 > 0
