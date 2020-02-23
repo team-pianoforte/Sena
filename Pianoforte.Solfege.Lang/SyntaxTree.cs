@@ -18,6 +18,21 @@ namespace Pianoforte.Solfege.Lang
       = Expression.Parameter(blockType, "block");
 
 
+    private static Expression CallOperation(string name, params Expression[] args)
+      => Expression.Call(
+        null,
+        typeof(Runtime.Operations).GetMethod(name),
+        args);
+    private static Expression CallOperation(string name, params AST[] args)
+      => CallOperation(name, args.Select((v) => v.ToExpression()).ToArray());
+
+
+    private static readonly Type valueType = typeof(Runtime.Value);
+    private static Expression ValueProp(AST value, string prop)
+      => ValueProp(value.ToExpression(), prop);
+    private static Expression ValueProp(Expression value, string prop)
+      => Expression.Property(value, valueType.GetProperty(prop));
+
     public abstract class AST
     {
       public AST Parent { get; set; }
@@ -105,7 +120,7 @@ namespace Pianoforte.Solfege.Lang
           _ => throw new InternalAssertionException("Binary operator is required"),
 
         };
-        return Expression.Call(null, typeof(Runtime.Operations).GetMethod(method), Lhs.ToExpression(), Rhs.ToExpression());
+        return CallOperation(method, Lhs, Rhs);
       }
     }
 
@@ -127,7 +142,7 @@ namespace Pianoforte.Solfege.Lang
           _ => throw new InternalAssertionException("Unary operator is required"),
 
         };
-        return Expression.Call(null, typeof(Runtime.Operations).GetMethod(method), Value.ToExpression());
+        return CallOperation(method, Value);
       }
     }
 
@@ -181,6 +196,7 @@ namespace Pianoforte.Solfege.Lang
           Expr.ToExpression()
         );
     }
+
     public class MemberAccess : AST
     {
       public AST Receiver { get; }
@@ -195,10 +211,7 @@ namespace Pianoforte.Solfege.Lang
       }
 
       public override Expression ToExpression()
-        => Expression.Call(null,
-            typeof(Runtime.Operations).GetMethod("MemberAccess"),
-            Receiver.ToExpression(),
-            Expression.Constant(Name));
+        => CallOperation("MemberAccess", Receiver.ToExpression(), Expression.Constant(Name));
     }
 
     public class FunctionCall : AST
@@ -219,12 +232,10 @@ namespace Pianoforte.Solfege.Lang
       }
 
       public override Expression ToExpression()
-        => Expression.Call(
-          null,
-          typeof(Runtime.Operations).GetMethod("FunctionCall"),
+        => CallOperation(
+          "FunctionCall",
           Func.ToExpression(),
-          Expression.NewArrayInit(typeof(Runtime.Value), Args.Select((v) => v.ToExpression()))
-        );
+          Expression.NewArrayInit(valueType, Args.Select((v) => v.ToExpression())));
     }
 
     public class InitArray : AST
@@ -244,11 +255,9 @@ namespace Pianoforte.Solfege.Lang
 
 
       public override Expression ToExpression()
-        => Expression.Call(
-          null,
-          typeof(Runtime.Operations).GetMethod("InitArray"),
-          Expression.NewArrayInit(typeof(Runtime.Value), Items.Select((v) => v.ToExpression()))
-        );
+        => CallOperation(
+          "InitArray",
+          Expression.NewArrayInit(valueType, Items.Select((v) => v.ToExpression())));
     }
 
     public class ArrayItem : AST
@@ -266,11 +275,7 @@ namespace Pianoforte.Solfege.Lang
       }
 
       public override Expression ToExpression()
-        => Expression.Call(
-          null,
-          typeof(Runtime.Operations).GetMethod("ArrayItem"),
-          Array.ToExpression(), Index.ToExpression()
-        );
+        => CallOperation("ArrayItem", Array, Index);
     }
 
     public class AssignArrayItem : AST
@@ -292,11 +297,7 @@ namespace Pianoforte.Solfege.Lang
       }
 
       public override Expression ToExpression()
-        => Expression.Call(
-          null,
-          typeof(Runtime.Operations).GetMethod("SetArrayItem"),
-          Array.ToExpression(), Index.ToExpression(), Value.ToExpression()
-        );
+        => CallOperation("SetArrayItem", Array, Index, Value);
     }
 
     public class If : AST
@@ -349,7 +350,7 @@ namespace Pianoforte.Solfege.Lang
       }
 
       private Expression ToBoolExpr(AST v)
-        => Expression.Property(v.ToExpression(), typeof(Runtime.Value).GetProperty("Bool"));
+        => ValueProp(v, "Bool");
 
       public override Expression ToExpression()
         => ifFalse == null
