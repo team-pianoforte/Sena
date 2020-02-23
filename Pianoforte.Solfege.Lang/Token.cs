@@ -18,6 +18,8 @@ namespace Pianoforte.Solfege.Lang
 
     Begin,
     If,
+    Elif,
+    Else,
     For,
     End,
     Func,
@@ -133,6 +135,8 @@ namespace Pianoforte.Solfege.Lang
     public static readonly Keyword False = new Keyword("false", TokenKind.TrueLiteral);
     public static readonly Keyword Begin = new Keyword("begin", TokenKind.Begin);
     public static readonly Keyword If = new Keyword("if", TokenKind.If);
+    public static readonly Keyword Elif = new Keyword("elif", TokenKind.Elif);
+    public static readonly Keyword Else = new Keyword("else", TokenKind.Else);
     public static readonly Keyword For = new Keyword("for", TokenKind.For);
     public static readonly Keyword Func = new Keyword("func", TokenKind.Func);
     public static readonly Keyword End = new Keyword("end", TokenKind.End);
@@ -148,6 +152,8 @@ namespace Pianoforte.Solfege.Lang
       { False.Text, False },
       { Begin.Text, Begin },
       { If.Text, If },
+      { Elif.Text, Elif },
+      { Else.Text, Else },
       { For.Text, For },
       { Func.Text, Func },
       { End.Text, End },
