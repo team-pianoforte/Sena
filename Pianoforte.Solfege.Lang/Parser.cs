@@ -188,6 +188,7 @@ namespace Pianoforte.Solfege.Lang
       AssertTokenKind(TokenKind.ParenLeft, parentLeft);
       if (lookahead.Head.Kind == TokenKind.ParenRight)
       {
+        AssertTokenKind(TokenKind.ParenRight, NextToken());
         return new SyntaxTree.ASTList(lookahead.Head);
       }
 
