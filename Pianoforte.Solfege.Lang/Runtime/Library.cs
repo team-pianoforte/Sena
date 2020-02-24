@@ -15,14 +15,20 @@ namespace Pianoforte.Solfege.Lang.Runtime
           return Value.MakeNone();
         }, name, argNames));
 
+    private static Value MakeFunc(Func<FunctionArgs, Value> f, string name, params string[] argNames)
+      => Value.MakeFunction(
+        new Function(f, name, argNames));
+
     public IConsole Console { get; }
     public interface IConsole
     {
       void WriteLine(Value v);
+      Value ReadLine();
 
       public Object AsObject()
         => new Object("Console", new Dictionary<string, Value>() {
           { "WriteLine", makeVoidFunc((args) => WriteLine(args[0]), "WriteLine", "v") },
+          { "ReadLine", MakeFunc((args) => ReadLine(), "ReadLine") },
         });
     }
     public interface IDebug

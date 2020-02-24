@@ -28,6 +28,12 @@ namespace Pianoforte.Solfege.Lang.Runtime
         PrepareIfRequired();
         System.Console.WriteLine(v);
       }
+
+      public Value ReadLine()
+      {
+        PrepareIfRequired();
+        return Value.MakeString(System.Console.ReadLine());
+      }
     }
 
     public static Environment Environment = new Environment(new Library(new Console()));
