@@ -28,6 +28,7 @@ namespace Pianoforte.Solfege.Lang
     Or,
     Not,
     To,
+    Step,
     In,
 
     OpAssignment,
@@ -144,6 +145,7 @@ namespace Pianoforte.Solfege.Lang
     public static readonly Keyword Or = new Keyword("or", TokenKind.Or);
     public static readonly Keyword Not = new Keyword("not", TokenKind.Not);
     public static readonly Keyword To = new Keyword("to", TokenKind.To);
+    public static readonly Keyword Step = new Keyword("step", TokenKind.Step);
     public static readonly Keyword In = new Keyword("in", TokenKind.In);
 
     public static readonly Dictionary<string, Keyword> Map = new Dictionary<string, Keyword> {
@@ -161,6 +163,7 @@ namespace Pianoforte.Solfege.Lang
       { Or.Text, Or },
       { Not.Text, Not },
       { To.Text, To },
+      { Step.Text, Step },
       { In.Text, In },
     };
   }

@@ -17,7 +17,7 @@ namespace Pianoforte.Solfege.Lang.Test
         new Token(TokenKind.EndOfLine, "\n", new TokenPosition("", 1, 13)),
         new Token(TokenKind.EndOfFile, "", new TokenPosition("", 2, 1)),
       }},
-      new object[] { "none true false value if for func end and or not to in begin elif else\n", new[] {
+      new object[] { "none true false value if for func end and or not to in begin elif else step\n", new[] {
         new Token(Keywords.None.TokenKind, Keywords.None.Text, new TokenPosition("", 1, 1)),
         new Token(Keywords.True.TokenKind, Keywords.True.Text, new TokenPosition("", 1, 6)),
         new Token(Keywords.False.TokenKind, Keywords.False.Text, new TokenPosition("", 1, 11)),
@@ -34,7 +34,8 @@ namespace Pianoforte.Solfege.Lang.Test
         new Token(Keywords.Begin.TokenKind, Keywords.Begin.Text, new TokenPosition("", 1, 56)),
         new Token(Keywords.Elif.TokenKind, Keywords.Elif.Text, new TokenPosition("", 1, 62)),
         new Token(Keywords.Else.TokenKind, Keywords.Else.Text, new TokenPosition("", 1, 67)),
-        new Token(TokenKind.EndOfLine, "\n", new TokenPosition("", 1, 71)),
+        new Token(Keywords.Step.TokenKind, Keywords.Step.Text, new TokenPosition("", 1, 72)),
+        new Token(TokenKind.EndOfLine, "\n", new TokenPosition("", 1, 76)),
         new Token(TokenKind.EndOfFile, "", new TokenPosition("", 2, 1)),
       }},
       new object[] { string.Join("",
