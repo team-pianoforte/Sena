@@ -228,6 +228,41 @@ namespace Pianoforte.Solfege.Lang.Runtime
       return Value.MakeArray(new Array(items));
     }
 
+    public static Value InitArrayByTo(Value from, Value to, Value step)
+    {
+      if (!ValuesTypeIs(ValueType.Number, from, to, step))
+      {
+        throw new RuntimeException(Properties.Resources.NonNumberRange);
+      }
+
+      if (to.Number == from.Number)
+      {
+        // 1 to 1 step 0 => [1]
+        return Value.MakeArray(new Array(new[] { from }));
+      }
+
+      if (step.Number == 0)
+      {
+        // 1 to 2 step 0 => Invalid
+        throw new RuntimeException(Properties.Resources.StepIsZero);
+      }
+
+   
+      if ((to.Number - from.Number) > 0 != step.Number > 0)
+      {
+        // 0 to 1 step 2 => [0]
+        // 0 to 1 step -2  => []
+        // 0 to 1 step 0.00001  => [0]
+        // 0 to 1 step -0.00001  => []
+        return Value.MakeArray(new Array());
+      }
+
+      var n = (int)((to.Number - from.Number) / step.Number) + 1;
+      return Value.MakeArray(new Array(
+        Enumerable.Range(0, n).Select((i) => Value.MakeNumber(from.Number + (i * step.Number))
+      )));
+    }
+
     private static void AssertTypeOfArrayAndIndex(Value v, Value index)
     {
       if (v.Type != ValueType.Array)

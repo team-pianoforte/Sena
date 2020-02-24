@@ -275,5 +275,61 @@ namespace Pianoforte.Solfege.Lang.Runtime.Test
 
       Assert.False(Operations.LessThan(Value.MakeNone(), Value.MakeNumber(1)).Bool);
     }
+
+    public static object[][] initArrayByToData =
+    {
+      new object[] {
+        new Array(new[] { Value.MakeNumber(0), Value.MakeNumber(1), Value.MakeNumber(2) }),
+        Value.MakeNumber(0), Value.MakeNumber(2), Value.MakeNumber(1),
+      },
+      new object[] {
+        new Array(new[] { Value.MakeNumber(0), Value.MakeNumber(2) }),
+        Value.MakeNumber(0), Value.MakeNumber(2), Value.MakeNumber(2),
+      },
+      new object[] {
+        new Array(new[] { Value.MakeNumber(0) }),
+        Value.MakeNumber(0), Value.MakeNumber(2), Value.MakeNumber(3),
+      },
+      new object[] {
+        new Array(),
+        Value.MakeNumber(0), Value.MakeNumber(-0.1m), Value.MakeNumber(1),
+      },
+      new object[] {
+        new Array(),
+        Value.MakeNumber(0), Value.MakeNumber(-3), Value.MakeNumber(1),
+      },
+      new object[] {
+        new Array(),
+        Value.MakeNumber(0), Value.MakeNumber(6), Value.MakeNumber(-1),
+      },
+      new object[] {
+        new Array(new[] { Value.MakeNumber(0.1m), Value.MakeNumber(1.1m), Value.MakeNumber(2.1m) }),
+        Value.MakeNumber(0.1m), Value.MakeNumber(2.5m), Value.MakeNumber(1),
+      },
+      new object[] {
+        new Array(new[] { Value.MakeNumber(1.1m), Value.MakeNumber(0), Value.MakeNumber(-1.1m) }),
+        Value.MakeNumber(1.1m), Value.MakeNumber(-2), Value.MakeNumber(-1.1m),
+      },
+    };
+
+    [Theory]
+    [MemberData(nameof(initArrayByToData))]
+    public void TestInitArrayByTo(Array expected, Value from, Value to, Value step)
+    {
+      Assert.Equal(expected, Operations.InitArrayByTo(from, to, step).Array);
+    }
+
+    [Fact]
+    public void TestInitArrayByToInvalid()
+    {
+      Assert.Throws<RuntimeException>(() =>
+        Operations.InitArrayByTo(Value.MakeNone(), Value.MakeNumber(1), Value.MakeNumber(1)));
+      Assert.Throws<RuntimeException>(() =>
+        Operations.InitArrayByTo(Value.MakeNumber(0), Value.MakeNone(), Value.MakeNumber(1)));
+      Assert.Throws<RuntimeException>(() =>
+        Operations.InitArrayByTo(Value.MakeNumber(0), Value.MakeNumber(1), Value.MakeNone()));
+      Assert.Throws<RuntimeException>(() =>
+      Operations.InitArrayByTo(Value.MakeNumber(0), Value.MakeNumber(1), Value.MakeNumber(0)));
+    }
   }
 }

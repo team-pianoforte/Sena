@@ -268,6 +268,15 @@ namespace Pianoforte.Solfege.Lang.Properties {
         }
         
         /// <summary>
+        ///   Cannot use &quot;to&quot; with non number に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NonNumberRange {
+            get {
+                return ResourceManager.GetString("NonNumberRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Member access is allowed only objects. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string NonObjectMemberAccess {
@@ -300,6 +309,15 @@ namespace Pianoforte.Solfege.Lang.Properties {
         public static string SliceByNonNumber {
             get {
                 return ResourceManager.GetString("SliceByNonNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cannot step be zero に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string StepIsZero {
+            get {
+                return ResourceManager.GetString("StepIsZero", resourceCulture);
             }
         }
         
