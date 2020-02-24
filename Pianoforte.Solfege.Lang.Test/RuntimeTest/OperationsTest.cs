@@ -310,6 +310,14 @@ namespace Pianoforte.Solfege.Lang.Runtime.Test
         new Array(new[] { Value.MakeNumber(1.1m), Value.MakeNumber(0), Value.MakeNumber(-1.1m) }),
         Value.MakeNumber(1.1m), Value.MakeNumber(-2), Value.MakeNumber(-1.1m),
       },
+      new object[] {
+        new Array(new[] { Value.MakeNumber(0), Value.MakeNumber(1), Value.MakeNumber(2) }),
+        Value.MakeNumber(0), Value.MakeNumber(2), Value.MakeNone(),
+      },
+      new object[] {
+        new Array(new[] { Value.MakeNumber(0), Value.MakeNumber(-1), Value.MakeNumber(-2) }),
+        Value.MakeNumber(0), Value.MakeNumber(-2), Value.MakeNone(),
+      },
     };
 
     [Theory]
@@ -326,8 +334,6 @@ namespace Pianoforte.Solfege.Lang.Runtime.Test
         Operations.InitArrayByTo(Value.MakeNone(), Value.MakeNumber(1), Value.MakeNumber(1)));
       Assert.Throws<RuntimeException>(() =>
         Operations.InitArrayByTo(Value.MakeNumber(0), Value.MakeNone(), Value.MakeNumber(1)));
-      Assert.Throws<RuntimeException>(() =>
-        Operations.InitArrayByTo(Value.MakeNumber(0), Value.MakeNumber(1), Value.MakeNone()));
       Assert.Throws<RuntimeException>(() =>
       Operations.InitArrayByTo(Value.MakeNumber(0), Value.MakeNumber(1), Value.MakeNumber(0)));
     }

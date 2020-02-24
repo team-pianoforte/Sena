@@ -230,7 +230,8 @@ namespace Pianoforte.Solfege.Lang.Runtime
 
     public static Value InitArrayByTo(Value from, Value to, Value step)
     {
-      if (!ValuesTypeIs(ValueType.Number, from, to, step))
+      if (!(ValueHasOneOfTypes(step, ValueType.Number, ValueType.None))
+        && ValuesTypeIs(ValueType.Number, from, to))
       {
         throw new RuntimeException(Properties.Resources.NonNumberRange);
       }
@@ -239,6 +240,12 @@ namespace Pianoforte.Solfege.Lang.Runtime
       {
         // 1 to 1 step 0 => [1]
         return Value.MakeArray(new Array(new[] { from }));
+      }
+
+      var diff = to.Number - from.Number;
+      if (step.Type == ValueType.None)
+      {
+        step = Value.MakeNumber(Math.Abs(diff) / diff);
       }
 
       if (step.Number == 0)
