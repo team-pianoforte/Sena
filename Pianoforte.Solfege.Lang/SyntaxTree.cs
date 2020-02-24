@@ -270,6 +270,27 @@ namespace Pianoforte.Solfege.Lang
           Expression.NewArrayInit(valueType, Items.Select((v) => v.ToExpression())));
     }
 
+    public class InitArrayByTo : AST
+    {
+      public AST From { get; }
+      public AST To { get; }
+      public AST Step { get; }
+
+      public InitArrayByTo(Token token, AST from, AST to, AST step) : base(token)
+      {
+        From = from;
+        To = to;
+        Step = step;
+      }
+
+      public override Expression ToExpression()
+        => CallOperation(
+          "InitArrayByTo",
+          From.ToExpression(),
+          To.ToExpression(),
+          Step != null ? Step.ToExpression() : Expression.Constant(Runtime.Value.MakeNone()));
+    }
+
     public class ArrayItem : AST
     {
       public AST Array { get; }
@@ -397,7 +418,7 @@ namespace Pianoforte.Solfege.Lang
             AssignVar(VarName, getItem),
 
             Block.ToExpression(),
-            
+
             Expression.AddAssign(i, Expression.Constant(1)),
             Expression.IfThen(Expression.GreaterThanOrEqual(i, len),
               Expression.Break(BreakTarget)

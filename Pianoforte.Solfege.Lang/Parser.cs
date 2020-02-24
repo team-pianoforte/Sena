@@ -161,14 +161,35 @@ namespace Pianoforte.Solfege.Lang
       }
     }
 
-    private SyntaxTree.AST ParseComparsion()
+    private SyntaxTree.AST ParseToExpr()
     {
       var expr = ParseTerm();
+      if (lookahead.Head.Kind != TokenKind.To)
+      {
+        return expr;
+      }
+
+      var token = NextToken();
+      AssertTokenKind(TokenKind.To, token);
+      var from = expr;
+      var to = ParseTerm();
+      if (lookahead.Head.Kind != TokenKind.Step)
+      {
+        return new SyntaxTree.InitArrayByTo(token, from, to, null);
+      }
+
+      AssertTokenKind(TokenKind.Step, NextToken());
+      return new SyntaxTree.InitArrayByTo(token, from, to, ParseTerm());
+    }
+
+    private SyntaxTree.AST ParseComparsion()
+    {
+      var expr = ParseToExpr();
       while (true)
       {
         if (lookahead.Head.IsComparsionOp())
         {
-          expr = new SyntaxTree.Binary(NextToken(), expr, ParseTerm());
+          expr = new SyntaxTree.Binary(NextToken(), expr, ParseToExpr());
         }
         else
         {
