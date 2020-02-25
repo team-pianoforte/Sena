@@ -58,16 +58,26 @@ namespace Pianoforte.Solfege.Lang.Runtime
           { "ToNumber", MakeFunc((args) => ToNumber(args[0]), "ToNumber", "v") },
        });
     }
+    public ISystem System;
+    public interface ISystem
+    {
+      Value Update();
 
+      public Object AsObject()
+       => new Object("Convert", new Dictionary<string, Value>() {
+          { "Update", MakeFunc((_) => Update(), "Update") },
+       });
+    }
     public IEnumerable<Object> Objects
     {
-      get => new List<Object> { Console.AsObject(), Convert.AsObject() };
+      get => new List<Object> { Console.AsObject(), Convert.AsObject(), System.AsObject() };
     }
 
-    public Library(IConsole console, IConvert conv)
+    public Library(IConsole console, IConvert conv, ISystem system)
     {
       Console = console;
       Convert = conv;
+      System = system;
     }
   }
 }
