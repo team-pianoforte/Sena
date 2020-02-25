@@ -41,14 +41,33 @@ namespace Pianoforte.Solfege.Lang.Runtime
         });
     }
 
-    public IEnumerable<Object> Objects
+    public IConvert Convert;
+    public interface IConvert
     {
-      get => new List<Object> { Console.AsObject() };
+      Value ToString(Value v)
+        => v.ConvertType(ValueType.String);
+      Value ToBool(Value v)
+        => v.ConvertType(ValueType.Bool);
+      Value ToNumber(Value v)
+        => v.ConvertType(ValueType.Number);
+
+      public Object AsObject()
+       => new Object("Convert", new Dictionary<string, Value>() {
+          { "ToString", MakeFunc((args) => ToString(args[0]), "ToString", "v") },
+          { "ToBool", MakeFunc((args) => ToBool(args[0]), "ToBool", "v") },
+          { "ToNumber", MakeFunc((args) => ToNumber(args[0]), "ToNumber", "v") },
+       });
     }
 
-    public Library(IConsole console)
+    public IEnumerable<Object> Objects
+    {
+      get => new List<Object> { Console.AsObject(), Convert.AsObject() };
+    }
+
+    public Library(IConsole console, IConvert conv)
     {
       Console = console;
+      Convert = conv;
     }
   }
 }

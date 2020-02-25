@@ -35,7 +35,7 @@ namespace Pianoforte.Solfege.Lang.Runtime
         return Value.MakeString(System.Console.ReadLine());
       }
     }
-
-    public static Environment Environment = new Environment(new Library(new Console()));
+    internal class Convert : Library.IConvert { }
+    public static Environment Environment = new Environment(new Library(new Console(), new Convert()));
   }
 }
