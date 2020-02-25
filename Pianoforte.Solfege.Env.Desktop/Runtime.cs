@@ -7,7 +7,7 @@ namespace Pianoforte.Solfege.Lang.Runtime
 {
   internal class DesktopRuntime
   {
-    internal class Console : Library.IConsole
+    internal class LibConsole : Library.ILibConsole
     {
       [DllImport("kernel32.dll")]
       private static extern bool AllocConsole();
@@ -26,18 +26,18 @@ namespace Pianoforte.Solfege.Lang.Runtime
       public void WriteLine(Value v)
       {
         PrepareIfRequired();
-        System.Console.WriteLine(v);
+        Console.WriteLine(v);
       }
 
       public Value ReadLine()
       {
         PrepareIfRequired();
-        return Value.MakeString(System.Console.ReadLine());
+        return Value.MakeString(Console.ReadLine());
       }
     }
-    internal class Convert : Library.IConvert { }
+    internal class LibConvert : Library.ILibConvert { }
 
-    internal class System : Library.ISystem
+    internal class LibSystem : Library.ILibSystem
     {
       public Value Update()
       {
@@ -45,6 +45,7 @@ namespace Pianoforte.Solfege.Lang.Runtime
       }
     }
 
-    public static Environment Environment = new Environment(new Library(new Console(), new Convert(), new System()));
+    public static Environment Environment = new Environment(new Library(
+      new LibConsole(), new LibConvert(), new LibSystem()));
   }
 }

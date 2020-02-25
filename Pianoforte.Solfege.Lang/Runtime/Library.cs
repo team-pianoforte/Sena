@@ -19,8 +19,8 @@ namespace Pianoforte.Solfege.Lang.Runtime
       => Value.MakeFunction(
         new Function(f, name, argNames));
 
-    public IConsole Console { get; }
-    public interface IConsole
+    public ILibConsole LibConsole { get; }
+    public interface ILibConsole
     {
       void WriteLine(Value v);
       Value ReadLine();
@@ -31,7 +31,7 @@ namespace Pianoforte.Solfege.Lang.Runtime
           { "ReadLine", MakeFunc((args) => ReadLine(), "ReadLine") },
         });
     }
-    public interface IDebug
+    public interface ILibDebug
     {
       void Error(Value v);
 
@@ -41,8 +41,8 @@ namespace Pianoforte.Solfege.Lang.Runtime
         });
     }
 
-    public IConvert Convert;
-    public interface IConvert
+    public ILibConvert LibConvert;
+    public interface ILibConvert
     {
       Value ToString(Value v)
         => v.ConvertType(ValueType.String);
@@ -58,8 +58,8 @@ namespace Pianoforte.Solfege.Lang.Runtime
           { "ToNumber", MakeFunc((args) => ToNumber(args[0]), "ToNumber", "v") },
        });
     }
-    public ISystem System;
-    public interface ISystem
+    public ILibSystem LibSystem;
+    public interface ILibSystem
     {
       Value Update();
 
@@ -70,14 +70,18 @@ namespace Pianoforte.Solfege.Lang.Runtime
     }
     public IEnumerable<Object> Objects
     {
-      get => new List<Object> { Console.AsObject(), Convert.AsObject(), System.AsObject() };
+      get => new List<Object> {
+        LibConsole.AsObject(), 
+        LibConvert.AsObject(), 
+        LibSystem.AsObject(),
+      };
     }
 
-    public Library(IConsole console, IConvert conv, ISystem system)
+    public Library(ILibConsole console, ILibConvert conv, ILibSystem system)
     {
-      Console = console;
-      Convert = conv;
-      System = system;
+      LibConsole = console;
+      LibConvert = conv;
+      LibSystem = system;
     }
   }
 }
