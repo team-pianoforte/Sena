@@ -230,8 +230,8 @@ namespace Pianoforte.Solfege.Lang.Runtime
 
     public static Value InitArrayByTo(Value from, Value to, Value step)
     {
-      if (!(ValueHasOneOfTypes(step, ValueType.Number, ValueType.None))
-        && ValuesTypeIs(ValueType.Number, from, to))
+      if (!(ValueHasOneOfTypes(step, ValueType.Number, ValueType.None)
+        && ValuesTypeIs(ValueType.Number, from, to)))
       {
         throw new RuntimeException(Properties.Resources.NonNumberRange);
       }
