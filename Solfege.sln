@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pianoforte.Solfege.Lang", "Pianoforte.Solfege.Lang\Pianoforte.Solfege.Lang.csproj", "{1F785A73-1A55-4EB0-9C5F-D16C21384FCF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pianoforte.Solfege.Env.Cli", "Pianoforte.Solfege.Env.Cli\Pianoforte.Solfege.Env.Cli.csproj", "{5A2261E0-DE04-49E7-89CB-B54B404F12D3}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D46A0F94-14BF-4011-A409-AFF4BCEE5DB3}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
