@@ -322,6 +322,10 @@ namespace Pianoforte.Solfege.Lang
 
     private SyntaxTree.AST ParseStatement()
     {
+      while (lookahead.Head.Kind == TokenKind.EndOfLine)
+      {
+        NextToken();
+      }
       SyntaxTree.AST expr = lookahead[0].Kind switch
       {
         TokenKind.Begin => ParseBeginBlock(),
