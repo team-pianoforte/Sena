@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pianoforte.Solfege.Lang.Test", "Pianoforte.Solfege.Lang.Test\Pianoforte.Solfege.Lang.Test.csproj", "{48BEF656-98C0-418C-B61D-7CF4509BED4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pianoforte.Solfege.Env.Desktop", "Pianoforte.Solfege.Env.Desktop\Pianoforte.Solfege.Env.Desktop.csproj", "{F68B4491-2A87-4A53-982D-99683231B925}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pianoforte.Solfege.App", "Pianoforte.Solfege.App\Pianoforte.Solfege.App.csproj", "{F68B4491-2A87-4A53-982D-99683231B925}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

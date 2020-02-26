@@ -64,7 +64,7 @@ namespace Pianoforte.Solfege.Lang.Runtime
       Value Update();
 
       public Object AsObject()
-       => new Object("Convert", new Dictionary<string, Value>() {
+       => new Object("System", new Dictionary<string, Value>() {
           { "Update", MakeFunc((_) => Update(), "Update") },
        });
     }

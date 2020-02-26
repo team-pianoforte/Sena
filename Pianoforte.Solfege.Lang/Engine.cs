@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Pianoforte.Solfege.Lang
 {
@@ -14,6 +15,9 @@ namespace Pianoforte.Solfege.Lang
 
     private Delegate bin = null;
 
+    public async void ExecuteAsync(string filename)
+      => await Task.Run(() => Execute(filename));
+     
     public void Execute(string filename)
       => Execute(filename, new FileStream(filename, FileMode.Open));
 

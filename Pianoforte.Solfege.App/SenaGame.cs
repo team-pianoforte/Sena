@@ -11,7 +11,6 @@ namespace Pianoforte.Solfege.Env.Desktop
 
     private readonly GraphicsDeviceManager graphics;
     private Graphics2D spriteBatch;
-
     private readonly Engine engine;
     private readonly string filepath;
 
@@ -27,7 +26,7 @@ namespace Pianoforte.Solfege.Env.Desktop
     protected override void Initialize()
     {
       // TODO: Add your initialization logic here
-      engine.Execute(filepath);
+      engine.ExecuteAsync(filepath);
       base.Initialize();
     }
 
@@ -53,7 +52,8 @@ namespace Pianoforte.Solfege.Env.Desktop
       GraphicsDevice.Clear(Color.CornflowerBlue);
 
       spriteBatch.Begin();
-      spriteBatch.DrawRectangle(new Rectangle(0, 0, 10, 10), Color.Red);
+      x+= 1
+      spriteBatch.DrawRectangle(new Rectangle(x, 0, 10, 10), Color.Red);
       spriteBatch.End();
 
       base.Draw(gameTime);
