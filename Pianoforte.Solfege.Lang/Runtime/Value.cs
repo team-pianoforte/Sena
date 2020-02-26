@@ -123,76 +123,60 @@ namespace Pianoforte.Solfege.Lang.Runtime
     #region FromXXX
 
     public static Value FromToken(Token token)
-    {
-      var type = token.Kind switch
-      {
-        TokenKind.NoneLiteral => ValueType.None,
-        TokenKind.TrueLiteral => ValueType.Bool,
-        TokenKind.FalseLiteral => ValueType.Bool,
-        TokenKind.NumberLiteral => ValueType.Number,
-        TokenKind.StringLiteral => ValueType.String,
-        _ => throw new InternalAssertionException("Cannot convert RuntimeValue"),
-      };
-      return MakeString(token.Text).ConvertType(type);
-    }
+      =>
+      MakeString(token.Text).ConvertType(token.Kind switch
+        {
+          TokenKind.NoneLiteral => ValueType.None,
+          TokenKind.TrueLiteral => ValueType.Bool,
+          TokenKind.FalseLiteral => ValueType.Bool,
+          TokenKind.NumberLiteral => ValueType.Number,
+          TokenKind.StringLiteral => ValueType.String,
+          _ => throw new InternalAssertionException("Cannot convert RuntimeValue"),
+        }
+      );
+    
 
     #endregion
 
     #region MakeXXX
 
     public static Value MakeDefault(ValueType type)
-    {
-      return type switch
+      => type switch
       {
         ValueType.None => MakeNone(),
         ValueType.Bool => MakeBool(false),
         ValueType.Number => MakeNumber(0),
         ValueType.String => MakeString(""),
         _ => throw new InternalAssertionException(string.Format("Cannot generate default of {0}", type)),
-      };
-    }
+     };
 
     public static Value MakeNone()
-    {
-      return new Value(ValueType.None);
-    }
+      => new Value(ValueType.None);
 
     public static Value MakeBool(bool v)
-    {
-      return new Value(ValueType.Bool, v, 0, "", null, null, null);
-    }
+      => new Value(ValueType.Bool, v, 0, "", null, null, null);
 
     public static Value MakeNumber(decimal v)
-    {
-      return new Value(ValueType.Number, false, v, "", null, null, null);
-    }
+      => new Value(ValueType.Number, false, v, "", null, null, null);
 
     public static Value MakeInteger(int v) => MakeNumber((decimal)v);
 
     public static Value MakeString(string v)
-    {
-      return new Value(ValueType.String, false, 0, v, null, null, null);
-    }
+      => new Value(ValueType.String, false, 0, v, null, null, null);
 
     public static Value MakeObject(Object v)
-    {
-      return new Value(ValueType.Object, false, 0, "", v, null, null);
-    }
+      => new Value(ValueType.Object, false, 0, "", v, null, null);
     public static Value MakeArray(Array v)
-    {
-      return new Value(ValueType.Array, false, 0, "", null, v, null);
-    }
+      => new Value(ValueType.Array, false, 0, "", null, v, null);
 
 
     public static Value MakeFunction(LambdaExpression lambda)
       => MakeFunction(new Function(lambda));
     public static Value MakeFunction(Func<FunctionArgs, Value> func, string name, params string[] argNames)
-      => MakeFunction(new Function(func, name, argNames);
+      => MakeFunction(new Function(func, name, argNames));
 
     public static Value MakeFunction(Function v)
-    {
-      return new Value(ValueType.Function, false, 0, "", null, null, v);
-    }
+      => new Value(ValueType.Function, false, 0, "", null, null, v);
     #endregion
 
     #region Converts

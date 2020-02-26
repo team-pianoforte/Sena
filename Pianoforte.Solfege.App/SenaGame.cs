@@ -52,8 +52,7 @@ namespace Pianoforte.Solfege.Env.Desktop
       GraphicsDevice.Clear(Color.CornflowerBlue);
 
       spriteBatch.Begin();
-      x+= 1
-      spriteBatch.DrawRectangle(new Rectangle(x, 0, 10, 10), Color.Red);
+      spriteBatch.DrawRectangle(new Rectangle(0, 0, 10, 10), Color.Red);
       spriteBatch.End();
 
       base.Draw(gameTime);
