@@ -183,6 +183,12 @@ namespace Pianoforte.Solfege.Lang.Runtime
       return new Value(ValueType.Array, false, 0, "", null, v, null);
     }
 
+
+    public static Value MakeFunction(LambdaExpression lambda)
+      => MakeFunction(new Function(lambda));
+    public static Value MakeFunction(Func<FunctionArgs, Value> func, string name, params string[] argNames)
+      => MakeFunction(new Function(func, name, argNames);
+
     public static Value MakeFunction(Function v)
     {
       return new Value(ValueType.Function, false, 0, "", null, null, v);
