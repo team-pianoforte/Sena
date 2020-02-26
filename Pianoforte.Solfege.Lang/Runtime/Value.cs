@@ -190,6 +190,7 @@ namespace Pianoforte.Solfege.Lang.Runtime
       ValueType.Object => Object.ToString(),
       ValueType.Array => Array.ToString(),
       ValueType.Function => Function.ToString(),
+       _ => throw new InternalAssertionException("Error")
     };
 
     public bool ToBool() => Type switch
@@ -201,6 +202,7 @@ namespace Pianoforte.Solfege.Lang.Runtime
       ValueType.Object => Object != null,
       ValueType.Array => Array.Length > 0,
       ValueType.Function => true,
+       _ => throw new InternalAssertionException("Error")
     };
 
     public Value ConvertType(ValueType type)
@@ -251,6 +253,7 @@ namespace Pianoforte.Solfege.Lang.Runtime
              EqualityComparer<Object>.Default.Equals(Object, other.Object),
         ValueType.Function =>
              EqualityComparer<Function>.Default.Equals(Function, other.Function),
+       _ => throw new InternalAssertionException("Error")
       };
 
 
@@ -264,6 +267,7 @@ namespace Pianoforte.Solfege.Lang.Runtime
        ValueType.Array => Array.GetHashCode(),
        ValueType.Object => Object.GetHashCode(),
        ValueType.Function => Function.GetHashCode(),
+       _ => throw new InternalAssertionException("Error")
      } + Type.GetHashCode();
 
 
