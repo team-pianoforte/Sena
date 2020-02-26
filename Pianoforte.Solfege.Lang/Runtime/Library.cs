@@ -7,7 +7,7 @@ namespace Pianoforte.Solfege.Lang.Runtime
 {
   public class Library
   {
-    private static Value makeVoidFunc(Action<FunctionArgs> f, string name, params string[] argNames)
+    private static Value MakeVoidFunc(Action<FunctionArgs> f, string name, params string[] argNames)
       => Value.MakeFunction(
         new Function((args) =>
         {
