@@ -71,8 +71,8 @@ namespace Pianoforte.Solfege.Lang.Runtime
     public IEnumerable<Object> Objects
     {
       get => new List<Object> {
-        LibConsole.AsObject(), 
-        LibConvert.AsObject(), 
+        LibConsole.AsObject(),
+        LibConvert.AsObject(),
         LibSystem.AsObject(),
       };
     }

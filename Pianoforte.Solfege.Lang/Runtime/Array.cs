@@ -113,6 +113,9 @@ namespace Pianoforte.Solfege.Lang.Runtime
              Enumerable.All(Enumerable.Zip(values, array, (a, b) => (a, b)), (v) => v.a == v.b);
     }
 
+    public override int GetHashCode()
+     => values.Aggregate(0, (a, b) => a.GetHashCode() ^ b.GetHashCode());
+
     public static bool operator ==(Array lhs, Array rhs)
     {
       return lhs.Equals(rhs);

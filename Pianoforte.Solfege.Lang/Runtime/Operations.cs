@@ -254,7 +254,7 @@ namespace Pianoforte.Solfege.Lang.Runtime
         throw new RuntimeException(Properties.Resources.StepIsZero);
       }
 
-   
+
       if ((to.Number - from.Number) > 0 != step.Number > 0)
       {
         // 0 to 1 step 2 => [0]

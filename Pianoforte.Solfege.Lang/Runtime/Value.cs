@@ -125,16 +125,16 @@ namespace Pianoforte.Solfege.Lang.Runtime
     public static Value FromToken(Token token)
       =>
       MakeString(token.Text).ConvertType(token.Kind switch
-        {
-          TokenKind.NoneLiteral => ValueType.None,
-          TokenKind.TrueLiteral => ValueType.Bool,
-          TokenKind.FalseLiteral => ValueType.Bool,
-          TokenKind.NumberLiteral => ValueType.Number,
-          TokenKind.StringLiteral => ValueType.String,
-          _ => throw new InternalAssertionException("Cannot convert RuntimeValue"),
-        }
+      {
+        TokenKind.NoneLiteral => ValueType.None,
+        TokenKind.TrueLiteral => ValueType.Bool,
+        TokenKind.FalseLiteral => ValueType.Bool,
+        TokenKind.NumberLiteral => ValueType.Number,
+        TokenKind.StringLiteral => ValueType.String,
+        _ => throw new InternalAssertionException("Cannot convert RuntimeValue"),
+      }
       );
-    
+
 
     #endregion
 
@@ -148,7 +148,7 @@ namespace Pianoforte.Solfege.Lang.Runtime
         ValueType.Number => MakeNumber(0),
         ValueType.String => MakeString(""),
         _ => throw new InternalAssertionException(string.Format("Cannot generate default of {0}", type)),
-     };
+      };
 
     public static Value MakeNone()
       => new Value(ValueType.None);
@@ -240,12 +240,7 @@ namespace Pianoforte.Solfege.Lang.Runtime
     }
 
     public bool Equals(Value other)
-    {
-      if (Type != other.Type)
-      {
-        return false;
-      }
-      return Type switch
+      => Type == other.Type && Type switch
       {
         ValueType.None => true,
         ValueType.Bool => Bool == other.Bool,
@@ -257,7 +252,20 @@ namespace Pianoforte.Solfege.Lang.Runtime
         ValueType.Function =>
              EqualityComparer<Function>.Default.Equals(Function, other.Function),
       };
-    }
+
+
+    public override int GetHashCode()
+     => Type switch
+     {
+       ValueType.None => 0,
+       ValueType.Bool => Bool.GetHashCode(),
+       ValueType.Number => Number.GetHashCode(),
+       ValueType.String => String.GetHashCode(),
+       ValueType.Array => Array.GetHashCode(),
+       ValueType.Object => Object.GetHashCode(),
+       ValueType.Function => Function.GetHashCode(),
+     } + Type.GetHashCode();
+
 
     public static bool operator ==(Value lhs, Value rhs)
     {

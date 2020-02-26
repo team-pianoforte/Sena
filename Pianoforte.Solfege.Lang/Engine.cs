@@ -17,7 +17,7 @@ namespace Pianoforte.Solfege.Lang
 
     public async void ExecuteAsync(string filename)
       => await Task.Run(() => Execute(filename));
-     
+
     public void Execute(string filename)
       => Execute(filename, new FileStream(filename, FileMode.Open));
 
