@@ -27,7 +27,7 @@ namespace Pianoforte.Solfege.Lang.Runtime
 
       public Object AsObject()
         => new Object("Console", new Dictionary<string, Value>() {
-          { "WriteLine", makeVoidFunc((args) => WriteLine(args[0]), "WriteLine", "v") },
+          { "WriteLine", MakeVoidFunc((args) => WriteLine(args[0]), "WriteLine", "v") },
           { "ReadLine", MakeFunc((args) => ReadLine(), "ReadLine") },
         });
     }
@@ -37,7 +37,7 @@ namespace Pianoforte.Solfege.Lang.Runtime
 
       public Object AsObject()
         => new Object("Debug", new Dictionary<string, Value>() {
-          { "Error", makeVoidFunc((args) => Error(args[0]), "Error", "v") },
+          { "Error", MakeVoidFunc((args) => Error(args[0]), "Error", "v") },
         });
     }
 
