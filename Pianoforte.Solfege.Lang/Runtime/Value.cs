@@ -235,6 +235,18 @@ namespace Pianoforte.Solfege.Lang.Runtime
     }
     #endregion
 
+    public Value DeepCopy()
+      => Type switch
+      {
+        ValueType.Array => MakeArray(Array.DeepCopy()),
+        ValueType.Object => MakeObject(Object.DeepCopy()),
+        ValueType.Function => MakeFunction(Function), // TODO: It isn't deepcopy.
+        ValueType.None => MakeNone(),
+        ValueType.Bool => MakeBool(Bool),
+        ValueType.Number => MakeNumber(Number),
+        ValueType.String => MakeString(String),
+      };
+
     #region Equals
     public override bool Equals(object obj)
     {

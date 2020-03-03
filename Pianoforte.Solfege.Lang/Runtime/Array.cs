@@ -21,6 +21,9 @@ namespace Pianoforte.Solfege.Lang.Runtime
       values = new List<Value>(v);
     }
 
+    public Array DeepCopy()
+      => new Array(values.Select((v) => v.DeepCopy()));
+
     public override string ToString()
       => "[" + string.Join(", ", values) + "]";
 

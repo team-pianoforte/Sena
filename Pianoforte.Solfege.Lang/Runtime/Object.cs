@@ -20,6 +20,11 @@ namespace Pianoforte.Solfege.Lang.Runtime
       Members = members;
     }
 
+    public Object DeepCopy()
+      => new Object(Name, new Dictionary<string, Value>(Members.Select(
+          (item) => new KeyValuePair<string, Value>(item.Key, item.Value.DeepCopy())
+        )));
+
 
     public override string ToString()
     {
