@@ -389,8 +389,32 @@ namespace Pianoforte.Solfege.Lang
           : Expression.IfThenElse(ToBoolExpr(Test), IfTrue.ToExpression(), IfFalse.ToExpression());
     }
 
-
     public class For : AST
+    {
+      public AST Condition { get; }
+      public Block Block { get; }
+
+      public LabelTarget BreakTarget { get; } = Expression.Label();
+      public LabelTarget ContinueTarget { get; } = Expression.Label();
+
+      public For(Token token, AST condition, Block block) : base(token)
+      {
+        Condition = condition;
+        Block = block;
+      }
+      public override Expression ToExpression() =>
+        Expression.Block(
+          Expression.Loop(
+            Expression.Block(
+              Block.ToExpression(),
+              Expression.IfThen(Expression.Not(ValueProp(Condition, "Bool")),
+                Expression.Break(BreakTarget)
+              )
+            ), BreakTarget, ContinueTarget
+          )
+        );
+    }
+    public class ForEach : AST
     {
       public string VarName { get; }
       public AST List { get; }
@@ -398,7 +422,7 @@ namespace Pianoforte.Solfege.Lang
       public LabelTarget BreakTarget { get; } = Expression.Label();
       public LabelTarget ContinueTarget { get; } = Expression.Label();
 
-      public For(Token token, Token variable, AST list, Block block) : base(token)
+      public ForEach(Token token, Token variable, AST list, Block block) : base(token)
       {
         VarName = variable.Text;
         List = list;

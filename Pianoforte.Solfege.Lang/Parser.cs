@@ -294,18 +294,30 @@ namespace Pianoforte.Solfege.Lang
       var token = NextToken();
       AssertTokenKind(TokenKind.For, token);
 
-      var ident = NextToken();
-      if (ident.Kind != TokenKind.Identifier)
+      if (lookahead[1].Kind == TokenKind.OpAssignment)
       {
-        throw new SyntaxException(ident, Properties.Resources.InvalidLeftOfAssignment);
-      }
-      AssertTokenKind(TokenKind.OpAssignment, NextToken());
-      var list = ParseExpr();
-      AssertTokenKind(TokenKind.EndOfLine, NextToken());
+        var ident = NextToken();
+        if (ident.Kind != TokenKind.Identifier)
+        {
+          throw new SyntaxException(ident, Properties.Resources.InvalidLeftOfAssignment);
+        }
+        AssertTokenKind(TokenKind.OpAssignment, NextToken());
+        var list = ParseExpr();
+        AssertTokenKind(TokenKind.EndOfLine, NextToken());
 
-      var block = new SyntaxTree.Block(token, ParseUntilTokenKind(TokenKind.End));
-      AssertTokenKind(TokenKind.End, NextToken());
-      return new SyntaxTree.For(token, ident, list, block);
+        var block = new SyntaxTree.Block(token, ParseUntilTokenKind(TokenKind.End));
+        AssertTokenKind(TokenKind.End, NextToken());
+        return new SyntaxTree.ForEach(token, ident, list, block);
+      }
+      else
+      {
+        var cond = ParseExpr();
+        AssertTokenKind(TokenKind.EndOfLine, NextToken());
+        var block = new SyntaxTree.Block(token, ParseUntilTokenKind(TokenKind.End));
+        AssertTokenKind(TokenKind.End, NextToken());
+        return new SyntaxTree.For(token, cond, block);
+      }
+
     }
 
     private SyntaxTree.AST ParseAssignment()
