@@ -1,1 +1,0 @@
-cp hooks/* .git/hooks/

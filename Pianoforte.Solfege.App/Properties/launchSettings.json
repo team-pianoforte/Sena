@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "Pianoforte.Sena.Env.Desktop": {
-      "commandName": "Project",
-      "commandLineArgs": "$(ProjectDir)..\\Examples\\Hello.sol"
-    }
-  }
-}
